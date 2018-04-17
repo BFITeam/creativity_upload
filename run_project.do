@@ -12,10 +12,7 @@ do "$mypath/Tables/run_tables.do"
 do "$mypath/Figures/run_figures.do"
 
 //run R code 
-/* 	Includes: 
-		bar chart of raw effect sizes by reward decision and task
-		material for referees on baseline effects
-		replication of main results
+/* 	run file run_project_r_code
 	
 	Requires the following libraries to be installed:
 		require(foreign)
@@ -31,7 +28,3 @@ do "$mypath/Figures/run_figures.do"
 		require(coin)
 */
 
-cd "$mypath/R_files"
-shell R CMD BATCH 170130_Referee_Do_R.r
-capture erase .Rdata
-capture erase 170130_Referee_Do_R.r.Rout

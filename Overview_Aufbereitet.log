@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Overview_Aufbereitet.log
   log type:  text
- opened on:  17 Apr 2018, 11:27:42
+ opened on:  17 Apr 2018, 13:55:51
 
 . 
 . 
@@ -2198,7 +2198,6 @@ underpaidXgiftXtrans |   .0477898    .273013     0.18   0.861     -.492257    .5
 
 . 
 . save "$mypath\Overview_Aufbereitet.dta", replace
-(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Overview_Aufbereitet.dta not found)
 file C:\Users\gtierney\Google Drive\final version April 2018\data\Overview_Aufbereitet.dta saved
 
 . 
@@ -2206,5 +2205,5 @@ file C:\Users\gtierney\Google Drive\final version April 2018\data\Overview_Aufbe
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Overview_Aufbereitet.log
   log type:  text
- closed on:  17 Apr 2018, 11:27:44
+ closed on:  17 Apr 2018, 13:55:52
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

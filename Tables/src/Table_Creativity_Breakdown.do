@@ -38,7 +38,7 @@ tabstat original_rate2 if creative == 1, by(treatment_id2) stat(mean median n)
 
 //top answers
 preserve
-insheet using "$mypath\raw_data\r_data\best_answers.txt", clear tab
+insheet using "$mypath\raw_data\best_answers.txt", clear tab
 keep id antonia*
 *tostring id, replace
 tempfile topanswers

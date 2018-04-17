@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TablePeriod3Results.log
   log type:  text
- opened on:  17 Apr 2018, 11:42:14
+ opened on:  17 Apr 2018, 13:55:57
 
 . drop if treatment == 4
 (124 observations deleted)
@@ -227,5 +227,5 @@ delimiter now cr
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TablePeriod3Results.log
   log type:  text
- closed on:  17 Apr 2018, 11:42:15
+ closed on:  17 Apr 2018, 13:55:58
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

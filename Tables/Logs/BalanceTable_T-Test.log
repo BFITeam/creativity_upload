@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\BalanceTable_T-Test.log
   log type:  text
- opened on:  17 Apr 2018, 11:42:10
+ opened on:  17 Apr 2018, 13:55:53
 
 . //drop if treatment == 4 | treatment_id == 31 | treatment_id == 32
 . 
@@ -1587,5 +1587,5 @@ pruefungsz~t |        487    .0410678     .198651          0          1
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\BalanceTable_T-Test.log
   log type:  text
- closed on:  17 Apr 2018, 11:42:11
+ closed on:  17 Apr 2018, 13:55:53
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

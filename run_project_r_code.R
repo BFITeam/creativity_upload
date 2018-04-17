@@ -17,7 +17,6 @@ require(lme4)
 require(coin)
 require(arm)
 
-#
 memory.limit(5000)
 
 source("create_figures.r")

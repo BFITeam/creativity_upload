@@ -48,7 +48,7 @@ graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap hi
 	ytitle("Effect Sizes in Standard Deviation Units") ///
 	xlabel( 1 `" "Gift Treatment" "Simple Task" "(Main Treatment)" "' 2 `" "Gift Treatment" "Creative Task" "(Main Treatment)" "' 3 `" "Gift Treatment" "Creative Task with" "Discretionary Transfers" "(Supplementary Treatment)" "', noticks) 	///
 	xtitle(" ") ylabel(-0.2 (0.2) 0.6) subtitle("") legend(order(2 "90% Confidence Interval"))  ///
-	saving("$mypath\Figures\Graphs\Figure5.gph", replace) 
+	saving("$mypath\Figures\Graphs\Figure7_Gift_Comparison.gph", replace) 
 	graph export "$mypath\Figures\Graphs\Figure7_Gift_Comparison.eps", as(eps) replace
 
 

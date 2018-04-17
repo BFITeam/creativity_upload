@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Creativity_Breakdown.log
   log type:  text
- opened on:  17 Apr 2018, 11:42:12
+ opened on:  17 Apr 2018, 13:55:55
 
 . drop if treatment == 4
 (124 observations deleted)
@@ -287,7 +287,7 @@ creative_tournam |  .6198692        .6        57
 . //top answers
 . preserve
 
-. insheet using "$mypath\raw_data\r_data\best_answers.txt", clear tab
+. insheet using "$mypath\raw_data\best_answers.txt", clear tab
 (7 vars, 1,345 obs)
 
 . keep id antonia*
@@ -296,7 +296,7 @@ creative_tournam |  .6198692        .6        57
 . tempfile topanswers
 
 . save `topanswers'
-file C:\Users\gtierney\AppData\Local\Temp\ST_486c_000002.tmp saved
+file C:\Users\gtierney\AppData\Local\Temp\ST_2c20_000002.tmp saved
 
 . restore
 
@@ -853,5 +853,5 @@ original_o5_v1_1_rate |   .1145712    .097961     1.17   0.244    -.0791152    .
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Creativity_Breakdown.log
   log type:  text
- closed on:  17 Apr 2018, 11:42:13
+ closed on:  17 Apr 2018, 13:55:56
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

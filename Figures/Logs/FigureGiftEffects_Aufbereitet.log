@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureGiftEffects_Aufbereitet.log
   log type:  text
- opened on:  17 Apr 2018, 11:27:54
+ opened on:  17 Apr 2018, 13:56:02
 
 . 
 . 
@@ -131,9 +131,9 @@ file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\F
 >         xlabel( 1 `" "Gift Treatment" "Simple Task" "(Main Treatment)" "' 2 `" "Gift Treatment" "Creative Task" "(Main Treatment)" "' 3 `" "Gift Treatment" "Creative Task with
 > " "Discretionary Transfers" "(Supplementary Treatment)" "', noticks)     ///
 >         xtitle(" ") ylabel(-0.2 (0.2) 0.6) subtitle("") legend(order(2 "90% Confidence Interval"))  ///
->         saving("$mypath\Figures\Graphs\Figure5.gph", replace) 
-(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5.gph not found)
-(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5.gph saved)
+>         saving("$mypath\Figures\Graphs\Figure7_Gift_Comparison.gph", replace) 
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure7_Gift_Comparison.gph not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure7_Gift_Comparison.gph saved)
 
 .         graph export "$mypath\Figures\Graphs\Figure7_Gift_Comparison.eps", as(eps) replace
 (note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure7_Gift_Comparison.eps not found)
@@ -145,5 +145,5 @@ file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\F
       name:  <unnamed>
        log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureGiftEffects_Aufbereitet.log
   log type:  text
- closed on:  17 Apr 2018, 11:27:55
+ closed on:  17 Apr 2018, 13:56:04
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
