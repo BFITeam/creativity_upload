@@ -1,0 +1,794 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Transfer_Stats.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:15
+
+. 
+. //in-text calculations
+. gen transferdif = transfer2 - transfer1
+
+. //dif between period 1 and 2 for gift
+. ttest transferdif = 0 if creative_trans == 1 & gift_transfer == 1
+
+One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+transf~f |      68    3.555882    1.121565    9.248661     1.31723    5.794535
+------------------------------------------------------------------------------
+    mean = mean(transferdif)                                      t =   3.1705
+Ho: mean = 0                                     degrees of freedom =       67
+
+    Ha: mean < 0                 Ha: mean != 0                 Ha: mean > 0
+ Pr(T < t) = 0.9989         Pr(|T| > |t|) = 0.0023          Pr(T > t) = 0.0011
+
+. //dif between control and gift
+. ranksum transferdif if creative_trans == 1, by(gift_transfer )
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+gift_trans~r |      obs    rank sum    expected
+-------------+---------------------------------
+           0 |       71        4456        4970
+           1 |       68        5274        4760
+-------------+---------------------------------
+    combined |      139        9730        9730
+
+unadjusted variance    56326.67
+adjustment for ties     -265.54
+                     ----------
+adjusted variance      56061.13
+
+Ho: transf~f(gift_t~r==0) = transf~f(gift_t~r==1)
+             z =  -2.171
+    Prob > |z| =   0.0299
+
+. ttest transferdif if creative_trans == 1, by(gift_transfer )
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+       0 |      71   -.0338028    .9976309    8.406187   -2.023515    1.955909
+       1 |      68    3.555882    1.121565    9.248661     1.31723    5.794535
+---------+--------------------------------------------------------------------
+combined |     139    1.722302    .7615609    8.978671    .2164651    3.228139
+---------+--------------------------------------------------------------------
+    diff |           -3.589685    1.497954               -6.551786   -.6275846
+------------------------------------------------------------------------------
+    diff = mean(0) - mean(1)                                      t =  -2.3964
+Ho: diff = 0                                     degrees of freedom =      137
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0090         Pr(|T| > |t|) = 0.0179          Pr(T > t) = 0.9910
+
+. 
+. bysort gift_transfer: summarize score1
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> gift_transfer = 0
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+      score1 |        568    18.35035    12.16272          0         49
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> gift_transfer = 1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+      score1 |         68    20.30882    10.04506          0         47
+
+
+. bysort gift_transfer: summarize score2
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> gift_transfer = 0
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+      score2 |        568    22.51585     12.8645          0         63
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> gift_transfer = 1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+      score2 |         68    19.29412    7.641323          0         37
+
+
+. 
+. //summary stats by if transfered maximum
+. gen p1_max_trans = effort1 == transfer1 & effort1 != 0 if creative_trans == 1
+(497 missing values generated)
+
+. gen p2_max_trans = effort2 == transfer2 & effort1 != 0 if creative_trans == 1
+(497 missing values generated)
+
+. 
+. gen pct_trans1 = transfer1/effort1 * 100 if creative_trans == 1
+(506 missing values generated)
+
+. //replace pct_trans1 = 0 if effort1 == 0
+. gen pct_trans2 = transfer2/effort2 * 100 if creative_trans == 1
+(503 missing values generated)
+
+. //replace pct_trans2 = 0 if effort2 == 0
+. sum pct_trans1 if pct_trans1 != 100 & effort1 != 0
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         47    40.50827    29.72778          0   96.77419
+
+. 
+. local space_amt 15
+
+. 
+. cap program drop summary_row
+
+. program define summary_row, rclass
+  1.         local space_amt 15
+  2.         if ("`3'" == "") local format %4.1f
+  3.         else if ("`3'" == "percent"){
+  4.                 local format %4.0f
+  5.                 local sign "\%"
+  6.         }
+  7.         if ("`2'" == "Observations"){
+  8.                 local format %4.0f
+  9.                 sum `1' if gift_transfer == 0 & creative_trans == 1
+ 10.                 local scaler_c = 1/r(mean)*r(N)
+ 11.                 sum `1' if gift_transfer == 1 & creative_trans == 1
+ 12.                 local scaler_g = 1/r(mean)*r(N)
+ 13.                 
+.         }
+ 14.         else {
+ 15.                 local scaler_c = 1
+ 16.                 local scaler_g = 1
+ 17.         }
+ 18. 
+.         sum `1' if gift_transfer == 0 & creative_trans == 1
+ 19.         local c = r(mean)*`scaler_c'
+ 20.         
+.         sum `1' if gift_transfer == 1 & creative_trans == 1
+ 21.         local g = r(mean)*`scaler_g'
+ 22.         
+.         sum `1' if gift_transfer == 0 & p1_max_trans == 1 & creative_trans == 1
+ 23.         local c_max = r(mean)
+ 24.         
+.         sum `1' if gift_transfer == 1 & p1_max_trans == 1 & creative_trans == 1
+ 25.         local g_max = r(mean)
+ 26.         
+.         sum `1' if gift_transfer == 0 & p1_max_trans == 0 & creative_trans == 1
+ 27.         local c_not_max = r(mean)
+ 28.         
+.         sum `1' if gift_transfer == 1 & p1_max_trans == 0 & creative_trans == 1
+ 29.         local g_not_max = r(mean)
+ 30.         
+.         local row " `2' & " `format' (`c') "`sign' & " `format' (`g') "`sign' && \hspace{`space_amt'pt} " `format' (`c_max') "`sign' & " `format' (`g_max') "`sign' && \hspace{
+> `space_amt'pt} " `format' (`c_not_max') "`sign' & " `format' (`g_not_max') "`sign' \\"  
+ 31.         return local row `row'
+ 32. end 
+
+. 
+. summary_row effort1 "Output Period 1"
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         71    20.66197    12.02728          0         56
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         68    21.04412    10.85788          0         50
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         47    21.93617    9.295638          2         36
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         36    21.08333    10.76602          3         50
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         24    18.16667    16.05064          0         56
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         32          21    11.13263          0         42
+
+. local effort1_row `r(row)'
+
+. summary_row effort2 "Output Period 2"
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         71    20.53521    11.96642          0         55
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         68    21.35294    9.123963          0         43
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         47    22.59574    11.23786          2         55
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         36    23.30556    8.027878         10         43
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         24        16.5     12.5525          0         48
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         32    19.15625    9.886809          0         35
+
+. local effort2_row `r(row)'
+
+. 
+. summary_row transfer1 "Transfer Period 1"
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         71    17.49859    11.85647          0         40
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         68    15.07353     11.7274          0         50
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         47    21.93617    9.295638          2         36
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         36    21.08333    10.76602          3         50
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         24    8.808333    11.66093          0         40
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         32      8.3125    8.789427          0         30
+
+. local transfer1_row `r(row)'
+
+. summary_row transfer2 "Transfer Period 2"
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         71    17.46479    12.88169          0         55
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         68    18.62941    10.24338          0         43
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         47    21.78723    11.82101          0         55
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         36    22.66111    7.877464         10         43
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         24           9    10.61172          0         48
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         32    14.09375    10.79833          0         35
+
+. local transfer2_row `r(row)'
+
+. 
+. summary_row pct_trans1 "Percentage of Output " percent
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         65    84.19088    28.72462          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         65    72.79203    37.46411          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         47         100           0        100        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         36         100           0        100        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         18    42.91149    24.71987          0   81.63265
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans1 |         29    39.01661    32.78467          0   96.77419
+
+. local pct_trans1_row `r(row)'
+
+. summary_row pct_trans2 "Percentage of Output " percent
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         67    82.82563    31.61776          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         66    87.29368    26.88287          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         47    94.59417    21.11742          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         36    97.94341    9.205556   48.57143        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         20    55.16955    35.28753          0        100
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+  pct_trans2 |         30    74.51401    34.75341          0        100
+
+. local pct_trans2_row `r(row)'
+
+. 
+. gen trans_treat_split = ""
+(636 missing values generated)
+
+. replace trans_treat_split = "max_control" if gift_transfer == 0 & p1_max_trans == 1 & creative_trans == 1
+variable trans_treat_split was str1 now str11
+(47 real changes made)
+
+. replace trans_treat_split = "max_gift" if gift_transfer == 1 & p1_max_trans == 1 & creative_trans == 1
+(36 real changes made)
+
+. replace trans_treat_split = "min_control" if gift_transfer == 0 & p1_max_trans == 0 & creative_trans == 1
+(24 real changes made)
+
+. replace trans_treat_split = "min_gift" if gift_transfer == 1 & p1_max_trans == 0 & creative_trans == 1
+(32 real changes made)
+
+. 
+. bysort trans_treat_split : gen counter = _N
+
+. summary_row counter "Observations"
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         71    39.22535    10.95732         24         47
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         68    34.11765    2.011381         32         36
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         71    39.22535    10.95732         24         47
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         68    34.11765    2.011381         32         36
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         47          47           0         47         47
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         36          36           0         36         36
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         24          24           0         24         24
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     counter |         32          32           0         32         32
+
+. local count_row `r(row)'
+
+. di "`count_row'"
+Observations &   71 &   68 && \hspace{15pt}   47 &   36 && \hspace{15pt}   24 &   32 \\
+
+. 
+. 
+. cap file close f
+
+. file open f using "$mypath\Tables\Output\Appendix\TableA9_Transfer_summary_stats.tex", write replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA9_Transfer_summary_stats.tex not found)
+
+. 
+. #delimit ;
+delimiter now ;
+. file write f 
+>         "\begin{table}[h]%" _n
+>         "\captionsetup{justification=centering}" _n
+>         "\setlength\tabcolsep{2pt}" _n
+>         "\caption{Summary Statistics by Amount Transferred in the Creative task with Discretionary Transfers Treatments}" _n
+>         "\label{tab:TransferStats}" _n
+>         "\begin{center}%"  _n
+>         "{\small\renewcommand{\arraystretch}{1}%"  _n
+>         "\begin{tabular}{lcccccccc}"  _n
+>         "\hline\noalign{\smallskip}" _n
+>         " \bf                   & \multicolumn{2}{c}{\bf All Agents} && \multicolumn{2}{c}{\bf Agents who do transfer all} && \multicolumn{2}{c}{\bf Agents who do not transfer
+>  all} \\" _n
+>         "                               & \multicolumn{2}{c}{} && \multicolumn{2}{c}{\bf of their output in Period 1} && \multicolumn{2}{c}{\bf of their output in Period 1} \\
+> " _n
+>         "\cline{2-3} \cline{5-6} \cline{8-9}"  _n
+>         "                               & \bf Control & \bf Gift && \bf \hspace{`space_amt'pt} Control & \bf Gift && \hspace{`space_amt'pt}  \bf Control & \bf Gift \\"
+>         "\hline"  _n
+>         "\noalign{\smallskip}" _n
+>         "`effort1_row'" _n
+>         "`effort2_row'" _n
+>         "`transfer1_row'" _n
+>         "`transfer2_row'" _n
+>         "`pct_trans1_row'" _n
+>         " Transferred Period 1 & \\" _n
+>         "`pct_trans2_row'" _n
+>         " Transferred Period 2 & \\" _n
+>         "`count_row'" _n
+>         "\hline\noalign{\medskip}" _n
+>         "\end{tabular}}" _n
+>         "\begin{minipage}{\textwidth} $footnote_params" _n
+>         "\footnotesize NOTE.--This table reports mean values by treatment and by whether or not the agent transferred all of their output to the principal in Period 1. "  _n
+>         "$ctdt_description "
+>         "$ctdt_contrast "
+>         "Note that the estimations in this table are based on the value of output that was communicated to the agents during the experiment, which relied on originality rating
+> s from our pre-test. " _n 
+>         "The value of output that we use in our main analysis was calculated using an updated originality rating scale. "
+>         "\textit{Output} refers to the creativity score in the creative task (please refer to Section $creative_score_section for a description of the scoring procedure in the
+>  creative task). "
+>         "\textit{Transfer} refers to the amount of output that the agent transfers to the principal. " _n
+>         "Agents with a creativity score of 0 and who, therefore, cannot transfer any amount are included in the final two columns. " _n
+>         "" _n
+>         "$ctdt_sample  " _n
+>         "\end{minipage}" _n
+>         "\end{center}" _n
+>         "\end{table}" _n;
+
+. #delimit cr
+delimiter now cr
+. file close f
+
+. 
+. eststo clear
+
+. eststo: reg ztransfer2 gift_transfer ztransfer1 if p1_max_trans == 0 & creative_trans == 1, robust
+
+Linear regression                               Number of obs     =         56
+                                                F(2, 53)          =      26.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4688
+                                                Root MSE          =     .67121
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+gift_transfer |   .4504336   .1681079     2.68   0.010      .113252    .7876153
+   ztransfer1 |   .6791219   .1641794     4.14   0.000     .3498198    1.008424
+        _cons |  -.1071522   .2026554    -0.53   0.599    -.5136275    .2993231
+-------------------------------------------------------------------------------
+(est1 stored)
+
+. reg ztransfer2 ztransfer1 gift_transfer if p1_max_trans == 0 & creative_trans == 1
+
+      Source |       SS           df       MS      Number of obs   =        56
+-------------+----------------------------------   F(2, 53)        =     23.39
+       Model |  21.0723232         2  10.5361616   Prob > F        =    0.0000
+    Residual |  23.8777695        53  .450523954   R-squared       =    0.4688
+-------------+----------------------------------   Adj R-squared   =    0.4487
+       Total |  44.9500928        55  .817274414   Root MSE        =    .67121
+
+-------------------------------------------------------------------------------
+   ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   ztransfer1 |   .6791219   .1055967     6.43   0.000     .4673218    .8909219
+gift_transfer |   .4504336    .181303     2.48   0.016      .086786    .8140813
+        _cons |  -.1071522   .1548018    -0.69   0.492    -.4176452    .2033408
+-------------------------------------------------------------------------------
+
+. estimates store not_max
+
+. eststo: reg ztransfer2 gift_transfer ztransfer1 if p1_max_trans == 1 & creative_trans == 1, robust
+
+Linear regression                               Number of obs     =         83
+                                                F(2, 80)          =      26.64
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3800
+                                                Root MSE          =     .67637
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+gift_transfer |   .1172975   .1427719     0.82   0.414    -.1668276    .4014227
+   ztransfer1 |   .6163725   .0860889     7.16   0.000     .4450502    .7876949
+        _cons |   .2163613   .1075134     2.01   0.048     .0024029    .4303197
+-------------------------------------------------------------------------------
+(est2 stored)
+
+. reg ztransfer2 ztransfer1 gift_transfer if p1_max_trans == 1 & creative_trans == 1
+
+      Source |       SS           df       MS      Number of obs   =        83
+-------------+----------------------------------   F(2, 80)        =     24.52
+       Model |  22.4310614         2  11.2155307   Prob > F        =    0.0000
+    Residual |  36.5975827        80  .457469784   R-squared       =    0.3800
+-------------+----------------------------------   Adj R-squared   =    0.3645
+       Total |  59.0286441        82  .719861514   Root MSE        =    .67637
+
+-------------------------------------------------------------------------------
+   ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   ztransfer1 |   .6163725   .0882337     6.99   0.000     .4407818    .7919632
+gift_transfer |   .1172975   .1499411     0.78   0.436    -.1810947    .4156898
+        _cons |   .2163613   .1060394     2.04   0.045      .005336    .4273865
+-------------------------------------------------------------------------------
+
+. estimates store max
+
+. 
+. 
+. //main regression results
+. reg ztransfer2 turnier turnXslid gift giftXslid ztransfer1 ztransfer1Xslid $controls if (slider==1 | creative==1)
+
+      Source |       SS           df       MS      Number of obs   =       348
+-------------+----------------------------------   F(16, 331)      =     26.71
+       Model |  210.428869        16  13.1518043   Prob > F        =    0.0000
+    Residual |  162.962047       331  .492332469   R-squared       =    0.5636
+-------------+----------------------------------   Adj R-squared   =    0.5425
+       Total |  373.390916       347  1.07605451   Root MSE        =    .70166
+
+---------------------------------------------------------------------------------
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7505929   .1142585     6.57   0.000     .5258286    .9753573
+      turnXslid |   -.060334   .1415738    -0.43   0.670    -.3388318    .2181638
+           gift |  -.0057192   .1198877    -0.05   0.962     -.241557    .2301186
+      giftXslid |   .2062018   .1347092     1.53   0.127    -.0587923    .4711959
+     ztransfer1 |   .6376772   .0584108    10.92   0.000     .5227741    .7525803
+ztransfer1Xslid |   .0283313    .078512     0.36   0.718    -.1261142    .1827768
+            age |  -.0494681   .0413264    -1.20   0.232    -.1307636    .0318275
+           age2 |   .0006269   .0006305     0.99   0.321    -.0006134    .0018673
+            sex |   .0067782   .0787189     0.09   0.931    -.1480743    .1616307
+     ferienzeit |   .0139697   .1753788     0.08   0.937    -.3310278    .3589672
+  pruefungszeit |  -.0755825   .1773107    -0.43   0.670    -.4243806    .2732155
+           wiwi |  -.1705933   .1120441    -1.52   0.129    -.3910017    .0498151
+          recht |  -.2935524   .1763775    -1.66   0.097    -.6405145    .0534097
+           nawi |   .2090196   .1277876     1.64   0.103    -.0423586    .4603979
+           gewi |  -.0371013   .1255828    -0.30   0.768    -.2841424    .2099398
+       mannheim |   .0975854   .0847145     1.15   0.250    -.0690613     .264232
+          _cons |   .8744958   .6643974     1.32   0.189     -.432478     2.18147
+---------------------------------------------------------------------------------
+
+. estimates store main
+
+. 
+. //main creative transfer results
+. foreach i in 1 2 3{
+  2.         sum transfer`i' if treatment_id == 41
+  3.         gen std_transfer`i' = (transfer`i' - `r(mean)')/`r(sd)'
+  4. }
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer1 |         71    17.49859    11.85647          0         40
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer2 |         71    17.46479    12.88169          0         55
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   transfer3 |         71    15.84789    11.02918          0         44
+
+. reg std_transfer2 gift_transfer std_transfer1 if creative_trans == 1
+
+      Source |       SS           df       MS      Number of obs   =       139
+-------------+----------------------------------   F(2, 136)       =     72.22
+       Model |  58.0216717         2  29.0108358   Prob > F        =    0.0000
+    Residual |  54.6280584       136    .4016769   R-squared       =    0.5151
+-------------+----------------------------------   Adj R-squared   =    0.5079
+       Total |   112.64973       138  .816302392   Root MSE        =    .63378
+
+-------------------------------------------------------------------------------
+std_transfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+gift_transfer |   .2238992   .1081129     2.07   0.040     .0100994    .4376991
+std_transfer1 |   .6526518   .0544365    11.99   0.000     .5450004    .7603032
+        _cons |   1.95e-09   .0752158     0.00   1.000    -.1487439    .1487439
+-------------------------------------------------------------------------------
+
+. estimates store main_ctdt
+
+. 
+. //check equality of various coefficients
+. suest max not_max, robust
+
+Simultaneous results for max, not_max
+
+                                                Number of obs     =        139
+
+-------------------------------------------------------------------------------
+              |               Robust
+              |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+max_mean      |
+   ztransfer1 |   .6163725   .0848244     7.27   0.000     .4501197    .7826253
+gift_transfer |   .1172975   .1406749     0.83   0.404    -.1584201    .3930152
+        _cons |   .2163613   .1059342     2.04   0.041      .008734    .4239885
+--------------+----------------------------------------------------------------
+max_lnvar     |
+        _cons |  -.7820444    .228388    -3.42   0.001    -1.229677   -.3344122
+--------------+----------------------------------------------------------------
+not_max_mean  |
+   ztransfer1 |   .6791219   .1602988     4.24   0.000     .3649419    .9933018
+gift_transfer |   .4504336   .1641345     2.74   0.006      .128736    .7721313
+        _cons |  -.1071522   .1978655    -0.54   0.588    -.4949614     .280657
+--------------+----------------------------------------------------------------
+not_max_lnvar |
+        _cons |   -.797344   .2280738    -3.50   0.000     -1.24436   -.3503277
+-------------------------------------------------------------------------------
+
+. test [max_mean]gift_transfer == [not_max_mean]gift_transfer
+
+ ( 1)  [max_mean]gift_transfer - [not_max_mean]gift_transfer = 0
+
+           chi2(  1) =    2.37
+         Prob > chi2 =    0.1233
+
+. 
+. suest max main_ctdt, robust
+
+Simultaneous results for max, main_ctdt
+
+                                                Number of obs     =        139
+
+---------------------------------------------------------------------------------
+                |               Robust
+                |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+max_mean        |
+     ztransfer1 |   .6163725   .0848244     7.27   0.000     .4501197    .7826253
+  gift_transfer |   .1172975   .1406749     0.83   0.404    -.1584201    .3930152
+          _cons |   .2163613   .1059342     2.04   0.041      .008734    .4239885
+----------------+----------------------------------------------------------------
+max_lnvar       |
+          _cons |  -.7820444    .228388    -3.42   0.001    -1.229677   -.3344122
+----------------+----------------------------------------------------------------
+main_ctdt_mean  |
+  gift_transfer |   .2238992   .1019934     2.20   0.028     .0239958    .4238027
+  std_transfer1 |   .6526518   .0627836    10.40   0.000     .5295982    .7757053
+          _cons |   1.95e-09   .0764732     0.00   1.000    -.1498847    .1498847
+----------------+----------------------------------------------------------------
+main_ctdt_lnvar |
+          _cons |  -.9121072   .1699326    -5.37   0.000    -1.245169   -.5790455
+---------------------------------------------------------------------------------
+
+. test [max_mean]gift_transfer == [main_ctdt_mean]gift
+
+ ( 1)  [max_mean]gift_transfer - [main_ctdt_mean]gift_transfer = 0
+
+           chi2(  1) =    1.46
+         Prob > chi2 =    0.2267
+
+. 
+. suest not_max main_ctdt, robust
+
+Simultaneous results for not_max, main_ctdt
+
+                                                Number of obs     =        139
+
+---------------------------------------------------------------------------------
+                |               Robust
+                |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+not_max_mean    |
+     ztransfer1 |   .6791219   .1602988     4.24   0.000     .3649419    .9933018
+  gift_transfer |   .4504336   .1641345     2.74   0.006      .128736    .7721313
+          _cons |  -.1071522   .1978655    -0.54   0.588    -.4949614     .280657
+----------------+----------------------------------------------------------------
+not_max_lnvar   |
+          _cons |   -.797344   .2280738    -3.50   0.000     -1.24436   -.3503277
+----------------+----------------------------------------------------------------
+main_ctdt_mean  |
+  gift_transfer |   .2238992   .1019934     2.20   0.028     .0239958    .4238027
+  std_transfer1 |   .6526518   .0627836    10.40   0.000     .5295982    .7757053
+          _cons |   1.95e-09   .0764732     0.00   1.000    -.1498847    .1498847
+----------------+----------------------------------------------------------------
+main_ctdt_lnvar |
+          _cons |  -.9121072   .1699326    -5.37   0.000    -1.245169   -.5790455
+---------------------------------------------------------------------------------
+
+. test [not_max_mean]gift_transfer == [main_ctdt_mean]gift
+
+ ( 1)  [not_max_mean]gift_transfer - [main_ctdt_mean]gift_transfer = 0
+
+           chi2(  1) =    2.92
+         Prob > chi2 =    0.0877
+
+. 
+. //output high-level regressions
+. #delimit ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Appendix\TableA8_Transfer_by_max_transfer.tex", replace
+>         nomtitles       
+>         label      
+>         varlabel (_cons "Constant" ztransfer1 "Period 1 Transfer" gift_transfer "Gift" )
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop ( )
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Treatment Effects in the Creative Task with Discretionary Transfers Treatments on Period 2 Output by Amount Transferred in Period 1}"
+>         "\label{tab:TransferSplit}"
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lcc}" 
+>         "\hline\noalign{\smallskip}"
+>         " & \multicolumn{2}{c}{\bf Standardized Transfer in Period 2} \\"
+>         "\cline{2-3} "
+>         " & \bf \hspace{5pt} Agents who do not transfer all \hspace{5pt} & \hspace{5pt} \bf Agents who do transfer all \hspace{5pt} \\"
+>         " & \bf of their output in Period 1 & \bf of their output in Period 1 \\"
+>         )
+>         posthead("\hline\noalign{\smallskip}")
+>         prefoot("\hline"
+>         "\noalign{\smallskip}"
+>         "Additional Controls & NO & NO  \\"
+>         "\hline"
+>         "\noalign{\smallskip}")
+>         postfoot("\hline\noalign{\medskip}"
+>         "\end{tabular}}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the results from the supplementary \textit{Creative Task with Discretionary Transfer -- Gift} treatment and its associated \te
+> xtit{Creative Task with Discretionary Transfer -- Control} group. "
+>         "Regressions are split up by whether agents transferred all of their output in Period 1. "
+>         "Treatment effects are estimated using the same specification that we used in Table \ref{tab:Discretionary}, Column I. "
+>         "$ctdt_description "
+>         "$ctdt_contrast "
+>         "$ctdt_regression " 
+>         "$ctdt_gift_coef_description "
+>         "Agents with a creativity score of 0 and who, therefore, cannot transfer any amount are included in the first column. "
+>         ""
+>         "$ctdt_sample "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}"
+>         "\end{center}"
+>         "\end{table}");
+(tabulating estimates stored by eststo; specify "." to tabulate the active results)
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA8_Transfer_by_max_transfer.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA8_Transfer_by_max_transfer.tex)
+
+. #delimit cr
+delimiter now cr
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Transfer_Stats.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:16
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

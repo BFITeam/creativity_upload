@@ -1,0 +1,260 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Dropbox (Personal)\creativity\Tables\Table 4\Table4.log
+  log type:  text
+ opened on:  23 Oct 2017, 16:40:00
+
+. drop if treatment == 4
+(124 observations deleted)
+
+. 
+. cap program drop get_pvals
+
+. program define get_pvals, rclass
+  1.         
+.         test turnier == gift
+  2.         local p_cr = round(`r(p)',.00001)
+  3.         if(`p_cr' == 0) local p_cr 0.000
+  4.         test turnXslid == giftXslid
+  5.         local p_sl = round(`r(p)',.00001)
+  6.         if(`p_sl' == 0) local p_sl 0.000
+  7.         
+.         return local p_cr `p_cr'
+  8.         return local p_sl `p_sl'
+  9. end
+
+. 
+. 
+. * Nummer 1
+. local treatments turnier turnXslid gift giftXslid
+
+. eststo clear    // eststo clear drops all estimation sets stored by eststo
+
+. eststo:  reg ztransfer2 `treatments' if feedback==0 & (slider==1 | creative==1), robust
+
+Linear regression                               Number of obs     =        348
+                                                F(4, 343)         =      17.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1465
+                                                Root MSE          =     .96393
+
+------------------------------------------------------------------------------
+             |               Robust
+  ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     turnier |   .7952237   .1727704     4.60   0.000     .4554009    1.135046
+   turnXslid |   .1663619   .1778895     0.94   0.350    -.1835299    .5162536
+        gift |  -.0192154   .1433957    -0.13   0.893     -.301261    .2628301
+   giftXslid |   .3750444   .1700837     2.21   0.028     .0405062    .7095827
+       _cons |  -3.85e-09   .0927122    -0.00   1.000    -.1823561    .1823561
+------------------------------------------------------------------------------
+(est1 stored)
+
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   343) =   19.97
+            Prob > F =    0.0000
+
+ ( 1)  turnXslid - giftXslid = 0
+
+       F(  1,   343) =    0.72
+            Prob > F =    0.3971
+
+. local p_1_cr `r(p_cr)'
+
+. local p_1_sl `r(p_sl)'
+
+. 
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid if feedback==0 & (slider==1 | creative==1), robust
+
+Linear regression                               Number of obs     =        348
+                                                F(6, 341)         =      96.34
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5461
+                                                Root MSE          =     .70499
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7363126   .1426647     5.16   0.000     .4556989    1.016926
+      turnXslid |  -.0575965   .1660774    -0.35   0.729    -.3842617    .2690687
+           gift |    .025972   .0986843     0.26   0.793    -.1681346    .2200787
+      giftXslid |   .2094255   .1086358     1.93   0.055    -.0042552    .4231063
+     ztransfer1 |    .657426   .0757788     8.68   0.000     .5083732    .8064788
+ztransfer1Xslid |   .0022217   .0936681     0.02   0.981    -.1820183    .1864617
+          _cons |  -6.63e-09    .062085    -0.00   1.000    -.1221178    .1221178
+---------------------------------------------------------------------------------
+(est2 stored)
+
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   341) =   22.06
+            Prob > F =    0.0000
+
+ ( 1)  turnXslid - giftXslid = 0
+
+       F(  1,   341) =    1.91
+            Prob > F =    0.1674
+
+. local p_2_cr `r(p_cr)'
+
+. local p_2_sl `r(p_sl)'
+
+. test gift + giftXslid = 0
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   341) =    5.79
+            Prob > F =    0.0166
+
+. 
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid $controls if (slider==1 | creative==1), robust
+
+Linear regression                               Number of obs     =        348
+                                                F(16, 331)        =      41.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5636
+                                                Root MSE          =     .70166
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7505929   .1434108     5.23   0.000     .4684814    1.032704
+      turnXslid |   -.060334   .1681682    -0.36   0.720    -.3911472    .2704791
+           gift |  -.0057192   .1033415    -0.06   0.956    -.2090082    .1975697
+      giftXslid |   .2062018    .111727     1.85   0.066    -.0135827    .4259863
+     ztransfer1 |   .6376772   .0758132     8.41   0.000     .4885407    .7868137
+ztransfer1Xslid |   .0283313    .094234     0.30   0.764    -.1570418    .2137044
+            age |  -.0494681   .0355394    -1.39   0.165    -.1193796    .0204435
+           age2 |   .0006269   .0004613     1.36   0.175    -.0002806    .0015345
+            sex |   .0067782   .0813717     0.08   0.934    -.1532926     .166849
+     ferienzeit |   .0139697   .1218964     0.11   0.909    -.2258196     .253759
+  pruefungszeit |  -.0755825   .1668213    -0.45   0.651    -.4037461    .2525811
+           wiwi |  -.1705933   .0980826    -1.74   0.083    -.3635371    .0223505
+          recht |  -.2935524   .1382241    -2.12   0.034     -.565461   -.0216439
+           nawi |   .2090196   .1266543     1.65   0.100    -.0401292    .4581685
+           gewi |  -.0371013   .1188679    -0.31   0.755    -.2709332    .1967306
+       mannheim |   .0975854    .084258     1.16   0.248    -.0681634    .2633341
+          _cons |   .8744958   .5952552     1.47   0.143    -.2964646    2.045456
+---------------------------------------------------------------------------------
+(est3 stored)
+
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   331) =   24.02
+            Prob > F =    0.0000
+
+ ( 1)  turnXslid - giftXslid = 0
+
+       F(  1,   331) =    1.71
+            Prob > F =    0.1922
+
+. local p_3_cr `r(p_cr)'
+
+. local p_3_sl `r(p_sl)'
+
+. test gift = giftXslid
+
+ ( 1)  gift - giftXslid = 0
+
+       F(  1,   331) =    1.25
+            Prob > F =    0.2634
+
+. *eststo:  reg ztransfer2 gift turnier feedback creative_trans giftXtransfer giftXslid turnXslid feedXslid ztransfer1 ztransfer1Xslid age age2 sex ferienzeit pruefungszeit wi
+> wi recht nawi gewi mannheim if (slider==1 | creative==1 | creative_trans==1), robust
+. test gift + giftXslid == 0 
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   331) =    3.81
+            Prob > F =    0.0517
+
+. test gift == 0.2
+
+ ( 1)  gift = .2
+
+       F(  1,   331) =    3.96
+            Prob > F =    0.0473
+
+. local p_format %9.3f
+
+. #delimit; // #delimit: command resets the character that marks the end of a command, here ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Table_Main_Period2_Results.tex", // esttab produces a pretty-looking publication-style regression table from stored estimates without muc
+> h typing (alternative zu estout)
+>         nomtitles       // Options: mtitles (model titles to appear in table header)
+>         label      // label (make use of variable labels)
+>         varlabel (_cons "Intercept" ztransfer1 "Baseline" zeffort1 "Baseline" gift "Gift" turnier "Tournament" zeffort1Xslid "Baseline x Slider-Task" giftXslid "Gift x Slide
+> r-Task" turnXslid "Tournament x Slider-Task" ztransfer1Xslid "Baseline x Slider-Task"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2mm]" zeffort1Xslid "[2mm]" ztra
+> nsfer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop ($controls)
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Treatment Effects in Period 2}"
+>         
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lccc}" 
+>         "\hline\hline\noalign{\smallskip}"
+>         " & I & II & III \\")
+>         posthead("\hline\noalign{\smallskip}") 
+>         prefoot("\noalign{\smallskip}\hline"
+>         " Controls & NO & NO & YES \\"
+>         "\hline" ) 
+>         postfoot(
+>         "\hline\hline\noalign{\medskip}"
+>         "\end{tabular}"
+>         "\begin{minipage}{\textwidth}"
+>         "\footnotesize {\it Note:} This table reports the estimated OLS coefficients from Equation \ref{eq:reg}. " 
+>         "The dependent variable is standardized performance in Period 2. $pooled_performance_description "
+>         "The treatment dummies \textit{Gift} and \textit{Tournament} capture the effect of an unconditional monetary gift or of a tournament incentive (rewarding the top 2 p
+> erformers out of 4 agents) on standardized performance in the creative task. " 
+>         "The interaction effects measure the difference in treatment effects between the creative and the slider task. "
+>         "The treatment effects on the slider task are equal to the sum of the main treatment effect (\textit{Gift} or \textit{Tournament}) and its associated interaction eff
+> ect (\textit{Gift x Slider} and \textit{Tournament x Slider}). \\"
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         "\end{minipage}}"
+>         "\end{center}"
+>         "\label{tab:EQ_Pooled_Results}"
+>         "\end{table}")
+>         replace;
+(output written to C:\Users\gtierney\Dropbox (Personal)\creativity\Tables\Output\Table_Main_Period2_Results.tex)
+
+.                         #delimit cr     // #delimit cr: restore the carriage return delimiter inside a file
+> 
+delimiter now cr
+. //sniptit to add p values for test for differenc between treatments within tasks
+. di "Difference in treatment & `p_1_cr' & `p_2_cr' & `p_3_cr' \\"
+Difference in treatment & .00001 & 0.000 & 0.000 \\
+
+. di "effect for creative task & `p_1_sl' & `p_2_sl' & `p_3_sl' \\"
+effect for creative task & .39708 & .16745 & .19216 \\
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Dropbox (Personal)\creativity\Tables\Table 4\Table4.log
+  log type:  text
+ closed on:  23 Oct 2017, 16:40:01
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

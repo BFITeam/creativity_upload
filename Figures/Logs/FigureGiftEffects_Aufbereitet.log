@@ -1,0 +1,149 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureGiftEffects_Aufbereitet.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:27:54
+
+. 
+. 
+. reg zeffort2 zeffort1 gift if (treatment_id==11 | treatment_id==12), level(90) robust
+
+Linear regression                               Number of obs     =        120
+                                                F(2, 117)         =     109.21
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6700
+                                                Root MSE          =     .58897
+
+------------------------------------------------------------------------------
+             |               Robust
+    zeffort2 |      Coef.   Std. Err.      t    P>|t|     [90% Conf. Interval]
+-------------+----------------------------------------------------------------
+    zeffort1 |   .7656972   .0561208    13.64   0.000     .6726499    .8587445
+        gift |   .2160362   .1097166     1.97   0.051     .0341281    .3979443
+       _cons |   1.72e-09    .080619     0.00   1.000    -.1336649    .1336649
+------------------------------------------------------------------------------
+
+. 
+. local gift_slider_coef = _b[gift] 
+
+. local gift_slider_ub = _b[gift] + _se[gift]*invttail(e(df_r),.05)
+
+. local gift_slider_lb = _b[gift] - _se[gift]*invttail(e(df_r),.05)
+
+. 
+. reg zeffort2 zeffort1 gift if (treatment_id==21 | treatment_id==22), level(90) robust
+
+Linear regression                               Number of obs     =        112
+                                                F(2, 109)         =      33.47
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5144
+                                                Root MSE          =     .64021
+
+------------------------------------------------------------------------------
+             |               Robust
+    zeffort2 |      Coef.   Std. Err.      t    P>|t|     [90% Conf. Interval]
+-------------+----------------------------------------------------------------
+    zeffort1 |    .684089   .0837409     8.17   0.000     .5451666    .8230113
+        gift |   .0278047   .1213366     0.23   0.819    -.1734871    .2290965
+       _cons |  -1.52e-08   .0940544    -0.00   1.000    -.1560319    .1560318
+------------------------------------------------------------------------------
+
+. 
+. local gift_creative_coef = _b[gift] 
+
+. local gift_creative_ub = _b[gift] + _se[gift]*invttail(e(df_r),.05)
+
+. local gift_creative_lb = _b[gift] - _se[gift]*invttail(e(df_r),.05)
+
+. 
+. reg ztransfer2 ztransfer1 giftXtransfer if (treatment_id==41 | treatment_id==42), level(90) robust
+
+Linear regression                               Number of obs     =        139
+                                                F(2, 136)         =      69.05
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5151
+                                                Root MSE          =     .67578
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [90% Conf. Interval]
+--------------+----------------------------------------------------------------
+   ztransfer1 |   .6861949   .0664939    10.32   0.000      .576072    .7963179
+giftXtransfer |   .2387375   .1095495     2.18   0.031     .0573088    .4201662
+        _cons |   .0882737   .0803998     1.10   0.274    -.0448792    .2214266
+-------------------------------------------------------------------------------
+
+. 
+. local gift_transfer_coef = _b[giftXtransfer] 
+
+. local gift_transfer_ub = _b[giftXtransfer] + _se[giftXtransfer]*invttail(e(df_r),.05)
+
+. local gift_transfer_lb = _b[giftXtransfer] - _se[giftXtransfer]*invttail(e(df_r),.05)
+
+. di "(`gift_transfer_coef',`gift_transfer_ub',`gift_transfer_lb')"
+(.2387375034698055,.420166197371845,.057308809567766)
+
+. 
+. clear
+
+. set obs 3
+number of observations (_N) was 0, now 3
+
+. gen treatment = _n
+
+. gen coefficient = .
+(3 missing values generated)
+
+. gen low = .
+(3 missing values generated)
+
+. gen high = .
+(3 missing values generated)
+
+. 
+. local i = 1
+
+. foreach var in slider creative transfer {
+  2.         replace coefficient = `gift_`var'_coef' in `i'
+  3.         replace low = `gift_`var'_lb' in `i'
+  4.         replace high = `gift_`var'_ub' in `i'
+  5.         
+.         local i = `i' + 1
+  6. }
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+. 
+. save "$mypath\Figures\Data\FigureGiftEffects_Aufbereitet.dta", replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigureGiftEffects_Aufbereitet.dta not found)
+file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigureGiftEffects_Aufbereitet.dta saved
+
+. 
+. graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap high low treatment, lwidth(thick)),       ///
+>         ytitle("Effect Sizes in Standard Deviation Units") ///
+>         xlabel( 1 `" "Gift Treatment" "Simple Task" "(Main Treatment)" "' 2 `" "Gift Treatment" "Creative Task" "(Main Treatment)" "' 3 `" "Gift Treatment" "Creative Task with
+> " "Discretionary Transfers" "(Supplementary Treatment)" "', noticks)     ///
+>         xtitle(" ") ylabel(-0.2 (0.2) 0.6) subtitle("") legend(order(2 "90% Confidence Interval"))  ///
+>         saving("$mypath\Figures\Graphs\Figure5.gph", replace) 
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5.gph not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5.gph saved)
+
+.         graph export "$mypath\Figures\Graphs\Figure7_Gift_Comparison.eps", as(eps) replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure7_Gift_Comparison.eps not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure7_Gift_Comparison.eps written in EPS format)
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureGiftEffects_Aufbereitet.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:27:55
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

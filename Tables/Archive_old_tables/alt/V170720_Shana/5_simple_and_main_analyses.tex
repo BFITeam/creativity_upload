@@ -1,0 +1,639 @@
+
+\subsection{Descriptive Statistics}\label{chap:descriptives}
+
+
+Table \ref{tab:Summary_Statistics} provides an overview of the descriptive statistics split up by treatment and task. XXX ADJUST NUMBERS GIVEN THAT WE CHANGEd TABLE XXX \footnote{Our full balance table can be found in the Online Appendix. The full balance table contains obversations from a host of supplementary treatments that we ran, totalling 1123 subjects.   An additional 9 employees were excluded from the analysis 
+due to an insufficient knowledge of the German
+ language.}  As we are interested in assessing how rewards affect performance, 
+we ran sessions until each treatment included roughly 60 agents with a positive 
+reward decision.
+%\footnote{Principals did not 
+%receive any information on agents' performance in period 1 and agents knew this. 
+%Thus, as expected, our data does not reveal a significant relationship between 
+%reward implementation and baseline performance. We will report statistics 
+%on principals' decisions regarding reward implementation 
+%as well as agents' behavior in case of reward denial further below.}   
+Overall, we observe 116 rewarded employees and  60 control group employees working on the slider task 
+and 116 rewarded employees and 56 control group employees working on the creative task in our main treatments. 
+%We also have data for  364 additional agents with positive reward 
+%decisions in supplementary treatments that we describe further below. 
+The treatments are largely balanced with regard to the location of the experiment, 
+gender, age, and field of study, albeit some differences in mean age of participants are statistically 
+significant.
+As we will show in our main analyses, controlling for these characteristics does not alter the results. 
+
+
+The last row of Table \ref{tab:Summary_Statistics} displays means and standard
+ deviations of the baseline performance in  Period 1 across treatments and tasks. 
+%Baseline performance provides a measure of agents' motivation to work 
+%on the task in the absence of rewards and comprises agents' ability, 
+%intrinsic motivation for the task, as well as their desire to benefit the principal. 
+Mean performance varies between 16.6 and 22 in the slider task, where 
+performance is measured by the number of  correctly positioned sliders within
+ each three minute work period. In the creative task, average performance varies 
+between 16 and 18. Performance here represents a subject's score 
+in the creative task (see Section \ref{chap:experiment} for details on the scoring procedure). 
+Apart from the \textit{Tournament} 
+treatment in the slider task, there are no statistically significant differences between the treatments and the respective
+ control groups in either task. In the former, individuals' performance is slightly better in 
+Period 1 than that of subject in the control group (Wilcoxon rank-sum test, p<0.05). 
+To account for these initial performance differences, we control for baseline
+ performance in the analyses that follow and use the change 
+in performance between Periods 1 and 2 as the outcome variable. XXXX HERE ADDITIONAL INFO FROM REF REPORT ANSWERSXXX
+
+\subsection{Results}\label{chap:main_analyses}
+
+Figure \ref{fig:Bar_Chart_Round_1_2} displays the change in 
+\textit{raw} performance from Period 1 to Period 2 by treatment and task. 
+The figure shows that performance in the slider task increases across both  treatment groups between the first and second round. The performance increase is particularly strong in the \textit{Tournament} treatment, but is also clearly detectible in the \textit{Gift} treatment.
+%(Figure \ref{fig:Bar_Chart_Round_1_2} displays the 90\% confidence intervals of a paired t-test). 
+% Wilcoxon signed rank, p<0.01
+The moderate performance increase in the control group is consistent with the learning effects documented in prior studies using this task (e.g., \cite{2012_Gill_Prowse} and \cite{Araujo2016}).\footnote{In our setting, performance could also increase because of the higher endowment in Period 2.} 
+%The higher fixed wage mirrors the wage of agents in groups 
+%with a positive reward decision by the principal (at least in expectation). This allows us to disentangle reward effects 
+%from endowment effects. This is of particular interest for the \textit{Gift} treatment as it disentangles 
+%reciprocity from the response to the wage increase per se \citep{Charness2004}.} 
+The pattern is somewhat different in the creative task where 
+only agents in the \textit{Tournament} treatment improve their performance 
+between Periods 1 and 2. There are no notable changes in mean performance in either the \textit{Gift} treatment 
+or the \textit{Control} group. 
+
+Thus, the raw data suggest that performance increases in the creative 
+as well as in the simple task in response to the tournament. However, only 
+employees in the simple task seem to respond to the gift. 
+
+
+
+%\subsection{Regression Analyses}
+
+
+
+%In the analyses that follow,  we compare the change in performance of individuals in the treatment groups with that of individuals in the respective control group. 
+To control for possible confounding factors, 
+we fit the following
+regression model using ordinary least squares (OLS).
+We make performance comparable between the different periods (and thus different items on the creative task) and the two different tasks by standardizing performance.\footnote{We use the standard approach of subtracting the mean performance of the control group (in the respective working period and task) and dividing the resulting difference by the standard deviation of the control group in the respective task. Therefore, the standardized performance of the control group has a mean of zero and a standard deviation of one. Treatment dummies (and additional controls) remain non-standardized to ease interpretation.} 
+
+
+
+
+
+%Robustness checks are reported in Chapter \ref{chap:robustness}XX.
+%\footnote{When controlling for baseline performance, it does not matter whether we use the difference from period one to two or the standardized performance in Period 2 for the estimation %of the treatment dummies. For the baseline performance, the coefficient for the standardized performance is just $\beta_1 = 1 - \gamma_1$ if $\gamma_1$ is the baseline coefficient in the %regression with the difference as dependent variable.}
+
+The full model takes the form:
+
+{\small
+\begin{equation}\label{eq:reg}
+\begin{aligned}
+\text{Std. Performance Period 2}_i &= \beta_0 + \beta_1 \text{ Std. Performance Period 1}_i\\
+&+ \beta_2 \text{ Std. Performance Period 1}_i \times \mathbbm{1}_{\text{  Slider-Task }_i}\\
+&+ \beta_3 \text{ Gift}_i + \beta_4 \text{ Gift}_i \times \mathbbm{1}_{\text{  Slider-Task }_i}\\
+&+ \beta_5 \text{ Tournament}_i + \beta_6 \text{ Tournament}_i \times \mathbbm{1}_{\text{  Slider-Task }_i}\\
+&+ \gamma X_i + \epsilon_i.
+\end{aligned}
+\end{equation}}%
+
+Standardized  Period 2 performance of individual \textit{i} is the dependent variable. It is regressed on \textit{i}'s baseline performance in Period 1 as well as on the treatment dummies, and, in the most comprehensive model, a set of person-specific control variables ($X_{i}$). Treatment dummies as well as baseline performance are interacted with a dummy that indicates the type of task (here: the simple task). This allows the treatment effects as well as the impact of baseline performance to differ between the creative and the simple task. The  creative task control group  serves as the reference category. Standard errors are adjusted for potential heteroscedasticity in all regressions.\footnote{The results are robust to using cluster-robust standard errors (by session) that control for potential intra-session correlation.} Note that the main regressions only include individuals where the principal opted for the tournament or the gift; Individuals with negative reward decisions are excluded from these analyses.  We analyze treatment effects using interaction effects as this allows us to directly display our two outcomes of interest: treatment effects on creative performance (the main treatment effect) as well as an indicator of whether treatment effects differ between the simple and the creative task (the interaction effect). The treatment effect on the simple task is equal to the sum of the main treatment effect and the interaction effect. 
+
+The results are shown in Table \ref{tab:EQ_Pooled_Results}.  Column I presents the most parsimonious specification and does not control for baseline performance. Column II of Table \ref{tab:EQ_Pooled_Results} adds controls for baseline performance. Column III adds additional control variables including age, age squared, sex, field of study, time period (semester, exam period, semester break), and location. 
+%Adding these controls does not alter the results.\footnote{
+%The regressions in Columns III and IV also include observations from a supplementary feedback treatment, discussed below, that was run concurrently with the main treatments. We include observations from this treatment in order to estimate the coefficients of the other control variables, introduced in column III, with greater precision.\\ 
+We also ran more comprehensive specifications with further control variables, such as the Big Five and incentivized risk and reciprocity measures, but their inclusion does neither improve the fit of the model nor does it affect the results. As can be seen, the results are robust to the inclusion or exclusion of all of our additional control variables. When discussing the results below we refer to the full specification in Column III.  
+%Column IV  reports the results of a supplementary treatment that will be discussed below (Section \ref{chap:analyses_mechanism}).
+
+XXXCHECK WHETHER NUMBERS ARE STILL CORRECT GIVEN THAT WE CUT FEEDBAACK TREATMENT OUT OF TABLEXXX
+Consistent with the raw data shown earlier, the \textit{Tournament} treatment has a large and statistically significant positive effect 
+on performance in both tasks. The coefficient on the \textit{Tournament} treatment represents the impact of the tournament on performance in the creative task.
+The interaction effect between the \textit{Tournament} treatment and the slider task suggests that there is no statistically significant difference between the impact of the tournament on the 
+creative task and the slider task. 
+This suggests that creative performance is responsive to incentives and that 
+tournaments have the power to substantially increase creative output. 
+Interestingly, the \textit{Tournament} effect is  very similar in both tasks as can be seen by the interaction effect: Agents increase their performance by 
+approximately 0.7 standard deviations as compared to the control group in both the 
+creative and the simple task.\footnote{We ran an additional \textit{Feedback} treatment to examine to what extent the 
+tournament treatment effect was driven by the money and to what extent it was driven by concerns for a 
+good relative performance rank. The \textit{Feedback} treatment mirrors the \textit{Tournament} treatment in that it 
+reveals who is and who is not a top 2 performer but in contrast to the \textit{Tournament} treatment there are no 
+financial consequences to being a top 2 performer. This treatment raises performance by roughly a third of what we observe 
+in the tournament treatment in both tasks. Results of this treatment in periods 2 and 3 can be found in Table XXX in the Webappendix. }
+%\footnote{This is suggestive evidence against crowding out 
+%of intrinsic motivation as crowding out would have implied a smaller 
+%performance increase (if not a performance decrease) in the intrinsically 
+%motivating creative task. The analysis of performance in Period 3 below will further corroborate this 
+%finding. Also, responses to the tournament do not differ between agents with above- and 
+%below-average baseline performance. Results available upon request.}
+%We find no evidence for gender differences in response to the \textit{Tournament}. 
+%Women increase performance by aproximately 0.60 standard deviations (as compared to control) 
+%in both tasks; men increase performance by aproximately 0.8 standard deviations (as compared to %control group) in both tasks. 
+%The difference between these two increases is not statistically significant in both the simple and %the 
+%creative task (p-value: $\approx$ 0.30).
+
+% high 
+%and  low baseline performance in the creative task
+%Another way of 
+%looking at crowding out is to look at individuals that were 
+%more (or less) intrinsically motivated than others. In case crowding out played a role, 
+%the tournament should affect those two groups of agents differently, with smaller effect
+% sizes on those with high, and higher effect sizes on those with low intrinsic motivation. 
+% One way of doing so is to focus on individuals 
+%who performed above (or below) average in period 1, assuming that there is some 
+%correlation between baseline performance and intrinsic motivation. 
+%Running this analysis, we do not find any evidence for crowding out: 
+%responses to the tournament do not differ between agents with high 
+%and  low baseline performance in the creative task. These results are available from the authors upon request.} 
+%\footnote{In an additional analysis (not reported, here), we find, however, that high performers show a lower treatment effect than low performers in both tasks, which is significant for the %slider task (Wald test, p=0.02), but insignificant for the creative task (Wald test, p=0.30). A potential concern for the analysis of performance effects of high performers are ceiling effects %which imply that performance improvements become harder the higher an individual's baseline performance is. The presence of ceiling effects leads, however, to an underestimation of the %(positive) treatment effects and should therefore not bias our estimates upwards.} 
+%Period 2 performance, however, does not allow us to ultimately reject the crowding-out hypothesis: the magnitude of the incentive effect relative to the crowding-out effect determines %whether the response to the incentive is positive or negative, so there can be a positive response even in the presence of a crowding-out effect. An overall detrimental effect only occurs %when crowding-out effects outweigh the incentive effect (see \citealp{bowles12JEL} for a recent overview). For a final assessment of whether or not crowding out occurred, we need to look %at period 3 performance (see Section \ref{chap:ex_post}) where the tournament incentive is withdrawn again and lasting effects on intrinsic motivation become apparent.  
+
+While the \textit{Tournament} worked well in stimulating creative performance, the 
+data suggest that the \textit{Gift} was less effective.  
+The effect of the gift is substantially smaller than that of the 
+tournament for both tasks (Wald test, p<0.01 for both tasks). 
+In the simple task the 
+\textit{Gift} induced an economically and statistically significant effect (p<0.05). The effect of the gift in the simple
+task is represented by the main gift treatment effect and the interaction effect of the gift with the slider task. The 
+effect size of roughly 0.2 standard deviations is well in line with what other studies on reciprocity have found.\footnote{We find 
+no evidence for gender differences in either the \textit{Tournament} or the \textit{Gift} treatment.} 
+In contrast, the point estimate of the impact of the \textit{Gift}  treatment 
+in the creative task is close to zero across specifications.\footnote{Interestingly, it appears as though at least some 
+of the principals might have anticipated that the gift would not work well in the creative task. 
+In the \textit{Gift} treatment only roughly half of the principals opted for the gift in the creative task 
+compared to three quarters of the principals in the slider task. 
+Three quarters of the principals in the \textit{Tournament} treatment invested in instituting the tournament. This is true in both the simple and the creative task.}  The standard error on this point estimate is roughly 0.1.
+A key question is how to interpret this zero point estimate and its associated non-trivial confidence interval. 
+One potentially interesting hypothesis test is a test of the equality between the effect of the gift on the simple task and on the creative task.
+We reject this hypothesis at the 0.1 level, i.e. there is evidence against this equality but it is weak. But in light of the previous research
+which has repeatedly produced a 0.2 standard deviation impact of gifts on performance in the simple task, another relevant null hypothesis to test 
+is whether the point estimate of the gift on the creative task is significantly different from 0.2. This hypothesis we reject comfortably at the 0.05 level. 
+In essence, we can say with substantial confidence that the effect of the gift on the creative task is smaller than the 0.2 that is generally found on the simple task. 
+But we cannot with confidence conclude that the true effect of the gift on the creative task is zero even though the point estimate is zero. 
+\footnote{Since standard errors go down with the square root of sample size,  the standard error would still be 0.07 even if we doubled the sample size. This would, of course,
+increase the statistical significance of any hypothesis test, but it would take radical increases in sample size (maybe ten times the sample size) to generate estimates so precise that 
+one would talk of a true zero effect with confidence.} 
+
+
+
+%\subsection{Supporting analyses and robustness}\label{chap:further_analyses}
+
+%\subsubsection{Responses to negative reward decisions}
+
+ The analysis thus far has focussed on positive reciprocity. The structure of our experiment 
+also provides information with regar to negative reciprocity.
+Agents are informed if the principal chooses not to institute a gift or tournament, which 
+has the potential for inducing negative reciprocity (both the gift and the tournament involve 
+a transfer of an additional 300 Taler from the principal to the agents).  
+If negative reciprocity is present, then among the agents who do not receive the gift or 
+tournament, output should decline relative to the respective control group.
+Because negative reward decisions are relatively rare (a total of 116 agents) our results 
+in this domain have to be interpreted with care.\footnote{Also, the fixed payments in the control group were designed to be equal to (expected) 
+payments under positive, but not negative reward decisions. Hence, treatment 
+and control groups are not payoff equivalent in cases of negative 
+bonus decisions. Principals and agents earn a fixed wage of 300 Taler in Period 2 when the principal decides against giving a reward, whereas they 
+are endowed with 100 Taler and 600 Taler, 
+respectively, in the control group.}
+ 
+ 
+Figure \ref{fig:Neg_Bonus_Dec} shows the results. The solid bars represent 
+agents' performance responses (as compared to the control group) to positive reward decisions. 
+These effect sizes correspond to the main regression results discussed above. 
+Hatched bars represent agents' performance response 
+to the announcement that the principal had not invested in additional rewards.
+Again, an asymmetry between the two tasks emerges when looking at 
+the \textit{Gift} treatment.  Agents  reduce their performance sharply 
+in response to a negative \textit{Gift} decision in the slider task, suggesting negative reciprocity.
+By comparison, they remain relatively unaffected in the creative 
+task. 
+These results are the mirror image of those discussed above, providing 
+support for the conjecture that reciprocity is much stronger in the simple task than in the creative task.\footnote{
+Two other potentially interesting observations can be seen in Figure  \ref{fig:Neg_Bonus_Dec}.
+First, in the slider task the response to a negative reward decision 
+is substantially larger than the response to a positive reward decision. 
+This is in line with other evidence showing that negative reciprocity 
+tends to be stronger than positive reciprocity \citep{Kube13JEEA}. 
+Second, in neither task does the withholding of a tournament reduce performance. 
+ One explanation of this is that in response to a tournament agents put out a lot of additional effort. In that sense, tournaments 
+might not be viewed as gifts to agents even though they cost the principal resources.} 
+
+
+
+
+
+%\footnote{There is no evidence 
+%for intra-session-correlation regarding the reward implementation. Results upon request.}
+
+
+%We also asked principals to provide reasons for why they 
+%did or did not choose to implement the reward.\footnote{Principals could mark whether they opted 
+%in favor of the reward 1) to maximize own profits, 2) to be nice to the agents, 
+%3) to maximize the total payoff of all participants in their group, (4) to reward 
+%good performance (in case of the \textit{Tournament}), or 5) other reasons. 
+%If the principal denied the reward, they could indicate whether they 1) thought that 
+%the rewards were not profitable for their own payoff, 2) did not want to provide extra earnings to the 
+%agents, 3) did not want agents to earn more than themselves, or 4) other reasons.}
+%In both tasks the main driver for the reward decision was  
+%profit maximization, i.e. an expectation that subjects would or 
+%would not respond favorably to the treatment. Hence, the larger share of principals who opted for the 
+%gift in the slider task did so because they expected that this would raise their profits, and the share 
+%of principals who opted against the gift in the creative task did so because they did not think 
+%that the gift would pay off.
+%\footnote{In both tasks, 
+%roughly half of the principals indicated that they implemented
+% the \textit{Tournament} in order to maximize their own payoff. The other 
+%half of the principals either stated efficiency concerns (maximizing the total 
+%payoff of the group) or the desire to reward good performance, with 
+%similar shares providing these reasons in both tasks. 
+%In case of the \textit{Gift}, 
+%the majority of principals (approximately two thirds) indicated own profit 
+%maximization as the main reason for their positive reward decision. Thus, 
+%the expectation of positive reciprocity seems to be the main driver for the
+% provision of the \textit{Gift} in both tasks. 
+%However, while all remaining 
+%principals in the slider task indicated efficiency concerns, in the creative 
+%task only 14\% did so, and 21\% indicated that they wanted to treat their 
+%agents nicely. 
+%However, virtually all principals who denied the provision of 
+%the \textit{Gift} in the creative task indicated that they did not expect 
+%the gift to increase their payoff, while only approximately 
+%half of the principals in the slider task indicated that they expected the 
+%gift to increase their own payoff, while the other half noted that they 
+%made their decision for ``other reasons''. }
+% bei pos. Entscheidungen: 
+% Tournament: slider 57% max profit, 21% efficiency, 21% reward good perf; creative: 40% max profit, 33% efficiency, 20% reward good perf
+% Gift: slider: 66% mx profit, 33% efficiency; creative: 64% max profit, 21% nice, 14% efficiency
+% Mattie: It would be useful to (very) briefly summarize the reasons for including the role of principals in your design section (where I posted my earlier comment questioning the reason for their inclusion). Such reasons include better understanding whether principals might anticipate reciprocity or why they made their decisions in the first place. Does it also potentially enhance an agents' desire to reciprocate? I.e. if you used an experimenter instead would the agent have to know that she was not benefiting a fellow participant? If so, this would presumably make her feel less inclined to reciprocate.
+
+%\subsubsection{Use of the Time-out button}
+There two channels via which workers can increase productivity. One is 
+reduced usage of the time-out button, the other is greater effort during actual work time. 
+
+They hit the time-out button more or less XXX in this or that treatment.... XXX
+
+productivity of minute or work as compared to minute of treatment... XXXX
+
+
+We can look at the use of the time-out button to 
+examine whether the effects in the \textit{Tournament}
+ and the \textit{Gift} treatment are driven by a reduction in the number of breaks or by a 
+performance improvement during actual work time. Table XXX shows the results. XXXXXX 
+In both tasks, the \textit{Tournament} effect remains 
+positive and significant (albeit much smaller)  after controlling for the number of breaks. 
+In contrast, the performance increase in response to the \textit{Gift} in the slider
+ task seems to be solely driven by a reduction in breaks and, hence, by an extension of actual working time. XXX MORE CONTENT HERE
+
+
+
+%\subsubsection{Different dimensions of creativity} 
+\subsection{Sensitiviy Analysis}
+
+Thus far, we have reported results fro the creative task in terms of one score that captures three different dimensions of creativity: 
+%Performance in the creative task is multi-dimensional,
+%and an obvious concern is that the observed performance increase in response to the tournament incentive is caused by subjects 
+%increasing the quantity of ideas at the expense of their originality -- 
+%a pattern that might not generally be desirable. The slider task is different in this respect as it is one-dimensional, and an overall performance increase is unambiguously positive for the %principal. 
+%The Unusual Uses task allows us to look into this issue. In the Unusual Uses task, creativity is 
+%scored along three dimensions: 
+1) the 
+number of valid uses (validity), a measure of quantity, 2) the number of categories into which answers fall (flexibility), and 3) the originality of ideas (statistical infrequency of a response). 
+
+Table \ref{tab:EQ1_Main_Regression_Creative_Task} shows the results split 
+up by these three different dimensions. The pattern of results that we discussed for the 
+overall score in our main analyses
+ is reflected in all three dimensions of creativity. This result is, however, somewhat mechanical because
+ each valid idea generates one point for certain in the validity dimension and is eligible for more points in flexibility and originality.
+This leads to a strong positive correlation across the three dimensions of creativity. 
+%There is even evidence for this in the literature in psychology on originality (XXX REFERENCES)
+In order to assess the degree of flexibility and originality conditional on the total number of valid ideas, 
+we created measures which we denote the ``flexibility rate'' and ``originality rate.''
+For both of these variables we divide the number of flexibility/originality points of a subject by the number of valid answers given.
+Columns V and VI display the results. Conditional on the number of uses, neither treatment has a statistically discernable 
+effect on idea flexibility. The tournament does, however,  increase originality rate. That is, XXXXX.
+This is  evidence against the notion that the strong performance increase in the 
+\textit{Tournament} treatment came at the expense of idea originality. The opposite is true.
+
+
+MAYBE THIS BE ITS OWN COLUMN..\footnote{One might be 
+concerned that statistical infrequency does not accurately reflect what is commonly understood as an
+ ``orignal'' idea. Therefore, we checked the robustness of  our results on originality 
+using subjective originality ratings. Towards that end, we asked five research 
+assistants unfamiliar with the experiment and blind to the treatments to evaluate 
+the originality of each answer. The evaluators were instructed to assign one  point 
+to answers that they perceived as original, two points to answers that they perceived 
+as very original, and zero points otherwise. 
+Using the score from this subjective originality assessment as the dependent variable 
+does not alter the results: originality increases under the \textit{Tournament} incentive. 
+The \textit{Gift} treatment, by comparison, even lowers originality by this measure. Results available 
+from the authors upon request.} 
+
+Our set-up mirrors settings in which the principal cares about 
+as many and as original ideas as possible. In other settings (architecture 
+competitions, for example), the principal cares about identifying the ``best'' idea/project. 
+To address this issue, we tried to map our data more directly into what might go into a 
+principal’s payoff function in these settings. In particular, we went back to the data and had a research assistant
+ - blind to treatment - code any answers that they considered a ``best'' answer in a subjective and unspecified way. 
+Overall, X answers (or roughly Y\% of all ideas) were coded as ``best.'' Even though subjects 
+were not incentivized to produce ``best'' answers, we were curious to see if there were treatment 
+effects in this dimension. The results are displayed in Column VII of Table Y. The results show that XXX. 
+Hence, the tournament incentive not only increased performance along the dimensions 
+that subjects were incentivized, but also increased the number of ``best'' ideas. 
+That is, incentivizing agents to produce as many and as original ideas as possible also increased
+ the number of  “best” ideas. 
+Obviously, this does not guarantee that the \textit{Tournament} treatment would have worked well,
+had subjects been directly incentivizied to provide a ``best'' idea. 
+
+One might also wonder if treatments affected the number of invalid uses. 
+Depending on the treatment, there were, on average, between 1 and 1.5 invalid 
+answers per person in period 1. That is, between 10 and 17 percent of answers
+were classified as invalid in period 1. Column VIII shows that there is no statistically significant 
+treatment effect of either the \textit{Tournament} or \textit{Gift} on the frequency of invalid uses. 
+
+
+
+%Overall our results suggest that tournaments effectively boost performance 
+%in both the simple, routine task as well as in the creative task. There is no evidence 
+%for motivational crowding out in the creative task. This is good news for firms, as it suggests that creativity can effectively be raised with financial rewards. 
+%In contrast, financial gifts work well only 
+%in the routine task. Here agents reciprocate the gift in an order of magnitude similar to that found in other studies 
+%on reciprocity. There is no reciprocal response in the creative task. 
+%The absence of reciprocity in the creative task 
+%holds for both positive and negative reward decisions. Principals seem to have anticipated 
+%the lack of response because a substantially smaller fraction of employers instituted the gift in the creative task. 
+%This finding has important  implications for firms as 
+%creative tasks tend to occur in settings where contracts are incomplete  -- that is, precisely 
+%in settings in which organizations
+%might want to exploit reciprocal inclinations in an attempt to  elicit additional effort. 
+%In the following section, we therefore further explore the absence of reciprocity in the creative task 
+%in an effort to uncover the underlying mechanism. 
+
+%\subsection{Exploring reciprocity in the creative task}
+\label{chap:analyses_mechanism}
+
+Taken together the different pieces of evidence discussed above suggest that 
+there is a difference in subjects' responses to the gift across the two tasks and that the gift was 
+less effective in the creative task than in the simple task. 
+
+One explanation for less reciprocity in the creative task would be that 
+agents are simply unable to increase output even though they try to.
+%A related explanation  relies on the notion that the performance measure in the creative task is less sensitive to agents' increased effort than the one in the simple task. That is, reciprocity might lead to effort increases in both tasks, but the effort increase might not translate into significantly higher output in the creative task. 
+The results of the \textit{Tournament} treatment speak against this explanation. In response to tournaments 
+agents sharply increase their output showing that they can do so if they wish. 
+
+%In the treatment the financial stakes were identical across the two tasks, and both tasks see a performance increase of similar magnitude. This suggests that the responsiveness of output to incentives is similar across the two tasks. 
+
+Another possibility is that agents did not want reciprocate. The results from the 
+simple task speak  against this notion. Agents in the \textit{Gift} treatment in the slider task
+receive a gift of the same magnitude and exhibit  a reciprocal response. While we do 
+not have a particular theory as to why the desire to reciprociate may differ across the two tasks, 
+we nonetheless test this hypothesis in the supplementary treatment described below. 
+
+
+A third possibility is that they did want to reciprocate but that the nature of the 
+creative task makes it hard for them to do so.
+This would be the case, for example, if agents get utility from providing 
+appropriately sized reciprocal responses, but disutility 
+from reciprocting in a manner that is either too small or too large (relative to the size of the gift).\footnote{See, for example, \cite{dorsch94} on the 
+relationship between the size of a gift and the resulting sense of psychological indebtedness.} 
+Unlike in the slider task where agents have perfect control over 
+how many sliders they move and, hence, how much 
+benefit they generate for the principal, this is more opaque in the creative task. 
+Although the procedure for evaluating  ideas 
+was detailed in the instructions, subjects could not perfectly 
+predict the exact number of points that they were generating for the principal 
+because agents' scores depended on ratings (validity, flexibility, and originality). 
+It is therefore harder 
+for agents to target an appropriately sized gift in the creative task than it is to do so in the simple task. 
+In particular, following the literature on inequality aversion (e.g., \citealp{Fehr1999}) one might hypothesize that 
+it is more costly in utility terms for  an agent to reciprocate too much than it is to
+reciprocate too little (relative to the gift). Under these conjectures, a  
+fear of regret of disproportionally large reciprocity may lead agents not to exert effort in the gift treatment 
+in the creative task. 
+%\footnote{Just like in our experiment, agents in a business context 
+%typically also have  a rough sense of 
+%the value of their ideas but cannot be sure about  their precise implications for the bottom line: 
+%Ideas typically go through various stages of evaluation, and there is often a 
+%relatively large time lag betweeen the creation of an idea and its implementation. Finally, 
+%the value of an employee's idea to the firm is frequently determined by the market, say by the demand 
+%for a new product, which is also not perfectly known during the idea generation stage. } 
+\cite{Hennig2010} and \cite{Englmaier10WP} provide initial  
+evidence that uncertainty about how own effort affects the principal's surplus 
+can reduce agents' reciprocal 
+behavior. 
+This mechanism should be more relevant in the \textit{Gift} treatment 
+where agents have no financial stake (fixed wage) and their effort is solely determined by 
+a mix of intrinsic motivation, ability and goodwill towards the principal, and
+should be less relevant in the \textit{Tournament} treatment where agents most 
+likely trade-off the cost of effort with the perceived likelihood of winning, 
+which is independent of the profit they generate for the principal.  
+
+%One argues that there is a 
+%socially acceptable level of reciprocity and that this level of reciprocity varies with the size of the gift (REFXXX)
+%In other words, 1) a gift induces a social obligation via which the recipient feels compelled to 
+%be nice to the gift giver (REFSXXX), and 2) recipients want their ``repayment'' to be of an 
+%appropriate magnitude (REF XXX). 
+%Following 
+%If this were the case, then one explanation for the lack of reciprocity in the creative task is the opacity of the link between 
+%marginal effort and the benefit to the principal. Unlike the simple task, where agents know exactly how their effort maps into 
+%output and, hence, profit for the principal. The mapping from 
+%effort to ideas and from ideas to points is less transparent in the creative task, for example because flexibility and originality ratings
+%are not known with certainty to the agents as they work on the task.  
+
+
+
+
+
+%For instance, if agents believed that their co-workers increase their effort in response to the \textit{Gift} more in the creative than in the routine task, they might reciprocate less in the creative task because they do not want the principal to earn too much. We do, however, not have any reason to expect that beliefs about the effort of co-workers differ between the tasks. Even if they did, this mechanism is unlikely to explain our results. As \cite{Maximiano2007} show, an agents' response to a gift does not depend on other earnings of the principal, such as earnings from transfers of other agents. Thus, we conclude that reciprocal behavior in our experiment should neither be driven by the mere existence of co-workers, nor should agents beliefs about co-workers reciprocal reaction drive the asymmetric response towards the gift between the routine and creative task.
+
+
+%One possible explanation could be the availability of an ``excuse for low performance'' in the creative task. Such an excuse could be available if effort were only weakly correlated with performance in the creative task. If this were true, agents who are motivated to reciprocate by image concerns (but who don't have an innate desire to reciprocate) might put in less effort in the creative task, hiding behind a story in which they tried hard to come up with ideas but simply did not succeed. Such an excuse is not available in the simple task, by comparison, where increased effort directly translates into more correctly positioned sliders and, in turn, increased performance. While this explanation is plausible, there is recent evidence that shows that reciprocal behavior is not affected by the availability of these kinds of ``excuses'' for not performing well \citep{vanderWeele2010}. 
+
+
+%Further, effect sizes are very similar in the \textit{Tournament} treatment suggesting that performance is equally responsive to incentives in the two tasks. 
+
+
+
+
+%\footnote{Coming back to the \textit{crowding in} theories that we 
+%mentioned in the hypothesis section, \citet{Eisenberger1999,Eisenberger2001} 
+%provide another possible explanation. They argue that performance-independent rewards, 
+%such as wage gifts, are perceived as rewarding ``average" or inadequate performance 
+%and mighy thereby crowd-out intrinsic motivation and, in turn, creative performance. 
+%This effect should only be expected in the creative task, where agents' intrinsic motivation
+% is relatively high and might mitigate any positive reciprocal response to the gift.
+% Hence, this is also a potential candidate for explaining the absence of reciprocity in the creative 
+%task. However, we will show below that it is a different mechanism that explains our finding.}
+
+
+
+
+%Another issue relates to a difference in effort costs between the routine and the creative task. If effort costs are higher in the creative task, then the same reciprocal inclination would result in a smaller performance increase in the creative task. However, several aspects speak against this notion. Subjects increase their performance similarly large (in terms of standard deviations of the control group) for the same tournament prize in both tasks. This shows that agents were able to strongly increase their effort in both tasks. Further, the fact that performance improvements in the \textit{Tournament} are larger for low performers than for high performers in both tasks speaks in favor of increasing marginal costs of effort in both tasks. This indicates that small effort increases in the creative task rather required lower average marginal costs of effort than large effort increases which are observed in the \textit{Tournament}.
+
+%Finally, agents did not have perfect knowledge about 
+%how much surplus (in terms of the value of their ideas) they generated for the principal in the creative task. 
+
+To test both of these hypotheses (lack of desire to reciprocate in the creative task; inability to finetune reciprocal response), we 
+ran two supplementary treatments: \textit{Creative Transfer Control}
+ and \textit{Creative Transfer Gift}. These treatments were identical to the control 
+group and the \textit{Gift} treatment in the creative task apart from the following aspects: 
+First,  at the end of each period, agents were told how many Taler they 
+had generated in the preceding round. Second,
+they could then decide how much of this surplus to transfer 
+to the principal. Hence, agents had perfect control over how much money would accrue 
+to the principal as a result of their work. Surplus that was not transferred was ``lost'' in the 
+sense that it did not benefit the principal (and agents' payments 
+were independent of their performance). 
+As in the \textit{Gift} treatment, the principal had the option to provide a 
+monetary gift of 300 Taler to each of her agents before the start of Period 2 
+in the \textit{Creative Transfer Gift} treatment. The treatment 
+\textit{Creative Transfer Control} serves as an additional control group that allows 
+us to seperate out a change in the response to the gift from changes in behavior that are solely 
+driven by either the provision of feedback 
+on the number of points earned or by the 
+ability to choose a transfer amount. 
+Comparing behavior in \textit{Creative Transfer Gift} with that in \textit{Creative Transfer Control} 
+therefore allows us to assess whether reciprocity emerges when agents have the power to 
+  fine-tune their back transfers in the creative task. 
+ 
+ Table \ref{tab:Summary_Statistics} shows that baseline performance 
+is very similar in \textit{Creative Transfer Control} 
+and \textit{Creative Transfer Gift} and slightly 
+higher than average performance in the other treatments utilizing the creative task.\footnote{This
+ may not be surprising as the transfer option allows agents to 
+decouple their work from what accrues to the principal. Therefore, 
+agents who intrinsically enjoy working on the task but that are also inequality averse, 
+can work harder in these treatments without 
+fearing that they create unduly large profits for the principal.}
+%there is also no difference between creative transfer control and creative control in any of the %subdimensions 
+Only about two thirds of all subjects transfer the maximum amount in Period 1. 
+About 20\% transfer less than half of the generated surplus while the remaining 
+subjects transfer intermediate amounts. 
+In the following analysis, we will  focus on transfers, as transfers and not actual performance 
+influence principals' payoffs and thus signal reciprocity.
+%Again there are small, albeit statistically insignificant differences in agents' transfers in Period 1. 
+As in the main analysis, we control for baseline transfer -- each agent's transfer in Period 1 --
+in all regressions. 
+%Agents' mean transfer to the principal is higher in the \textit{Creative Transfer Control} compared to \textit{Creative Transfer Gift} (17.5 vs 15.1), but the difference is not statistically %significant (Wilcoxon rank-sum test, p=0.19). In order to account for these initial performance differences, we control for baseline performance in all regressions.
+% Mattie: Just to clarify, if agents decide not to transfer the surplus, the non-transferred amount is simply lost? I.e. agents do not get to keep any surplus? What is the explanation for why agents do not transfer all of the surplus (i.e. what do they lose when the principal benefits?)? 
+
+The results are striking. Agents in the \textit{Creative Transfer Gift} treatment 
+ transfer significantly more of their surplus
+ in Period 2 (after the gift) than in Period 1 (Wilcoxon signed-rank test, p<0.01).  They also 
+transfer significantly more of their surplus in Period 2 than do agents in the 
+\textit{Creative Transfer Control} group in the same period (Wilcoxon rank-sum test, p<0.05).   
+Figure \ref{fig:gift_treatments} depicts treatment effects for all \textit{Gift} 
+treatments. The bars show coefficients from 
+separate OLS regressions analyzing the effect of the \textit{Gift} treatment 
+on Period 2 effort (or, in the case of the 
+supplementary treatments, amount transferred), controlling for 
+baseline performance (transfer). The graph shows not only that 
+ subjects reciprocate the gift in the  \textit{Creative Transfer Gift} treatment, but also that the 
+order of magnitude of the effect is similar to the increase in output in the \textit{Gift} treatment
+ in the simple task. 
+Column IV of Table \ref{tab:EQ_Pooled_Results} 
+reports the results from the associated regressions. Again, one can see that reciprocity 
+emerges in the \textit{Creative Transfer Gift} treatment and that the effect is similar to 
+that in the simple, routine task.\footnote{Performance 
+itself is not affected by the gift, which is not surprising given that many subjects had 
+substantial leeway in increasing transfers without increasing performance. \\
+Just like in the main \textit{Gift} treatment, we find no evidence for gender differences in response to the gift in the 
+\textit{Creative Transfer Gift} treatment.\\ 
+With respect to principals' reward decisions, only 8 participants were affected by a negative 
+reward decision by the principal, making it impossible to reliably estimate this effect. 
+The existing data, however, suggest that negative reciprocity  re-emerges 
+in the \textit{Creative Transfer Gift} treatment with a mean performance 
+decrease of 0.82 in response to a negative gift decision, similar to what was 
+observed in the slider task. }\footnote{Interestingly, this asymmetry (agents in the creative task have uncertainty over 
+the value of their work to the principal, while those in the simple task do not), did not affect effort in the tournament treatment, where we see
+ similar effect sizes in both tasks. This is probably owed to the fact that agents had 
+a financial stake in the game in the tournament treatment -- the tournament prize. In the gift 
+treatment, by comparison, agents work for a fixed wage and their efforts solely affected the profits 
+of the principal. Hence, we conjecture that agents were more concerned about the impact of their efforts on the principal 
+in the gift treatment than they were in the tournament treatment. XXX this footnote into discussion??} 
+     
+
+
+
+%XXX FOOTNOTE ON NEGATIVE RECIPROCITY: Ja, w%ir sehen starke negative Effekte in Bezug auf Transer, interessanterweise identisch in der Höhe wie bei Gift Slider und gleiche statische %Signifikanz (hier nur verglich Gift positiv und negativ mit Kontrollgruppe kontrolliert für Baseline):
+
+%Slider Gift (positive Bonusentscheidung): +0.22 (p-Wert .04)
+
+%Slider Gift (negative Bonusentscheidung): -0.82 (p-Wert <.01)
+%Creative Transfer (positive Bonusentscheidung): +0.24 (p-Wert .03)
+%Creative Transfer (negative Bonusentscheidung): -0.82 (p-Wert <.01)
+
+%In Erganzung, das sind aber nur 8 Participants die von einer negativen Bonusentscheidung bei Creative Transfer betroffen sind
+
+
+
+% XX hier noch Tests, ob Effekte gleich gross u sign größer als in creative gift  
+
+Taken together, the findings from these two additional treatments suggest 
+that the lack of reciprocity in the creative task was driven solely by agents' inability to control and fine-tune their impact on the principal's bottom line. When agents have that control,  they reciprocate the wage gift in both tasks and the effect sizes are of similar magnitude. Such control is, however, typically relatively low 
+for creative tasks as well as for other complex problem solving tasks 
+that are prevalent in many white-collar jobs. In these settings
+ information on the exact value of effort (and ideas) to the principal is often 
+not available. Thus, in practice this specific feature inherent in creative tasks may hinder 
+the emergence of reciprocity.
+
+%\footnote{The evidence also contrasts the argument that performance-independent 
+%gifts are perceived as rewarding ``average'' performance, causing a crowding-out of 
+%intrinsic motivation \citep{Eisenberger1999,Eisenberger2001} as this should also 
+%have be true in the \textit{Creative Transfer Gift} treatment.} 
+
+% By conducting a field and a supplementary laboratory experiment, \cite{HennigSchmidt2010} investigate how the the wage-effort relationship  
+% is influenced by the wage level, information on peers wages and information on the employer's cost and surplus.
+% They find no effect of the information on peer wages, however, they demonstrate a crucial effect of the information on the employer surplus 
+% to observe a positive wage-effort relationship. A significant effect of a wage gift on effort was only observed in the laboratory experiment 
+% where detailed information on employer's surplus was avalaible while no effect was observable in the field experiment where this information was not given.
+
+% aus Hennig-Schmidt zu implications: 
+% "Our study implies that a firm’s internal profit information policy may have a positive impact on work output. This seems to be due to the fact that if employees are not able to assess how the gains from trade are distributed, they do not have a reference point for being reciprocal."
+
+% problem to discuss: people may react reciprocal due to experimenter demand effect: in Hennig-Schmidt and also in our study, people are focused on the exchange, may be they feel prompted to react 
+
+% Irlenbusch/Sliwka 2005:
+% "However, the influence of social norms or social preferences is widely unexplored in 
+% agency relations with hidden action possibilities."
+
+% Irlenbusch and Sliwka (2005) analyze the impact of transparency on the
+% evolution of reciprocal behavior. They show that efficiency in gift exchange games drops when the
+% effort choice of the employee cannot be perfectly observed by the employer.
+% sie führen gift exchange game durch u zum effort der agents kommt random component dazu
+% d.h. Agenten wissen nicht genau, was der Prinzipal bekommt u Prinzipal kann auch nicht 
+% genau beobachten wie viel von d Agenten kommt u wie viel von der Zufallskomponente
+ 
+% erwähnen, dass es auch Evidenz von dictator games gibt, die Bedeutung der Transparenz zeigen 
+% wir konnten reciprocity (in der slider u bei creative transfer) beobachten, obwohl der Prinzipal
+% nicht die einzelnen efforts beobachten konnte; daher gibt es kein Indiz, dass TN Trittbrettfahrertum ausnutzen
+
+% umformuliert aus Irlenbusch/Sliwka 2005:
+% A reason to explain reciprocal behavior is that agents dislike inequality which is based upon the Fehr/Schmidt approach (1999) on inequality aversion. Another approach assumes intentional or "direct" reciprocal behavior. 
+% Here agents utility also depends on the utility of others, however, whether they like or dislike higher payoffs of
+% others, depends on their beliefs on the kindness of the others’ actions (e.g. Rabin, 1993, Falk and Fischbacher, 1999, or Dufwenberg and Kirchsteiger,1999)  
+
+% \cite{Englmaier10WP} conduct a real-effort lab experiment where they manipulate the principal's benefit 
+% from agents' effort. In the experiment, principals could either assign a high or low wage and agents were 
+% randomly assigned to a condition where their effort had a high or low impact on principals' payoff. Controlled for 
+% agents ability in the task, they find a strong complementarity between the wage gift and the worker’s ability to 
+% repay in determining the effectiveness of gift exchange. Looking on heterogeneous types within the 
+% ability distribution, results reveal that high ability agents respond significantly positive to the gift
+% in both, the low and high impact condittion, whereas for low ability agents this is only true for the case 
+% when their impact on the principal's payoff was high. (Englmaier and Leider (2012) replicates the findings in a field setting.) 
+% Based on the results, the authors argue that gift exchange incentives may not be suitable for all job settings.
+% By applying a more relevant and cognitively challenging task, namely a creative task, we can similarly to  
+% \cite{Englmaier} conclude that whenever the strategic and informational environment in the lab is made “more 
+% similar” to standard field environments, gift exchange diminishes.
+
+
+
+
+%\begin{figure}[H]
+%\caption{Overview on Effect Sizes in Case of Reward Implementation and Refusal}
+%\begin{center}
+%\includegraphics[width=0.75\textwidth]{Paper3_Graphs/Neg_Bonus_Dec_150113.png}
+%\label{fig:Neg_Bonus_Dec}
+%\end{center}
+	%\begin{minipage}{0.75\textwidth}
+	%\footnotesize
+	%{\it Note:} The bars show the estimated coefficients of separate OLS regressions for the slider and the creative task. Treatment dummies for positive and negative reward decisions are regressed on standardized performance in period 2, controlling for baseline performance. Principals are excluded from this analysis.
+	%\end{minipage}
+%\end{figure}
+

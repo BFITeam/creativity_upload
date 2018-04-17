@@ -1,0 +1,262 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\BaselineRegressions.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:16
+
+. 
+. cap program drop get_pvals
+
+. program define get_pvals, rclass
+  1.         
+.         test turnier == gift
+  2.         local p_cr = round(`r(p)',.00001)
+  3.         if(`p_cr' == 0) local p_cr 0.000
+  4.         
+.         test turnier + turnXslid == gift + giftXslid
+  5.         local p_sl = round(`r(p)',.00001)
+  6.         if(`p_sl' == 0) local p_sl 0.000
+  7.         
+.         test gift + giftXslid == 0 
+  8.         local p_sl_g_0 = round(`r(p)',.00001)
+  9.         if(`p_sl_g_0' == 0) local p_sl_g_0 0.000
+ 10.         
+.         test turnier + turnXslid == 0 
+ 11.         local p_sl_t_0 = round(`r(p)',.00001)
+ 12.         if(`p_sl_t_0' == 0) local p_sl_t_0 0.000
+ 13.         
+.         local gift_slider_point_est = _b[gift] + _b[giftXslid]
+ 14.         test gift == `gift_slider_point_est'
+ 15.         local p_cr_2 = round(`r(p)',.00001)
+ 16.         if(`p_cr_2' == 0) local p_cr_2 0.000
+ 17.         
+.         display "Test for tournament and gift having the same effect in creative task: `p_cr'"
+ 18.         display "Test for tournament and gift having the same effect in simple task: `p_sl'"
+ 19.         display "Test for gift having zero effect in simple task: `p_sl_g_0'"
+ 20.         display "Test for tournament having zero effect in simple task: `p_sl_t_0'"
+ 21.         display "Test for gift having effect size of 0.2 in creative task: `p_cr_2'"
+ 22.         
+.         return local p_cr `p_cr'
+ 23.         return local p_sl `p_sl'
+ 24. end
+
+. 
+. gen below = ztransfer1 < 0
+
+. gen above = ztransfer1 >= 0
+
+. gen giftXcreative = gift == 1 & creative == 1
+
+. gen turnXcreative = turnier == 1 & creative == 1
+
+. 
+. eststo clear
+
+. local treatments turnier turnXslid gift giftXslid  
+
+. 
+. eststo: reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid $controls if (slider == 1 | creative == 1) & below == 1, robust
+
+Linear regression                               Number of obs     =        162
+                                                F(16, 145)        =       7.17
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3646
+                                                Root MSE          =     .78642
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .8532027   .2242338     3.80   0.000     .4100136    1.296392
+      turnXslid |    .336951    .323194     1.04   0.299    -.3018288    .9757308
+           gift |   .0301984   .1507866     0.20   0.842    -.2678253    .3282221
+      giftXslid |   .2160854   .2306825     0.94   0.350    -.2398492    .6720201
+     ztransfer1 |   .6322914   .1640796     3.85   0.000     .3079947     .956588
+ztransfer1Xslid |   .1620264   .1831797     0.88   0.378    -.2000209    .5240738
+            age |  -.0127152   .0571396    -0.22   0.824    -.1256493    .1002189
+           age2 |   .0001266    .000699     0.18   0.857    -.0012549     .001508
+            sex |   .1425344   .1343876     1.06   0.291    -.1230774    .4081461
+     ferienzeit |   .0070558   .2196882     0.03   0.974    -.4271491    .4412606
+  pruefungszeit |   -.206633   .4103459    -0.50   0.615    -1.017665    .6043989
+           wiwi |  -.0321695   .1795502    -0.18   0.858    -.3870432    .3227042
+          recht |  -.0382007    .219406    -0.17   0.862    -.4718478    .3954464
+           nawi |   .4350651   .2291545     1.90   0.060    -.0178496    .8879797
+           gewi |   .1231439   .2102441     0.59   0.559    -.2923951    .5386829
+       mannheim |   .0646601   .1457446     0.44   0.658    -.2233983    .3527184
+          _cons |   .0774681   .9788769     0.08   0.937    -1.857242    2.012179
+---------------------------------------------------------------------------------
+(est1 stored)
+
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   145) =   13.72
+            Prob > F =    0.0003
+
+ ( 1)  turnier + turnXslid - gift - giftXslid = 0
+
+       F(  1,   145) =   10.13
+            Prob > F =    0.0018
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   145) =    1.39
+            Prob > F =    0.2403
+
+ ( 1)  turnier + turnXslid = 0
+
+       F(  1,   145) =   17.91
+            Prob > F =    0.0000
+
+ ( 1)  gift = .2462838
+
+       F(  1,   145) =    2.05
+            Prob > F =    0.1540
+Test for tournament and gift having the same effect in creative task: .0003
+Test for tournament and gift having the same effect in simple task: .00179
+Test for gift having zero effect in simple task: .24028
+Test for tournament having zero effect in simple task: .00004
+Test for gift having effect size of 0.2 in creative task: .15399
+
+. 
+. eststo: reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid $controls if (slider == 1 | creative == 1) & above == 1, robust
+
+Linear regression                               Number of obs     =        186
+                                                F(16, 169)        =      14.54
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4608
+                                                Root MSE          =     .60979
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .5141617   .2037205     2.52   0.013      .111997    .9163264
+      turnXslid |  -.0321555   .2129577    -0.15   0.880    -.4525553    .3882443
+           gift |  -.1839612   .1737485    -1.06   0.291    -.5269582    .1590357
+      giftXslid |   .4823622   .1937362     2.49   0.014     .0999074    .8648169
+     ztransfer1 |   .7784117   .1553272     5.01   0.000     .4717803    1.085043
+ztransfer1Xslid |  -.0809453   .1627576    -0.50   0.620    -.4022452    .2403546
+            age |  -.1825544   .0735829    -2.48   0.014    -.3278144   -.0372944
+           age2 |   .0029297   .0012715     2.30   0.022     .0004197    .0054397
+            sex |  -.1162198   .0992123    -1.17   0.243    -.3120749    .0796353
+     ferienzeit |   .1354248   .1301307     1.04   0.300    -.1214663     .392316
+  pruefungszeit |  -.0320765   .1618463    -0.20   0.843    -.3515773    .2874243
+           wiwi |  -.2743821   .1166945    -2.35   0.020    -.5047487   -.0440155
+          recht |  -.3408741   .1675225    -2.03   0.043    -.6715803    -.010168
+           nawi |   .0288575   .1375638     0.21   0.834    -.2427072    .3004223
+           gewi |  -.1660948   .1108924    -1.50   0.136    -.3850075    .0528179
+       mannheim |   .1126482   .1000095     1.13   0.262    -.0847807     .310077
+          _cons |   2.847406   1.047407     2.72   0.007     .7797199    4.915093
+---------------------------------------------------------------------------------
+(est2 stored)
+
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   169) =   10.75
+            Prob > F =    0.0013
+
+ ( 1)  turnier + turnXslid - gift - giftXslid = 0
+
+       F(  1,   169) =    2.98
+            Prob > F =    0.0864
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   169) =    5.75
+            Prob > F =    0.0176
+
+ ( 1)  turnier + turnXslid = 0
+
+       F(  1,   169) =   16.39
+            Prob > F =    0.0001
+
+ ( 1)  gift = .2984009
+
+       F(  1,   169) =    7.71
+            Prob > F =    0.0061
+Test for tournament and gift having the same effect in creative task: .00126
+Test for tournament and gift having the same effect in simple task: .08637
+Test for gift having zero effect in simple task: .01756
+Test for tournament having zero effect in simple task: .00008
+Test for gift having effect size of 0.2 in creative task: .00612
+
+. 
+. //output high-level regressions
+. #delimit ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Appendix\TableA2_Baseline_Regressions.tex", replace
+>         nomtitles       
+>         label      
+>         varlabel (_cons "Constant" ztransfer1 "Period 1 Output" zeffort1 "Period 1 Output" slider "Simple Task" gift "Gift" turnier "Performance Bonus" zeffort1Xslid "Period 1
+>  Output x Simple Task" giftXslid "Gift x Simple Task" turnXslid "Performance Bonus x Simple Task" ztransfer1Xslid "Period 1 Output x Simple Task"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" slider "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2mm]" zeffort1Xslid
+>  "[2mm]" ztransfer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop ($controls)
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\begin{center}%"
+>         "\caption{Treatment Effects on Period 2 Output in both the Creative and the Simple Task \\ by Above and Below Average Period 1 Output}"
+>         "\label{tab:BaselineReg}"
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lcc}" 
+>         "\hline\noalign{\smallskip}"
+>         " & \multicolumn{2}{c}{\bf Standardized Output in Period 2} \\"
+>         "\cmidrule{2-3} "
+>         " & \bf Period 1 Output & \bf Period 1 Output \\"
+>         " & \bf Below Average & \bf Above Average \\"
+>         )
+>         posthead("\hline\noalign{\smallskip}")
+>         prefoot("\hline"
+>         "\noalign{\smallskip}"
+>         "Additional Controls & YES & YES  \\"
+>         "\hline"
+>         "\noalign{\smallskip}")
+>         postfoot("\hline\noalign{\medskip}"
+>         "\end{tabular}}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the estimated OLS coefficients from Equation \ref{eq:reg} split by Period 1 output. " 
+>         "The first column reports treatment effects on the Period 2 output of agents whose output was below average in Period 1 as compared to the \textit{Control} group; the 
+> second column reports treatment effects on the Period 2 output of agents whose output was above average in Period 1 as compared to the \textit{Control} group. " 
+>         "The dependent variable is standardized output in Period 2. $pooled_performance_description "
+>         "$treatment_coef_description " 
+>         "$slider_treatment_effects "
+>         ""
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}"
+>         "\end{center}"
+>         "\end{table}");
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA2_Baseline_Regressions.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA2_Baseline_Regressions.tex)
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\BaselineRegressions.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:17
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

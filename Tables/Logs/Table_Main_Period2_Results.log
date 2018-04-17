@@ -1,0 +1,460 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Main_Period2_Results.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:11
+
+. drop if treatment == 4
+(124 observations deleted)
+
+. 
+. cap program drop get_pvals
+
+. program define get_pvals, rclass
+  1.         
+.         test turnier == gift
+  2.         local p_cr = round(`r(p)',.00001)
+  3.         if(`p_cr' == 0) local p_cr 0.000
+  4.         
+.         test turnier + turnXslid == gift + giftXslid
+  5.         local p_sl = round(`r(p)',.00001)
+  6.         if(`p_sl' == 0) local p_sl 0.000
+  7.         
+.         test gift + giftXslid == 0 
+  8.         local p_sl_g_0 = round(`r(p)',.00001)
+  9.         if(`p_sl_g_0' == 0) local p_sl_g_0 0.000
+ 10.         
+.         test turnier + turnXslid == 0 
+ 11.         local p_sl_t_0 = round(`r(p)',.00001)
+ 12.         if(`p_sl_t_0' == 0) local p_sl_t_0 0.000
+ 13.         
+.         local gift_slider_point_est = _b[gift] + _b[giftXslid]
+ 14.         test gift == `gift_slider_point_est'
+ 15.         local p_cr_2 = round(`r(p)',.00001)
+ 16.         if(`p_cr_2' == 0) local p_cr_2 0.000
+ 17.         
+.         display "Test for tournament and gift having the same effect in creative task: `p_cr'"
+ 18.         display "Test for tournament and gift having the same effect in slider task: `p_sl'"
+ 19.         display "Test for gift having zero effect in slider task: `p_sl_g_0'"
+ 20.         display "Test for tournament having zero effect in slider task: `p_sl_t_0'"
+ 21.         display "Test for gift in slider task having effect size equal to point estimate of gift in creative task: `p_cr_2'"
+ 22.         
+.         return local p_cr `p_cr'
+ 23.         return local p_sl `p_sl'
+ 24. end
+
+. 
+. 
+. * Nummer 1
+. local treatments turnier turnXslid gift giftXslid
+
+. 
+. eststo clear    // eststo clear drops all estimation sets stored by eststo
+
+. eststo:  reg ztransfer2 `treatments' if feedback==0 & (slider==1 | creative==1), robust 
+
+Linear regression                               Number of obs     =        348
+                                                F(4, 343)         =      17.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1465
+                                                Root MSE          =     .96393
+
+------------------------------------------------------------------------------
+             |               Robust
+  ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     turnier |   .7952237   .1727704     4.60   0.000     .4554009    1.135046
+   turnXslid |   .1663619   .1778895     0.94   0.350    -.1835299    .5162536
+        gift |  -.0192154   .1433957    -0.13   0.893     -.301261    .2628301
+   giftXslid |   .3750444   .1700837     2.21   0.028     .0405062    .7095827
+       _cons |  -3.85e-09   .0927122    -0.00   1.000    -.1823561    .1823561
+------------------------------------------------------------------------------
+(est1 stored)
+
+. //get_pvals
+. local p_1_cr `r(p_cr)'
+
+. local p_1_sl `r(p_sl)'
+
+. 
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid if feedback==0 & (slider==1 | creative==1), robust 
+
+Linear regression                               Number of obs     =        348
+                                                F(6, 341)         =      96.34
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5461
+                                                Root MSE          =     .70499
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7363126   .1426647     5.16   0.000     .4556989    1.016926
+      turnXslid |  -.0575965   .1660774    -0.35   0.729    -.3842617    .2690687
+           gift |    .025972   .0986843     0.26   0.793    -.1681346    .2200787
+      giftXslid |   .2094255   .1086358     1.93   0.055    -.0042552    .4231063
+     ztransfer1 |    .657426   .0757788     8.68   0.000     .5083732    .8064788
+ztransfer1Xslid |   .0022217   .0936681     0.02   0.981    -.1820183    .1864617
+          _cons |  -6.63e-09    .062085    -0.00   1.000    -.1221178    .1221178
+---------------------------------------------------------------------------------
+(est2 stored)
+
+. //get_pvals
+. local p_2_cr `r(p_cr)'
+
+. local p_2_sl `r(p_sl)'
+
+. //test gift + giftXslid = 0
+. 
+.   
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid $controls if (slider==1 | creative==1), robust 
+
+Linear regression                               Number of obs     =        348
+                                                F(16, 331)        =      41.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5636
+                                                Root MSE          =     .70166
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7505929   .1434108     5.23   0.000     .4684814    1.032704
+      turnXslid |   -.060334   .1681682    -0.36   0.720    -.3911472    .2704791
+           gift |  -.0057192   .1033415    -0.06   0.956    -.2090082    .1975697
+      giftXslid |   .2062018    .111727     1.85   0.066    -.0135827    .4259863
+     ztransfer1 |   .6376772   .0758132     8.41   0.000     .4885407    .7868137
+ztransfer1Xslid |   .0283313    .094234     0.30   0.764    -.1570418    .2137044
+            age |  -.0494681   .0355394    -1.39   0.165    -.1193796    .0204435
+           age2 |   .0006269   .0004613     1.36   0.175    -.0002806    .0015345
+            sex |   .0067782   .0813717     0.08   0.934    -.1532926     .166849
+     ferienzeit |   .0139697   .1218964     0.11   0.909    -.2258196     .253759
+  pruefungszeit |  -.0755825   .1668213    -0.45   0.651    -.4037461    .2525811
+           wiwi |  -.1705933   .0980826    -1.74   0.083    -.3635371    .0223505
+          recht |  -.2935524   .1382241    -2.12   0.034     -.565461   -.0216439
+           nawi |   .2090196   .1266543     1.65   0.100    -.0401292    .4581685
+           gewi |  -.0371013   .1188679    -0.31   0.755    -.2709332    .1967306
+       mannheim |   .0975854    .084258     1.16   0.248    -.0681634    .2633341
+          _cons |   .8744958   .5952552     1.47   0.143    -.2964646    2.045456
+---------------------------------------------------------------------------------
+(est3 stored)
+
+. 
+. get_pvals
+
+ ( 1)  turnier - gift = 0
+
+       F(  1,   331) =   24.02
+            Prob > F =    0.0000
+
+ ( 1)  turnier + turnXslid - gift - giftXslid = 0
+
+       F(  1,   331) =   14.33
+            Prob > F =    0.0002
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   331) =    3.81
+            Prob > F =    0.0517
+
+ ( 1)  turnier + turnXslid = 0
+
+       F(  1,   331) =   28.86
+            Prob > F =    0.0000
+
+ ( 1)  gift = .2004826
+
+       F(  1,   331) =    3.98
+            Prob > F =    0.0468
+Test for tournament and gift having the same effect in creative task: 0.000
+Test for tournament and gift having the same effect in slider task: .00018
+Test for gift having zero effect in slider task: .05167
+Test for tournament having zero effect in slider task: 0.000
+Test for gift in slider task having effect size equal to point estimate of gift in creative task: .04682
+
+. local p_3_cr `r(p_cr)'
+
+. local p_3_sl `r(p_sl)'
+
+. test gift = giftXslid
+
+ ( 1)  gift - giftXslid = 0
+
+       F(  1,   331) =    1.25
+            Prob > F =    0.2634
+
+. test gift + giftXslid == 0 
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,   331) =    3.81
+            Prob > F =    0.0517
+
+. test gift == 0.2
+
+ ( 1)  gift = .2
+
+       F(  1,   331) =    3.96
+            Prob > F =    0.0473
+
+. 
+. tabstat ztransfer2 if creative == 1 | slider == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: ztransfer2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control | -4.51e-09 -.0739055        56
+   creative_gift | -.0192154 -.0739055        56
+creative_tournam |  .7952237  .6710624        60
+  slider_control | -3.23e-09  .1327913        60
+     slider_gift |   .355829   .558239        60
+slider_tournamen |  .9615855  1.022364        56
+-----------------+------------------------------
+           Total |  .3501031  .4518123       348
+------------------------------------------------
+
+. 
+. 
+. local p_format %9.3f
+
+. #delimit; // #delimit: command resets the character that marks the end of a command, here ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Table3_Period2_Results.tex", // esttab produces a pretty-looking publication-style regression table from stored estimates without much typi
+> ng (alternative zu estout)
+>         nomtitles       // Options: mtitles (model titles to appear in table header)
+>         label      // label (make use of variable labels)
+>         varlabel (_cons "Constant" ztransfer1 "Period 1 Output" zeffort1 "Period 1 Output" slider "Simple Task" gift "Gift" turnier "Performance Bonus" zeffort1Xslid "Period 1
+>  Output x Simple Task" giftXslid "Gift x Simple Task" turnXslid "Performance Bonus x Simple Task" ztransfer1Xslid "Period 1 Output x Simple Task"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" slider "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2mm]" zeffort1Xslid
+>  "[2mm]" ztransfer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop ($controls)
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Treatment Effects on Output in Period 2 in both the Creative and the Simple Task}"
+>         
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lccc}" 
+>         "\hline\noalign{\smallskip}"
+>         " & I & II & III \\")
+>         posthead("\hline\noalign{\smallskip}") 
+>         prefoot("\noalign{\smallskip}\hline"
+>         "Additional Controls & NO & NO & YES \\"
+>         "\hline" ) 
+>         postfoot(
+>         "\hline\noalign{\medskip}"
+>         "\end{tabular}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the estimated OLS coefficients from Equation \ref{eq:reg}. " 
+>         "The dependent variable is standardized output in Period 2. $pooled_performance_description "
+>         "$treatment_coef_description " 
+>         "$slider_treatment_effects "
+>         ""
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}}"
+>         "\end{center}"
+>         "\label{tab:EQ_Pooled_Results}"
+>         "\end{table}")
+>         replace;
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Table3_Period2_Results.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Table3_Period2_Results.tex)
+
+.                         #delimit cr     // #delimit cr: restore the carriage return delimiter inside a file
+> 
+delimiter now cr
+. ********************************
+. *** Cluster Robustness Check ***
+. ********************************
+. 
+. local treatments turnier turnXslid gift giftXslid 
+
+. eststo clear    // eststo clear drops all estimation sets stored by eststo
+
+. eststo:  reg ztransfer2 `treatments' if feedback==0 & (slider==1 | creative==1), robust cluster(session)
+
+Linear regression                               Number of obs     =        348
+                                                F(4, 45)          =      24.54
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1465
+                                                Root MSE          =     .96393
+
+                               (Std. Err. adjusted for 46 clusters in session)
+------------------------------------------------------------------------------
+             |               Robust
+  ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     turnier |   .7952237   .1662004     4.78   0.000      .460479    1.129968
+   turnXslid |   .1663619      .1499     1.11   0.273    -.1355523     .468276
+        gift |  -.0192154   .1613445    -0.12   0.906      -.34418    .3057491
+   giftXslid |   .3750444    .193483     1.94   0.059    -.0146503    .7647392
+       _cons |  -3.85e-09   .0962048    -0.00   1.000    -.1937663    .1937663
+------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid if feedback==0 & (slider==1 | creative==1), robust cluster(session)
+
+Linear regression                               Number of obs     =        348
+                                                F(6, 45)          =      66.22
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5461
+                                                Root MSE          =     .70499
+
+                                  (Std. Err. adjusted for 46 clusters in session)
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7363126   .1577837     4.67   0.000     .4185199    1.054105
+      turnXslid |  -.0575965   .1673057    -0.34   0.732    -.3945676    .2793746
+           gift |    .025972   .0871501     0.30   0.767    -.1495572    .2015013
+      giftXslid |   .2094255   .0961245     2.18   0.035     .0158209    .4030302
+     ztransfer1 |    .657426   .0645816    10.18   0.000      .527352       .7875
+ztransfer1Xslid |   .0022217   .0845916     0.03   0.979    -.1681546     .172598
+          _cons |  -6.63e-09   .0543201    -0.00   1.000    -.1094064    .1094064
+---------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo:  reg ztransfer2 `treatments' ztransfer1 ztransfer1Xslid $controls if (slider==1 | creative==1), robust cluster(session)
+
+Linear regression                               Number of obs     =        348
+                                                F(16, 45)         =      54.99
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5636
+                                                Root MSE          =     .70166
+
+                                  (Std. Err. adjusted for 46 clusters in session)
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        turnier |   .7505929   .1528163     4.91   0.000     .4428052    1.058381
+      turnXslid |   -.060334   .1566792    -0.39   0.702    -.3759022    .2552342
+           gift |  -.0057192   .0985485    -0.06   0.954    -.2042061    .1927676
+      giftXslid |   .2062018   .1268193     1.63   0.111    -.0492255     .461629
+     ztransfer1 |   .6376772   .0652633     9.77   0.000     .5062302    .7691242
+ztransfer1Xslid |   .0283313   .0848572     0.33   0.740    -.1425798    .1992424
+            age |  -.0494681    .031832    -1.55   0.127    -.1135811    .0146449
+           age2 |   .0006269   .0004086     1.53   0.132     -.000196    .0014499
+            sex |   .0067782   .0730566     0.09   0.926    -.1403653    .1539217
+     ferienzeit |   .0139697   .1133161     0.12   0.902    -.2142607    .2422001
+  pruefungszeit |  -.0755825   .1428158    -0.53   0.599    -.3632283    .2120632
+           wiwi |  -.1705933   .0897521    -1.90   0.064    -.3513632    .0101767
+          recht |  -.2935524   .1534398    -1.91   0.062     -.602596    .0154912
+           nawi |   .2090196   .1361542     1.54   0.132    -.0652089    .4832482
+           gewi |  -.0371013   .1065671    -0.35   0.729    -.2517385    .1775359
+       mannheim |   .0975854   .0808075     1.21   0.233    -.0651692      .26034
+          _cons |   .8744958   .5237059     1.67   0.102    -.1803021    1.929294
+---------------------------------------------------------------------------------
+(est3 stored)
+
+. test gift = giftXslid
+
+ ( 1)  gift - giftXslid = 0
+
+       F(  1,    45) =    1.14
+            Prob > F =    0.2923
+
+. test gift + giftXslid == 0 
+
+ ( 1)  gift + giftXslid = 0
+
+       F(  1,    45) =    3.34
+            Prob > F =    0.0742
+
+. test gift == 0.2
+
+ ( 1)  gift = .2
+
+       F(  1,    45) =    4.36
+            Prob > F =    0.0425
+
+. 
+. #delimit ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Appendix\TableA3_Period2_Results_Cluster_Session.tex", // esttab produces a pretty-looking publication-style regression table from stored e
+> stimates without much typing (alternative zu estout)
+>         nomtitles       // Options: mtitles (model titles to appear in table header)
+>         label      // label (make use of variable labels)
+>         varlabel (_cons "Constant" ztransfer1 "Period 1 Output" zeffort1 "Period 1 Output" slider "Simple Task" gift "Gift" turnier "Performance Bonus" zeffort1Xslid "Period 1
+>  Output x Simple Task" giftXslid "Gift x Simple Task" turnXslid "Performance Bonus x Simple Task" ztransfer1Xslid "Period 1 Output x Simple Task"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" slider "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2mm]" zeffort1Xslid
+>  "[2mm]" ztransfer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop ($controls)
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Treatment Effects on Output in Period 2 in both the Creative and the Simple Task \\ Clustered by Experimental Session}"
+>         
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lccc}" 
+>         "\hline\noalign{\smallskip}"
+>         " & I & II & III \\")
+>         posthead("\hline\noalign{\smallskip}") 
+>         prefoot("\noalign{\smallskip}\hline"
+>         " Additional Controls & NO & NO & YES \\"
+>         "\hline" ) 
+>         postfoot(
+>         "\hline\noalign{\medskip}"
+>         "\end{tabular}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the estimated OLS coefficients from Equation \ref{eq:reg}. This table differs from Table \ref{tab:EQ_Pooled_Results} in that i
+> t clusters standard errors by session." 
+>         "The dependent variable is standardized output in Period 2. $pooled_performance_description "
+>         "$treatment_coef_description " 
+>         "$slider_treatment_effects "
+>         ""
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}}"
+>         "\end{center}"
+>         "\label{tab:EQ_Pooled_Results_Cluster_Session}"
+>         "\end{table}")
+>         replace;
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA3_Period2_Results_Cluster_Session.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA3_Period2_Results_Cluster_Session.tex)
+
+.                         #delimit cr     // #delimit cr: restore the carriage return delimiter inside a file
+> 
+delimiter now cr
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Main_Period2_Results.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:12
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

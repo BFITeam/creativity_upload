@@ -1,0 +1,51 @@
+
+%\begin{landscape}
+\begin{table}[H]%
+\caption{Treatment Effects in Period 2 -- Controlling for Number of Breaks Taken}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{0.7}%
+\begin{tabular}{lcc}
+\hline\hline\noalign{\smallskip}
+            &      Slider Task   &    Creative Task   \\
+						&          I         &       II           \\
+\hline\noalign{\smallskip}
+Gift Treatment&       0.019   &      -0.056   \\
+            &     (0.056)   &     (0.110)   \\[2mm]
+Tournament Treatment&       0.156** &       0.269** \\
+            &     (0.064)   &     (0.125)   \\[2mm]
+%Feedback Treatment&       0.086   &      -0.017   \\
+%            &     (0.065)   &     (0.101)   \\[2mm]
+1 to 3 Breaks (Period 1)    &      -0.076*  &      -0.188  \\
+            &     (0.117)   &     (0.169)   \\[2mm]
+4 to 7 Breaks (Period 1)    &      -0.362*&      -0.122   \\
+            &     (0.186)   &     (0.168)   \\[2mm]
+8 or more Breaks (Period 1) &      -0.630**&      -0.573***\\
+            &     (0.250)   &     (0.196)   \\[2mm]
+Difference between the      &      -0.734***&      -0.204***\\
+ Breaks in Periods 2 and 1  &     (0.146)   &     (0.061)   \\[2mm]
+1 to 3 Breaks (Period 1)    &       0.530***  &      -0.031   \\
+   $\times$  Break Difference           &     (0.149)   &     (0.071)   \\[2mm]
+4 to 7 Breaks (Period 1)    &       0.461***   &       0.030   \\
+   $\times$  Break Difference           &     (0.147)   &     (0.078)   \\[2mm]
+8 or more Breaks (Period 1) &       0.414***   &      -0.082   \\
+   $\times$  Break Difference           &     (0.146)   &     (0.080)   \\[2mm]
+Standardized&       0.767***&       0.721***\\
+Performance in Period 1          &     (0.095)   &     (0.077)   \\[2mm]
+Intercept   &       0.141  &       0.275* \\
+            &     (0.132)   &     (0.163)   \\[2mm]
+\hline\noalign{\smallskip}
+Observations&         176   &         172   \\
+$R^2$       &       0.915   &       0.677   \\
+\hline\hline\noalign{\medskip}
+\end{tabular}}
+\begin{minipage}{0.70\textwidth}
+\footnotesize
+{\it Note:} In order to create a more realistic work environment  in which agents face opportunity costs of working, we implemented a time-out button (see Section \ref{sec:groups}) which was displayed at the bottom of the screen during all working periods. Each time agents clicked the time-out button, the computer screen was locked for 20 seconds, prohibiting the entry of creative ideas or the movement of sliders, and 5 Taler were added to the agent's payoff.\\ 
+This table reports OLS coefficient estimates from our main model specification (Equation \ref{eq:reg},  with the number of breaks in period 1, the change in breaks between periods 1 and 2, as well as interactions between the two as additional controls. Standardized performance in period 2 is the dependent variable. Performance is measured as the number of correctly positioned sliders in the simple task and as the score in the unusal uses, creative task, respectively.\\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. Heteroscedasticity-robust standard errors including a degree of freedom correction are reported in parentheses. Significance levels are denoted as follows: * $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$. \end{minipage}
+\end{center}
+\label{tab:EQ_Breaks_Results}
+\end{table}
+%\end{landscape}
+
+

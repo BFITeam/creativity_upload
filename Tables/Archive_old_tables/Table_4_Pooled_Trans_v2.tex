@@ -1,0 +1,38 @@
+\begin{table}[H]
+\caption{Treatment Effects in Period 2}%
+\begin{center}%
+{\small\renewcommand{\arraystretch}{0.8}%
+{\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lccc}
+\hline\hline\noalign{\smallskip}
+                    &\multicolumn{1}{c}{I}&\multicolumn{1}{c}{II}&\multicolumn{1}{c}{III}\\
+\hline\noalign{\smallskip}
+Tournament Treatment&       0.795***&       0.736***&       0.751***\\
+                    &     (0.173)   &     (0.143)   &     (0.143)  \\[4mm]
+Tournament x Slider-Task&       0.166   &      -0.058   &      -0.060     \\
+                    &     (0.178)   &     (0.166)   &     (0.168)    \\[4mm]
+Gift Treatment      &      -0.019   &       0.026   &      -0.006   \\
+                    &     (0.143)   &     (0.099)   &     (0.103)    \\[4mm]
+Gift x Slider-Task  &       0.375** &       0.209*  &       0.206*   \\
+                    &     (0.170)   &     (0.109)   &     (0.112)    \\[4mm]
+Baseline            &               &       0.657***&       0.638***\\
+                    &               &     (0.076)   &     (0.076)      \\[4mm]
+Baseline x Slider-Task&               &       0.002   &       0.028    \\
+                    &               &     (0.094)   &     (0.094)     \\[4mm]
+Intercept           &      -0.000   &      -0.000   &       0.874    \\
+                    &     (0.093)   &     (0.062)   &     (0.595)    \\[2mm]
+\hline
+Controls           &      NO   &      NO   &       YES    \\
+\hline
+Observations        &         348   &         348   &         348     \\
+$R^2$               &       0.146   &       0.546   &       0.564      \\
+\hline\hline\noalign{\medskip}
+\end{tabular}}
+\begin{minipage}{0.8\textwidth}
+\footnotesize
+{\it Note:} This table reports the estimated OLS coefficients from Equation \ref{eq:reg}. The dependent variable is the standardized performance in Period 2 and refers to the number of sliders moved in the simple task and the creativity score in the creative task. The coefficient on the \textit{Tournament} (\textit{Gift}) treatment represents the impact of the \textit{Tournament} (\textit{Gift}) on the creative task. The interaction effect between the respective treatment and the slider task documents whether the response to the \textit{Tournament} (\textit{Gift}) differs between the creative and the simple task. The impact of the tournament (\textit{Gift}) on the simple task is equal to the sum of the coefficient on the treatment and its interaction effect.\\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. Additional control variables are age, age squared, sex, location, field of study as well as a set of time fixed  effects (semester period, semester break, exam period). Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$. 
+\end{minipage}}
+\end{center}
+\label{tab:EQ_Pooled_Results}
+\end{table}

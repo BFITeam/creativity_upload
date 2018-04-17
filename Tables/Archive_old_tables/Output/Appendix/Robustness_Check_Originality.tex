@@ -1,0 +1,33 @@
+\begin{landscape}
+\begin{table}\caption{Sensitivity Analyses}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{0.8}%
+{\setlength{\tabcolsep}{7pt}
+\begin{tabular}{l*{7}{c}}
+\toprule
+                    &\multicolumn{1}{c}{Score}&\multicolumn{1}{c}{Validity}&\multicolumn{1}{c}{Flexiblity}&\multicolumn{1}{c}{Originality 10\%}&\multicolumn{1}{c}{Originality 5\%}&\multicolumn{1}{c}{Originality 1\%} & \multicolumn{1}{c}{Invalid Uses}\\
+\midrule
+Gift                		&	0.026	&		      0.054         		&		      0.055         		&		      -0.101         		&		     -0.075         		&		       0.237			&		      -0.112         			\\
+                    		&	(0.121)	&		      (0.125)         		&		      (0.116)         		&		     (0.141)         		&		     (0.143)         		&		      (0.190)	&		     (0.181)         			\\\addlinespace
+Tournament             		&	0.736***	&		       0.789***		&		       0.589***		&		       0.683***		&		       0.672***		&		       0.747**	&		       0.294         			\\
+                    		&	(0.160)	&		      (0.168)         		&		      (0.146)         		&		      (0.190)         		&		      (0.193)         		&		      (0.194)		&		      (0.216)         			\\\addlinespace
+Baseline		&	0.657	&		       0.628***		&		       0.628***		&		       0.512***		&		       0.564***		&		       0.557**		&		       0.255***			\\
+Performance		&	(0.076)	&		      (0.099)         		&		      (0.092)         		&		      (0.083)         		&		      (0.090)         		&		      (0.117)		&		      (0.071)         			\\
+\midrule																
+Intercept 	&	  Yes 	&	  Yes 	&	  Yes 	&	  Yes 	&	  Yes 	&	  Yes	&	 Yes 		 \\\midrule
+R$^2$ 	&	0.473	&	0.433	&	0.5	&	0.309	&	0.311	&	0.257	&	0.128		\\
+Observations        	&	172	&	172	&	172	&	171	&	171	&	171	&	172		\\
+\bottomrule
+\end{tabular}}
+\begin{minipage}{0.75\linewidth}
+\footnotesize
+\vspace{5mm}
+{\it Note:} This table reports OLS estimates of Equation \ref{eq:reg}, where we regress standardized performance in Period 2 on baseline performance and treatment dummies. Column I reports results on invalid uses. Columns II to VI report the results on the different sub-dimensions of the creativity score. Column IV to VI report robustness for the calculation of the originality score 
+(given exactly point for each \textit{original} answer given by less than 10\%, 5\% or 1\% of agents).\\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$.
+\end{minipage}}
+\label{tab:Summary_Statistics}
+\end{center}
+\end{table}
+%}
+\end{landscape}

@@ -1,0 +1,56 @@
+\begin{table}[h]%
+\captionsetup{justification=centering}
+\setlength\tabcolsep{2pt}
+\caption{Treatment Effects on Output in Period 3}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{1}%
+\begin{tabular}{lcccc}
+\hline\noalign{\smallskip}
+ & \multicolumn{2}{c}{\bf Simple Task} & \multicolumn{2}{c}{\bf Creative Task} \\
+ & I & II & III & IV \\
+\hline\noalign{\smallskip}
+Performance Bonus   &       0.228   &               &       0.364***&               \\
+                    &     (0.154)   &               &     (0.126)   &               \\[2mm]
+Gift                &       0.282** &       0.292** &       0.006   &       0.005   \\
+                    &     (0.112)   &     (0.113)   &     (0.116)   &     (0.116)   \\[2mm]
+Discretionary Transfer&               &               &      -0.039   &      -0.036   \\
+                    &               &               &     (0.122)   &     (0.122)   \\
+Discretionary Transfer x Gift&               &               &       0.400***&       0.397***\\
+                    &               &               &     (0.120)   &     (0.120)   \\
+Performance Bonus Winner&               &       0.497***&               &       0.488***\\
+                    &               &     (0.188)   &               &     (0.159)   \\
+Performance Bonus Loser&               &      -0.019   &               &       0.243*  \\
+                    &               &     (0.162)   &               &     (0.141)   \\
+\noalign{\smallskip}\hline
+ Additional Controls  & YES & YES & YES & YES \\
+ Period 1 Output  & YES & YES & YES & YES \\
+ Constant & YES & YES & YES & YES \\
+\hline
+Observations        &         176   &         176   &         311   &         311   \\
+$R^2$               &       0.734   &       0.749   &       0.543   &       0.547   \\
+\hline\noalign{\medskip}
+\end{tabular}
+\begin{minipage}{\textwidth} \setlength{\parindent}{15pt}
+\footnotesize NOTE.--This table reports the estimated OLS coefficients in Period 3. 
+The analysis shown in this table follows the set-up laid out in Equation 1 with the exception that we estimate the equation separately for both tasks. 
+The even columns estimate the effect of receiving the performance bonus and not receiving it separately. 
+Output is measured as the number of correctly positioned sliders in the simple task, as the creativity score in the creative task (please refer to Section 3.2.2 for a description of the scoring procedure in the creative task), and as the amount transferred in the discretionary transfer treatments. 
+The treatment dummies \textit{Gift} and \textit{Performance Bonus} capture the effect of a performance-independent wage gift for all or of a performance-dependent performance bonus (rewarding the top two performers out of four agents) on standardized output. 
+The \textit{Discretionary Transfer} coefficient captures any difference between the \textit{Creative Task with Discretionary Transfer -- Control} group and the main \textit{Control} group. 
+The \textit{Discretionary Transfer x Gift} coefficient captures the effect of a performance-independent wage gift for all on the standardized amount transferred to the principal. 
+That is, the estimated effect of allowing discretionary transfers and offering a wage gift in the creative task equals the sum of the \textit{Discretionary Transfer x Gift} coefficient and the \textit{Discretionary Transfer} coefficient. 
+\textit{Performance Bonus Winner} and \textit{Performance Bonus Loser} capture the effect of receiving the performance bonus in Period 2 or not receiving the performance bonus in Period 2 on output in Period 3. 
+
+Each estimation includes all agents from the \textit{Control} group and agents from treatment groups for which the principal decided to implement the performance bonus or gift. Agents from treatment groups for which the principal did not implement a reward are not included in this analysis. 
+Additional control variables are age, age squared, sex, location, field of study, and a set of time fixed effects (semester period, semester break, exam period). 
+Heteroscedastic-robust standard errors are reported in parentheses. 
+
+*   $ p < 0.1  $
+
+**  $ p < 0.05 $
+
+*** $ p < 0.01 $
+\end{minipage}}
+\end{center}
+\label{tab:Period3}
+\end{table}

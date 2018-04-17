@@ -1,0 +1,857 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Creativity_Breakdown.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:12
+
+. drop if treatment == 4
+(124 observations deleted)
+
+. 
+. * Regressions for Table 6 * 
+. 
+. * gen rates
+. foreach var in original flex{
+  2.         foreach time in 1 2 3 {
+  3.                 gen `var'_rate`time' = p_`var'`time' / p_valid`time'
+  4.         }
+  5. }
+(307 missing values generated)
+(292 missing values generated)
+(301 missing values generated)
+(307 missing values generated)
+(292 missing values generated)
+(301 missing values generated)
+
+. 
+. eststo clear
+
+. 
+. //level regressions
+. eststo: reg zeffort2 turnier gift zeffort1                      $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =      13.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4996
+                                                Root MSE          =     .77878
+
+-------------------------------------------------------------------------------
+              |               Robust
+     zeffort2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |   .7526392    .162317     4.64   0.000     .4320637    1.073215
+         gift |  -.0591645   .1243324    -0.48   0.635    -.3047205    .1863914
+     zeffort1 |   .6138685   .0767658     8.00   0.000     .4622564    .7654807
+          age |    -.12941   .1770435    -0.73   0.466    -.4790703    .2202503
+         age2 |    .002014   .0033899     0.59   0.553    -.0046809     .008709
+          sex |   .0066934   .1300164     0.05   0.959    -.2500886    .2634753
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .1473433   .3378957     0.44   0.663    -.5199995    .8146861
+         wiwi |  -.3003797   .1825053    -1.65   0.102     -.660827    .0600676
+        recht |  -.2438851    .234682    -1.04   0.300    -.7073813     .219611
+         nawi |   .1800841   .1881297     0.96   0.340    -.1914714    .5516396
+         gewi |  -.1764106   .2005214    -0.88   0.380    -.5724395    .2196184
+     mannheim |   .1703569   .1524619     1.12   0.266    -.1307548    .4714685
+        _cons |   2.056677   2.312043     0.89   0.375      -2.5096    6.622953
+-------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: reg zp_valid2 turnier gift zp_valid1            $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =      12.13
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4743
+                                                Root MSE          =     .81031
+
+-------------------------------------------------------------------------------
+              |               Robust
+    zp_valid2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |   .8133325   .1706527     4.77   0.000      .476294    1.150371
+         gift |  -.0268134   .1314484    -0.20   0.839    -.2864235    .2327967
+    zp_valid1 |    .581019   .0784315     7.41   0.000      .426117     .735921
+          age |  -.1024863   .1699581    -0.60   0.547    -.4381528    .2331802
+         age2 |   .0013263   .0032198     0.41   0.681    -.0050327    .0076854
+          sex |  -.0071809   .1362494    -0.05   0.958    -.2762729    .2619111
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .0182698   .3035707     0.06   0.952    -.5812812    .6178208
+         wiwi |  -.4670124   .1951786    -2.39   0.018    -.8524894   -.0815354
+        recht |  -.4585918   .2711492    -1.69   0.093    -.9941104    .0769268
+         nawi |   .1322103   .2068046     0.64   0.524    -.2762281    .5406486
+         gewi |  -.2764926   .2064392    -1.34   0.182    -.6842092     .131224
+     mannheim |   .2113002   .1568383     1.35   0.180     -.098455    .5210553
+        _cons |   1.941256   2.234766     0.87   0.386    -2.472397     6.35491
+-------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: reg zp_flex2 turnier gift zp_flex1                      $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =      17.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5258
+                                                Root MSE          =     .70085
+
+-------------------------------------------------------------------------------
+              |               Robust
+     zp_flex2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |   .6067671   .1510543     4.02   0.000     .3084354    .9050989
+         gift |  -.0411234   .1196702    -0.34   0.732    -.2774716    .1952248
+     zp_flex1 |   .5981932   .0707123     8.46   0.000     .4585366    .7378498
+          age |  -.0649573   .1421405    -0.46   0.648    -.3456843    .2157696
+         age2 |   .0009947   .0026775     0.37   0.711    -.0042933    .0062828
+          sex |   .0929375   .1138352     0.82   0.415    -.1318866    .3177616
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .4096923   .3325842     1.23   0.220    -.2471603    1.066545
+         wiwi |  -.1735933    .163507    -1.06   0.290     -.496519    .1493324
+        recht |  -.0843088   .2095092    -0.40   0.688    -.4980886     .329471
+         nawi |   .1987783   .1542632     1.29   0.199     -.105891    .5034476
+         gewi |  -.1028086   .1779649    -0.58   0.564    -.4542887    .2486714
+     mannheim |   .1162078    .130586     0.89   0.375     -.141699    .3741146
+        _cons |   .9878724   1.887953     0.52   0.602    -2.740828    4.716573
+-------------------------------------------------------------------------------
+(est3 stored)
+
+. eststo: reg zp_original2 turnier gift zp_original1      $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =       7.26
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3891
+                                                Root MSE          =     .91441
+
+-------------------------------------------------------------------------------
+              |               Robust
+ zp_original2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |    .726097   .1797586     4.04   0.000     .3710744     1.08112
+         gift |  -.1427247   .1501207    -0.95   0.343    -.4392126    .1537631
+ zp_original1 |   .5522585   .0874424     6.32   0.000     .3795601     .724957
+          age |  -.2478424   .2280295    -1.09   0.279    -.6981997     .202515
+         age2 |   .0042129   .0044714     0.94   0.348     -.004618    .0130439
+          sex |  -.0983397   .1537363    -0.64   0.523    -.4019683     .205289
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .0908233   .4144138     0.22   0.827    -.7276424    .9092889
+         wiwi |  -.2367162   .2105191    -1.12   0.263    -.6524906    .1790582
+        recht |   -.169107   .2995444    -0.56   0.573    -.7607061    .4224921
+         nawi |    .172937   .2435278     0.71   0.479    -.3080295    .6539034
+         gewi |   -.147784   .2525849    -0.59   0.559    -.6466383    .3510702
+     mannheim |   .1681748   .1867941     0.90   0.369    -.2007429    .5370925
+        _cons |    3.61039   2.916492     1.24   0.218    -2.149671    9.370452
+-------------------------------------------------------------------------------
+(est4 stored)
+
+. 
+. //rate regressions
+. eststo: reg flex_rate2 turnier gift flex_rate1                  $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        152
+                                                F(12, 139)        =       1.05
+                                                Prob > F          =     0.4094
+                                                R-squared         =     0.0684
+                                                Root MSE          =     .22016
+
+-------------------------------------------------------------------------------
+              |               Robust
+   flex_rate2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |    -.03548   .0453149    -0.78   0.435    -.1250757    .0541156
+         gift |   .0141818   .0477199     0.30   0.767    -.0801689    .1085325
+   flex_rate1 |   .0576151   .0625246     0.92   0.358    -.0660072    .1812375
+          age |   .0308518   .0425884     0.72   0.470    -.0533531    .1150566
+         age2 |  -.0004095   .0008275    -0.49   0.622    -.0020456    .0012267
+          sex |   .0030876   .0422081     0.07   0.942    -.0803654    .0865406
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .0811474   .0818701     0.99   0.323    -.0807245    .2430192
+         wiwi |   .1208976   .0773962     1.56   0.121    -.0321284    .2739235
+        recht |   .1766251   .1123282     1.57   0.118    -.0454678    .3987179
+         nawi |   .1034532   .0832854     1.24   0.216    -.0612168    .2681231
+         gewi |     .08002   .0700459     1.14   0.255    -.0584732    .2185133
+     mannheim |  -.0321435   .0417267    -0.77   0.442    -.1146447    .0503577
+        _cons |   .3745425   .5459939     0.69   0.494    -.7049846     1.45407
+-------------------------------------------------------------------------------
+(est5 stored)
+
+. eststo: reg original_rate2 turnier gift original_rate1  $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        152
+                                                F(12, 139)        =       1.84
+                                                Prob > F          =     0.0471
+                                                R-squared         =     0.1169
+                                                Root MSE          =     .30348
+
+--------------------------------------------------------------------------------
+               |               Robust
+original_rate2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+       turnier |   .1056809   .0624173     1.69   0.093    -.0177292     .229091
+          gift |  -.0826622   .0682943    -1.21   0.228    -.2176921    .0523678
+original_rate1 |   .0809668   .0892786     0.91   0.366    -.0955528    .2574864
+           age |  -.0499284   .1024693    -0.49   0.627    -.2525284    .1526716
+          age2 |   .0010113   .0021055     0.48   0.632    -.0031516    .0051742
+           sex |  -.1121328   .0550689    -2.04   0.044    -.2210138   -.0032518
+    ferienzeit |          0  (omitted)
+ pruefungszeit |   .1702926   .1214885     1.40   0.163    -.0699118    .4104969
+          wiwi |   .0309106   .0764454     0.40   0.687    -.1202356    .1820568
+         recht |   .0664424   .1123344     0.59   0.555    -.1556626    .2885475
+          nawi |  -.0432812   .0938142    -0.46   0.645    -.2287687    .1422062
+          gewi |   -.065246   .0967698    -0.67   0.501     -.256577    .1260851
+      mannheim |   -.051897   .0638152    -0.81   0.417     -.178071     .074277
+         _cons |    1.13666   1.242112     0.92   0.362    -1.319216    3.592535
+--------------------------------------------------------------------------------
+(est6 stored)
+
+. 
+. 
+. tabstat zp_valid2 if creative == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: zp_valid2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control | -4.06e-09 -.0358789        56
+   creative_gift |  .0119596 -.0358789        56
+creative_tournam |  .8236201  .6338606        60
+-----------------+------------------------------
+           Total |  .2912032  .1873676       172
+------------------------------------------------
+
+. tabstat zp_flex2 if creative == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: zp_flex2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control | -9.05e-09   .199541        56
+   creative_gift |  .0249426 -.0332568        56
+creative_tournam |  .7194561  .6651366        60
+-----------------+------------------------------
+           Total |  .2590939   .199541       172
+------------------------------------------------
+
+. tabstat zp_original2 if creative == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: zp_original2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control |  1.06e-09 -.1522865        56
+   creative_gift | -.1015243  -.410712        56
+creative_tournam |  .7306674  .6229901        60
+-----------------+------------------------------
+           Total |  .2218296  .1061391       172
+------------------------------------------------
+
+. tabstat flex_rate2 if creative == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: flex_rate2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control |  1.026867         1        47
+   creative_gift |  1.039433         1        55
+creative_tournam |  .9985279         1        57
+-----------------+------------------------------
+           Total |  1.021054         1       159
+------------------------------------------------
+
+. tabstat original_rate2 if creative == 1, by(treatment_id2) stat(mean median n)
+
+Summary for variables: original_rate2
+     by categories of: treatment_id2 (eindeutige Identifikation des Treatments als Character)
+
+   treatment_id2 |      mean       p50         N
+-----------------+------------------------------
+creative_control |  .5092102  .4444444        47
+   creative_gift |  .4292516        .5        55
+creative_tournam |  .6198692        .6        57
+-----------------+------------------------------
+           Total |  .5212218        .5       159
+------------------------------------------------
+
+. 
+. 
+. //top answers
+. preserve
+
+. insheet using "$mypath\raw_data\r_data\best_answers.txt", clear tab
+(7 vars, 1,345 obs)
+
+. keep id antonia*
+
+. *tostring id, replace
+. tempfile topanswers
+
+. save `topanswers'
+file C:\Users\gtierney\AppData\Local\Temp\ST_486c_000002.tmp saved
+
+. restore
+
+. destring id, replace
+id: all characters numeric; replaced as double
+
+. count
+  636
+
+. merge 1:m id using `topanswers', keep(match master) 
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           177
+        from master                       177  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                               513  (_merge==3)
+    -----------------------------------------
+
+. count
+  690
+
+. eststo: reg antoniatop30r2 turnier gift antoniatop30r1 $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =       2.54
+                                                Prob > F          =     0.0043
+                                                R-squared         =     0.1789
+                                                Root MSE          =     .49631
+
+--------------------------------------------------------------------------------
+               |               Robust
+antoniatop30r2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+       turnier |   .1993718   .0870777     2.29   0.023     .0273937    .3713499
+          gift |    .010904   .0870015     0.13   0.900    -.1609236    .1827316
+antoniatop30r1 |   .1972732   .0606402     3.25   0.001      .077509    .3170373
+           age |  -.1163911   .0978526    -1.19   0.236    -.3096496    .0768673
+          age2 |   .0019848   .0018468     1.07   0.284    -.0016627    .0056322
+           sex |  -.0499492   .0796826    -0.63   0.532    -.2073219    .1074236
+    ferienzeit |          0  (omitted)
+ pruefungszeit |   .0969944   .2923081     0.33   0.740    -.4803129    .6743017
+          wiwi |  -.0469331   .1176921    -0.40   0.691    -.2793746    .1855084
+         recht |  -.2856273    .136452    -2.09   0.038    -.5551195   -.0161352
+          nawi |   .0574508   .1251247     0.46   0.647      -.18967    .3045715
+          gewi |  -.0104262   .1240915    -0.08   0.933    -.2555066    .2346541
+      mannheim |   .2524938   .1092567     2.31   0.022     .0367124    .4682753
+         _cons |   1.639291   1.278005     1.28   0.201    -.8847647    4.163346
+--------------------------------------------------------------------------------
+(est7 stored)
+
+. 
+. //invalid uses
+. gen p_invalid1 = answers1 - p_valid1    
+(287 missing values generated)
+
+. gen p_invalid2 = answers2 - p_valid2
+(278 missing values generated)
+
+. eststo: reg p_invalid2 turnier gift p_invalid1 $controls if creative==1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =       5.05
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1900
+                                                Root MSE          =     1.0424
+
+-------------------------------------------------------------------------------
+              |               Robust
+   p_invalid2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+      turnier |   .2859684   .2083869     1.37   0.172     -.125595    .6975317
+         gift |  -.1778917    .186941    -0.95   0.343    -.5470994    .1913159
+   p_invalid1 |   .2618715   .0645748     4.06   0.000     .1343365    .3894065
+          age |   .0163583   .1902805     0.09   0.932    -.3594449    .3921615
+         age2 |   9.55e-06   .0035475     0.00   0.998    -.0069968    .0070159
+          sex |   .2999133   .1700148     1.76   0.080    -.0358654     .635692
+   ferienzeit |          0  (omitted)
+pruefungszeit |     .89148   .5883451     1.52   0.132    -.2704994    2.053459
+         wiwi |   .1407004   .3257372     0.43   0.666    -.5026293      .78403
+        recht |   .7454342   .5827501     1.28   0.203    -.4054949    1.896363
+         nawi |   .1762725   .2790476     0.63   0.528    -.3748456    .7273905
+         gewi |   .4158874   .2938224     1.42   0.159    -.1644108    .9961856
+     mannheim |  -.3102137   .1835463    -1.69   0.093     -.672717    .0522896
+        _cons |  -.1234599   2.585583    -0.05   0.962    -5.229976    4.983056
+-------------------------------------------------------------------------------
+(est8 stored)
+
+. 
+. //check # of "best" ideas and proportion of "best" ideas
+. gen total_top = antoniatop30r2 + antoniatop30r1
+(177 missing values generated)
+
+. gen total_p12 = p_valid2 + p_valid1
+(333 missing values generated)
+
+. 
+. //tabstat total_top total_p12 if creative == 1, stat(sum)
+. 
+. 
+. 
+. local intercept_row Constant 
+
+. local controls_row Additional Controls
+
+. local tab_cols l
+
+. 
+. local num_regs 8
+
+. forvalues i = 1/`num_regs'{
+  2.         local tab_cols `tab_cols'c
+  3.         local intercept_row `intercept_row' & YES
+  4.         local controls_row `controls_row' & YES
+  5. }
+
+. 
+. #delimit; // #delimit: command resets the character that marks the end of a command, here ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Table4_Creativity_Breakdown.tex", 
+>         label      // label (make use of variable labels)
+>         nomtitles
+>         rename(zeffort1 "Period1" zp_valid1 "Period1" zp_flex1 "Period1" zp_original1 "Period1" flex_rate1 "Period1" original_rate1 "Period1" antoniatop30r1 "Period1" p_invali
+> d1 "Period1")
+>         varlabels("Period1" "Period 1 Output" _cons Constant turnier "Performance Bonus")
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>         drop($controls)
+>         nonumbers
+>         substitute(\' ')
+>         fragment
+>         replace
+>         prehead("\begin{landscape}"
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Dimensions of Creativity: Treatment Effects on Output in Period 2}"
+>         "\label{tab:CreativityBreakdown}"
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{`tab_cols'}" 
+>         "\hline\noalign{\smallskip}"
+>         " & \multicolumn{`num_regs'}{c}{\textbf{Creative Task}} \\"
+>         " & \textit{Score} & \textit{Validity} & \textit{Flexibility} & \textit{Originality} & \textit{Flexibility} & \textit{Originality} & \textit{Best} & \textit{Invalid} \
+> \"
+>         " &                                     &                                       &                                               &                                      
+>  &       \textit{Rate}           &       \textit{Rate}           &       \textit{Answers}                &       \textit{Answers} \\" 
+>         " & I & II & III & IV & V & VI & VII & VIII \\")
+>         prefoot(
+>         "\midrule"
+>         " `controls_row' \\"
+>         "\midrule" ) 
+>         postfoot("\hline\noalign{\medskip}"
+>         "\end{tabular}}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the estimated OLS coefficients from Equation \ref{eq:reg} using only observations from the creative task. "
+>         "$treatment_coef_description "
+>         "The dependent variable in Column I is the standardized creativity score in Period 2. "
+>         "Please refer to Section $creative_score_section for a description of the scoring procedure. "
+>         "In Columns II, III, and IV, the dependent variables are the three different standardized subdimensions of the creativity score (validity, flexibility, and originality
+> ). "
+>         "Columns V and VI display treatment effects on the unstandardized flexibility and originality rate. "
+>         "The flexibility (originality) rate equals flexibility (originality) points divided by the number of validity points. Subjects with zero valid answers are dropped from
+>  these two regressions. "
+>         "Column VII reports the results for a subjective assessment of idea quality (unstandardized). To create this variable, an evaluator blind to the treatments was instruc
+> ted to indicate for each idea whether they considered it to be a ``best$close_latex_quote or ``outstanding$close_latex_quote idea. "
+>         "Column VIII reports results for the number of invalid uses (unstandardized). "
+>         ""
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}"
+>         "\end{center}"
+>         "\end{table}"
+>         "\end{landscape}");
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Table4_Creativity_Breakdown.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Table4_Creativity_Breakdown.tex)
+
+. #delimit cr
+delimiter now cr
+. 
+. //make new originality scores with other cutoffs
+. gen original_o10_v5_1 = original_1_10 + original_1_5
+(429 missing values generated)
+
+. gen original_o10_v5_2 = original_2_10 + original_2_5
+(419 missing values generated)
+
+. 
+. gen original_o10_v1_1 = original_1_10 + original_1_1
+(429 missing values generated)
+
+. gen original_o10_v1_2 = original_2_10 + original_2_1
+(419 missing values generated)
+
+. 
+. gen original_o5_v1_1 = original_1_5 + original_1_1
+(429 missing values generated)
+
+. gen original_o5_v1_2 = original_2_5 + original_2_1
+(419 missing values generated)
+
+. 
+. //make new originality rates
+. foreach time in 1 2{
+  2.         foreach var in original_o10_v5 original_o10_v1 original_o5_v1 {
+  3.                 gen `var'_`time'_rate = `var'_`time'/p_valid`time'
+  4.         }
+  5. }
+(445 missing values generated)
+(445 missing values generated)
+(445 missing values generated)
+(432 missing values generated)
+(432 missing values generated)
+(432 missing values generated)
+
+. 
+. //standardize orginality variables
+. foreach time in 1 2{
+  2.         //raw originality counts
+.         foreach cutoff in 1 5 10{
+  3.                 sum original_`time'_`cutoff' if creative == 1 & control == 1
+  4.                 gen zoriginal_`time'_`cutoff' = (original_`time'_`cutoff' - r(mean))/r(sd)
+  5.         }
+  6.         //originality scores
+.         foreach o in 5 10{
+  7.                 foreach v in 1 5{
+  8.                         capture sum original_o`o'_v`v'_`time' if creative == 1 & control == 1
+  9.                         capture gen zoriginal_o`o'_v`v'_`time' = (original_o`o'_v`v'_`time' - r(mean))/r(sd)
+ 10.                 }
+ 11.         }
+ 12. }
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_1_1 |         56           1    1.221028          0          6
+(429 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_1_5 |         56    2.482143    2.471592          0          9
+(429 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_1~0 |         56    3.535714    3.127382          0         12
+(429 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_2_1 |         56    .5714286    .9507345          0          4
+(419 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_2_5 |         56    2.321429    2.601448          0         11
+(419 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+original_2~0 |         56       3.125    3.202627          0         12
+(419 missing values generated)
+
+. 
+. 
+. 
+. rename turnier tournament
+
+. 
+. reg original_2_10 tournament gift original_1_10 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        171
+                                                F(12, 158)        =       6.11
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3364
+                                                Root MSE          =     2.9872
+
+-------------------------------------------------------------------------------
+              |               Robust
+original_2_10 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   tournament |   2.199686   .6051782     3.63   0.000     1.004403    3.394968
+         gift |  -.4998521   .4739955    -1.05   0.293    -1.436037    .4363326
+original_1_10 |   .4829304   .0883681     5.46   0.000     .3083952    .6574655
+          age |  -.6963499   .7764708    -0.90   0.371    -2.229951    .8372513
+         age2 |   .0117598   .0154029     0.76   0.446    -.0186623    .0421819
+          sex |   -.336042    .513888    -0.65   0.514    -1.351018    .6789341
+   ferienzeit |          0  (omitted)
+pruefungszeit |  -.2999264   1.130027    -0.27   0.791    -2.531833     1.93198
+         wiwi |  -.7421674    .730099    -1.02   0.311     -2.18418    .6998454
+        recht |   -.718185   1.067294    -0.67   0.502    -2.826189    1.389819
+         nawi |   .6442692   .8318081     0.77   0.440    -.9986283    2.287167
+         gewi |  -.4465232   .8779187    -0.51   0.612    -2.180493    1.287447
+     mannheim |   .5349647   .5955597     0.90   0.370    -.6413205     1.71125
+        _cons |   11.65796    9.88622     1.18   0.240    -7.868235    31.18416
+-------------------------------------------------------------------------------
+
+. reg original_2_5 tournament gift original_1_5 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        171
+                                                F(12, 158)        =       6.30
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3399
+                                                Root MSE          =     2.4779
+
+-------------------------------------------------------------------------------
+              |               Robust
+ original_2_5 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   tournament |   1.729454   .4880435     3.54   0.001     .7655229    2.693385
+         gift |  -.4206008   .3912851    -1.07   0.284    -1.193425    .3522232
+ original_1_5 |   .5386487   .0909545     5.92   0.000     .3590052    .7182921
+          age |   -.674295   .6719226    -1.00   0.317    -2.001404    .6528139
+         age2 |   .0113731   .0133913     0.85   0.397     -.015076    .0378222
+          sex |  -.2083055   .4173586    -0.50   0.618    -1.032627    .6160162
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .3118433   .9388407     0.33   0.740    -1.542453     2.16614
+         wiwi |   -.511418   .6035073    -0.85   0.398      -1.7034    .6805644
+        recht |  -.5265119   .8342083    -0.63   0.529     -2.17415    1.121126
+         nawi |   .5785703   .7058865     0.82   0.414    -.8156205    1.972761
+         gewi |  -.1411702   .7227615    -0.20   0.845    -1.568691     1.28635
+     mannheim |   .4975187   .5208927     0.96   0.341    -.5312923     1.52633
+        _cons |   10.69204   8.497413     1.26   0.210    -6.091134    27.47521
+-------------------------------------------------------------------------------
+
+. 
+. //eststo: reg original_o10_v5_2 tournament gift original_o10_v5_1 $controls if creative == 1, robust
+. eststo: reg original_o10_v1_2 tournament gift original_o10_v1_1 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        171
+                                                F(12, 158)        =       7.01
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3778
+                                                Root MSE          =     3.6525
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+original_o10_v1_2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+       tournament |   2.922306   .7182585     4.07   0.000      1.50368    4.340933
+             gift |  -.3323045   .5915302    -0.56   0.575    -1.500631    .8360222
+original_o10_v1_1 |   .5125667   .0844488     6.07   0.000     .3457725    .6793609
+              age |  -1.164098   .9667749    -1.20   0.230    -3.073567    .7453719
+             age2 |   .0202797   .0191857     1.06   0.292    -.0176139    .0581733
+              sex |  -.2197805   .6182593    -0.36   0.723    -1.440899    1.001338
+       ferienzeit |          0  (omitted)
+    pruefungszeit |   .0067667   1.545077     0.00   0.997    -3.044903    3.058436
+             wiwi |  -1.085262   .8350012    -1.30   0.196    -2.734466    .5639425
+            recht |  -.9711071   1.174285    -0.83   0.409    -3.290429    1.348215
+             nawi |   .5330902   .9639262     0.55   0.581    -1.370753    2.436933
+             gewi |  -.7046708   1.007919    -0.70   0.485    -2.695403    1.286062
+         mannheim |   .7819723   .7350102     1.06   0.289    -.6697405    2.233685
+            _cons |   17.96076   12.23262     1.47   0.144    -6.199792     42.1213
+-----------------------------------------------------------------------------------
+(est9 stored)
+
+. eststo: reg original_o5_v1_2 tournament gift original_o5_v1_1 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        171
+                                                F(12, 158)        =       6.97
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3753
+                                                Root MSE          =     3.2152
+
+----------------------------------------------------------------------------------
+                 |               Robust
+original_o5_v1_2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+      tournament |   2.462916   .6185921     3.98   0.000     1.241139    3.684692
+            gift |  -.2487877   .5186873    -0.48   0.632    -1.273243    .7756675
+original_o5_v1_1 |   .5450178   .0864603     6.30   0.000     .3742508    .7157849
+             age |   -1.14529   .8686038    -1.32   0.189    -2.860862    .5702825
+            age2 |   .0199148   .0172922     1.15   0.251    -.0142387    .0540684
+             sex |   -.102886    .533894    -0.19   0.847    -1.157376    .9516037
+      ferienzeit |          0  (omitted)
+   pruefungszeit |   .6917207   1.359065     0.51   0.611    -1.992557    3.375999
+            wiwi |  -.8725737   .7277926    -1.20   0.232    -2.310031    .5648837
+           recht |  -.7849715   1.002863    -0.78   0.435    -2.765719    1.195776
+            nawi |    .463397   .8576327     0.54   0.590    -1.230507    2.157301
+            gewi |  -.4208441   .8755308    -0.48   0.631    -2.150098     1.30841
+        mannheim |   .7498596   .6813991     1.10   0.273    -.5959663    2.095685
+           _cons |   17.13464   10.92407     1.57   0.119    -4.441401    38.71069
+----------------------------------------------------------------------------------
+(est10 stored)
+
+. eststo: reg original_2_1 tournament gift original_1_1 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        171
+                                                F(12, 158)        =       4.37
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3250
+                                                Root MSE          =     .97525
+
+-------------------------------------------------------------------------------
+              |               Robust
+ original_2_1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   tournament |   .7078068    .178163     3.97   0.000     .3559186    1.059695
+         gift |   .0758762   .1677634     0.45   0.652    -.2554721    .4072244
+ original_1_1 |   .3873394   .0763437     5.07   0.000     .2365536    .5381251
+          age |  -.5226702   .2522555    -2.07   0.040    -1.020898   -.0244422
+         age2 |   .0093848   .0049586     1.89   0.060    -.0004088    .0191785
+          sex |   .0493121   .1614118     0.31   0.760    -.2694911    .3681153
+   ferienzeit |          0  (omitted)
+pruefungszeit |   .4654175   .5713373     0.81   0.417    -.6630263    1.593861
+         wiwi |  -.4364848   .2156727    -2.02   0.045    -.8624583   -.0105114
+        recht |  -.3590852   .2750123    -1.31   0.194    -.9022598    .1840895
+         nawi |  -.1600029   .2201088    -0.73   0.468    -.5947381    .2747323
+         gewi |  -.3205066   .2335638    -1.37   0.172    -.7818165    .1408034
+     mannheim |   .2619695   .2017717     1.30   0.196    -.1365481    .6604872
+        _cons |   7.445857   3.182873     2.34   0.021      1.15939    13.73232
+-------------------------------------------------------------------------------
+(est11 stored)
+
+. 
+. reg invalid2 tournament gift invalid1 $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        172
+                                                F(12, 159)        =       5.05
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1900
+                                                Root MSE          =     1.0424
+
+-------------------------------------------------------------------------------
+              |               Robust
+     invalid2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   tournament |   .2859684   .2083869     1.37   0.172     -.125595    .6975317
+         gift |  -.1778917    .186941    -0.95   0.343    -.5470994    .1913159
+     invalid1 |   .2618715   .0645748     4.06   0.000     .1343365    .3894065
+          age |   .0163583   .1902805     0.09   0.932    -.3594449    .3921615
+         age2 |   9.55e-06   .0035475     0.00   0.998    -.0069968    .0070159
+          sex |   .2999133   .1700148     1.76   0.080    -.0358654     .635692
+   ferienzeit |          0  (omitted)
+pruefungszeit |     .89148   .5883451     1.52   0.132    -.2704994    2.053459
+         wiwi |   .1407004   .3257372     0.43   0.666    -.5026293      .78403
+        recht |   .7454342   .5827501     1.28   0.203    -.4054949    1.896363
+         nawi |   .1762725   .2790476     0.63   0.528    -.3748456    .7273905
+         gewi |   .4158874   .2938224     1.42   0.159    -.1644108    .9961856
+     mannheim |  -.3102137   .1835463    -1.69   0.093     -.672717    .0522896
+        _cons |  -.1234599   2.585583    -0.05   0.962    -5.229976    4.983056
+-------------------------------------------------------------------------------
+
+. 
+. eststo: reg original_o10_v5_2_rate tournament gift original_o10_v5_1_rate $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        152
+                                                F(12, 139)        =       1.21
+                                                Prob > F          =     0.2830
+                                                R-squared         =     0.0850
+                                                Root MSE          =     .45635
+
+----------------------------------------------------------------------------------------
+                       |               Robust
+original_o10_v5_2_rate |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------+----------------------------------------------------------------
+            tournament |   .1682947   .0927719     1.81   0.072    -.0151319    .3517213
+                  gift |  -.0807256   .0983102    -0.82   0.413    -.2751024    .1136512
+original_o10_v5_1_rate |    .064785    .101426     0.64   0.524    -.1357523    .2653222
+                   age |  -.0325938   .1750531    -0.19   0.853    -.3787049    .3135174
+                  age2 |   .0006608   .0036274     0.18   0.856    -.0065112    .0078329
+                   sex |  -.1395913   .0816521    -1.71   0.090     -.301032    .0218494
+            ferienzeit |          0  (omitted)
+         pruefungszeit |   .2334575   .1458015     1.60   0.112    -.0548179    .5217329
+                  wiwi |   .0375598   .1170852     0.32   0.749    -.1939383     .269058
+                 recht |   .0532171   .1797512     0.30   0.768    -.3021829    .4086172
+                  nawi |  -.0473932   .1462966    -0.32   0.746    -.3366476    .2418612
+                  gewi |  -.0695596   .1482838    -0.47   0.640     -.362743    .2236238
+              mannheim |  -.0425263   .0976369    -0.44   0.664    -.2355719    .1505192
+                 _cons |   1.174227   2.110523     0.56   0.579    -2.998652    5.347105
+----------------------------------------------------------------------------------------
+(est12 stored)
+
+. eststo: reg original_o10_v1_2_rate tournament gift original_o10_v1_1_rate $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        152
+                                                F(12, 139)        =       1.72
+                                                Prob > F          =     0.0687
+                                                R-squared         =     0.1048
+                                                Root MSE          =     .30816
+
+----------------------------------------------------------------------------------------
+                       |               Robust
+original_o10_v1_2_rate |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------+----------------------------------------------------------------
+            tournament |   .1251885   .0635333     1.97   0.051    -.0004281     .250805
+                  gift |  -.0610277   .0689748    -0.88   0.378    -.1974033    .0753478
+original_o10_v1_1_rate |   .0627509   .0926263     0.68   0.499    -.1203876    .2458895
+                   age |  -.0460571   .1090152    -0.42   0.673    -.2615995    .1694853
+                  age2 |   .0009498   .0022498     0.42   0.674    -.0034984     .005398
+                   sex |   -.089105   .0556689    -1.60   0.112    -.1991724    .0209623
+            ferienzeit |          0  (omitted)
+         pruefungszeit |   .1948076   .1168838     1.67   0.098    -.0362925    .4259077
+                  wiwi |   .0043439   .0736506     0.06   0.953    -.1412764    .1499642
+                 recht |   .0269488   .1093354     0.25   0.806    -.1892268    .2431243
+                  nawi |  -.0549253    .092373    -0.59   0.553    -.2375632    .1277126
+                  gewi |  -.0928487   .0960596    -0.97   0.335    -.2827757    .0970782
+              mannheim |  -.0373243   .0644567    -0.58   0.563    -.1647668    .0901181
+                 _cons |   1.102509   1.314721     0.84   0.403    -1.496929    3.701946
+----------------------------------------------------------------------------------------
+(est13 stored)
+
+. eststo: reg original_o5_v1_2_rate tournament gift original_o5_v1_1_rate $controls if creative == 1, robust
+note: ferienzeit omitted because of collinearity
+
+Linear regression                               Number of obs     =        152
+                                                F(12, 139)        =       1.87
+                                                Prob > F          =     0.0425
+                                                R-squared         =     0.1110
+                                                Root MSE          =     .30042
+
+---------------------------------------------------------------------------------------
+                      |               Robust
+original_o5_v1_2_rate |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------------+----------------------------------------------------------------
+           tournament |   .1237716   .0589957     2.10   0.038     .0071267    .2404166
+                 gift |  -.0416552   .0660355    -0.63   0.529    -.1722191    .0889086
+original_o5_v1_1_rate |   .1145712    .097961     1.17   0.244    -.0791152    .3082576
+                  age |  -.0820913   .0986411    -0.83   0.407    -.2771222    .1129396
+                 age2 |   .0016441   .0020153     0.82   0.416    -.0023405    .0056288
+                  sex |  -.0875386   .0542063    -1.61   0.109    -.1947141    .0196368
+           ferienzeit |          0  (omitted)
+        pruefungszeit |   .1728154    .110344     1.57   0.120    -.0453543    .3909851
+                 wiwi |   .0013941   .0788426     0.02   0.986    -.1544917    .1572799
+                recht |  -.0123652   .1047507    -0.12   0.906     -.219476    .1947455
+                 nawi |  -.0494731   .0925307    -0.53   0.594    -.2324228    .1334766
+                 gewi |  -.0416508   .0907772    -0.46   0.647    -.2211335    .1378318
+             mannheim |   .0000131   .0634192     0.00   1.000    -.1253778    .1254041
+                _cons |   1.400648   1.205477     1.16   0.247    -.9827946     3.78409
+---------------------------------------------------------------------------------------
+(est14 stored)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\Table_Creativity_Breakdown.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:13
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

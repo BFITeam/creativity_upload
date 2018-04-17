@@ -1,0 +1,56 @@
+\begin{table}[h]%
+\captionsetup{justification=centering}
+\setlength\tabcolsep{2pt}
+\begin{center}%
+\caption{Treatment Effects on Period 2 Output in both the Creative and the Simple Task \\ by Above and Below Average Period 1 Output}
+\label{tab:BaselineReg}
+{\small\renewcommand{\arraystretch}{1}%
+\begin{tabular}{lcc}
+\hline\noalign{\smallskip}
+ & \multicolumn{2}{c}{\bf Standardized Output in Period 2} \\
+\cmidrule{2-3} 
+ & \bf Period 1 Output & \bf Period 1 Output \\
+ & \bf Below Average & \bf Above Average \\
+\hline\noalign{\smallskip}
+Performance Bonus   &       0.853***&       0.514** \\
+                    &     (0.224)   &     (0.204)   \\[2mm]
+Performance Bonus x Simple Task&       0.337   &      -0.032   \\
+                    &     (0.323)   &     (0.213)   \\[2mm]
+Gift                &       0.030   &      -0.184   \\
+                    &     (0.151)   &     (0.174)   \\[2mm]
+Gift x Simple Task  &       0.216   &       0.482** \\
+                    &     (0.231)   &     (0.194)   \\[2mm]
+Period 1 Output     &       0.632***&       0.778***\\
+                    &     (0.164)   &     (0.155)   \\[2mm]
+Period 1 Output x Simple Task&       0.162   &      -0.081   \\
+                    &     (0.183)   &     (0.163)   \\[2mm]
+Constant            &       0.077   &       2.847***\\
+                    &     (0.979)   &     (1.047)   \\[2mm]
+\hline
+\noalign{\smallskip}
+Additional Controls & YES & YES  \\
+\hline
+\noalign{\smallskip}
+Observations        &         162   &         186   \\
+$R^2$               &       0.365   &       0.461   \\
+\hline\noalign{\medskip}
+\end{tabular}}
+\begin{minipage}{\textwidth} \setlength{\parindent}{15pt}
+\footnotesize NOTE.--This table reports the estimated OLS coefficients from Equation \ref{eq:reg} split by Period 1 output. 
+The first column reports treatment effects on the Period 2 output of agents whose output was below average in Period 1 as compared to the \textit{Control} group; the second column reports treatment effects on the Period 2 output of agents whose output was above average in Period 1 as compared to the \textit{Control} group. 
+The dependent variable is standardized output in Period 2. Output refers to the number of correctly positioned sliders in the simple task and to the creativity score in the creative task (please refer to Section 3.2.2 for a description of the scoring procedure in the creative task). 
+The treatment dummies \textit{Gift} and \textit{Performance Bonus} capture the effect of a performance-independent wage gift for all or of a performance-dependent performance bonus (rewarding the top two performers out of four agents) on standardized output in the creative task. 
+The interaction effects measure the difference in treatment effects between the creative and the simple task. The treatment effects on the simple task equal the sum of the main treatment effect (\textit{Gift} or \textit{Performance Bonus}) and its associated interaction effect (\textit{Gift x Simple Task} and \textit{Performance Bonus x Simple Task}). 
+
+Each estimation includes all agents from the \textit{Control} group and agents from treatment groups for which the principal decided to implement the performance bonus or gift. Agents from treatment groups for which the principal did not implement a reward are not included in this analysis. 
+Additional control variables are age, age squared, sex, location, field of study, and a set of time fixed effects (semester period, semester break, exam period). 
+Heteroscedastic-robust standard errors are reported in parentheses. 
+
+*   $ p < 0.1  $
+
+**  $ p < 0.05 $
+
+*** $ p < 0.01 $
+\end{minipage}
+\end{center}
+\end{table}

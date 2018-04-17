@@ -1,0 +1,81 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  D:\Dropbox\Work\Projekte\Aktiv\WOEK\Do-Files\Stata\Tables\Table 4\Table4.log
+  log type:  text
+ opened on:   2 Dec 2015, 17:47:07
+
+. 
+. 
+. 
+. * Nummer 1
+. 
+. eststo clear                                                                                                                                   
+>                                                                          // eststo clear drops all estimation sets stored by eststo
+
+. eststo: quietly reg ztransfer2 gift turnier giftXslid turnXslid if feedback==0 & (slider==1 | creative==1), robust
+(est1 stored)
+
+. eststo: quietly reg ztransfer2 gift turnier giftXslid turnXslid ztransfer1 ztransfer1Xslid if feedback==0 & (slider==1 | creative==1), robust
+(est2 stored)
+
+. eststo: quietly reg ztransfer2 gift turnier feedback giftXslid turnXslid feedXslid ztransfer1 ztransfer1Xslid age age2 sex ferienzeit pruefungs
+> zeit wiwi recht nawi gewi mannheim if (slider==1 | creative==1), robust
+(est3 stored)
+
+. eststo: quietly reg ztransfer2 gift turnier feedback creative_trans giftXtransfer giftXslid turnXslid feedXslid ztransfer1 ztransfer1Xslid age 
+> age2 sex ferienzeit pruefungszeit wiwi recht nawi gewi mannheim if (slider==1 | creative==1 | creative_trans==1), robust
+(est4 stored)
+
+. 
+. 
+. 
+. #delimit;                                                                                                                                      
+>                                  // #delimit: command resets the character that marks the end of a command, here ;
+delimiter now ;
+. esttab using "$mypath\Tables\Table 4\Table4.tex",                                                                                              
+>                  // esttab produces a pretty-looking publication-style regression table from stored estimates without much typing (alternative 
+> zu estout)
+>         mtitles ("I" "II" "III" "IV")                                                                                                          
+>  // Options: mtitles (model titles to appear in table header)
+>         label      // label (make use of variable labels)
+>         varlabel (_cons "Intercept" ztransfer1 "Baseline" ztransfer2 "Std. Transfer in Round 2" zeffort2 "Std. Perf. in Round 2" zeffort1 "Base
+> line" gift "Gift Treatment" turnier "Tournament Treatment" feedback "Feedback Treatment" creative_trans "Creative Transfer Treatment" slider_fa
+> ir "Slider Fairwage Treatment" zeffort1Xslid "Baseline x Slider-Task" giftXslid "Gift x Slider-Task" turnXslid "Tournament x Slider-Task" feedX
+> slid "Feedback x Slider-Task" giftXtransfer "Creative Transfer x Gift" ztransfer1Xslid "Baseline x Slider-Task"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2m
+> m]" zeffort1Xslid "[2mm]" ztransfer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                      
+>          
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))                                                  // stats (specify stati
+> stics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop (age age2 sex ferienzeit pruefungszeit wiwi recht nawi gewi mannheim)
+>         
+>         
+>         nonumbers 
+>         prehead("\documentclass{article}"
+> "\begin{document}" "\begin{table}[H]%" 
+>         "\begin{center}%" "{\small\renewcommand{\arraystretch}{0.9}%" "\begin{tabular}{llllll}" 
+>         "\hline\hline\noalign{\smallskip}") posthead("\hline\noalign{\smallskip}") 
+>         postfoot("\hline\noalign{\medskip}" "\end{tabular}}" 
+>         "\end{center}" "\end{table}" "\end{document}") style(tex) 
+>         replace;
+(output written to D:\Dropbox\Work\Projekte\Aktiv\WOEK\Do-Files\Stata\Tables\Table 4\Table4.tex)
+
+.                         #delimit cr                                                                                                            
+>                                                          // #delimit cr: restore the carriage return delimiter inside a file
+> 
+delimiter now cr
+.                                                                                                                                                
+>                  // #delimit cr: restore the carriage return delimiter inside a file
+.                                                                                                                                                
+>  
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  D:\Dropbox\Work\Projekte\Aktiv\WOEK\Do-Files\Stata\Tables\Table 4\Table4.log
+  log type:  text
+ closed on:   2 Dec 2015, 17:47:07
+-------------------------------------------------------------------------------------------------------------------------------------------------

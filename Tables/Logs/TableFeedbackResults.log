@@ -1,0 +1,425 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TableFeedbackResults.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:14
+
+. 
+. use "$mypath\Overview_Aufbereitet.dta", clear
+
+. 
+. capture program drop calculate_p_value
+
+. program define calculate_p_value, rclass
+  1.         args beta std_error degrees_of_freedom 
+  2. 
+.         local p_value =  2*ttail(`degrees_of_freedom',abs(`beta'/`std_error'))
+  3.         if `p_value' >.1                                                local stars = "none"    
+  4.         if `p_value' >.05 & `p_value' <=.1      local stars = "*"       
+  5.         if `p_value' >.01 & `p_value' <=.05     local stars = "**"
+  6.         if `p_value' <=.01                                      local stars = "***"
+  7. 
+.         return local p_value    `p_value'
+  8.         return local stars              `stars'
+  9. end
+
+. 
+. eststo clear
+
+. //Period 2
+. gen feedXcreative = feedback * creative
+
+. eststo: reg ztransfer2 feedXslid feedXcreative gift turnier creative_trans giftXtransfer giftXslid turnXslid ztransfer1 ztransfer1Xslid $controls if (slider==1 | creative==1 |
+>  creative_trans==1), robust
+
+Linear regression                               Number of obs     =        611
+                                                F(20, 590)        =      49.35
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5535
+                                                Root MSE          =     .67719
+
+---------------------------------------------------------------------------------
+                |               Robust
+     ztransfer2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+      feedXslid |   .1842475   .1081548     1.70   0.089    -.0281677    .3966628
+  feedXcreative |   .1823562   .1023761     1.78   0.075    -.0187098    .3834223
+           gift |   .0190041   .0998984     0.19   0.849    -.1771957    .2152038
+        turnier |   .7312589   .1419284     5.15   0.000     .4525125    1.010005
+ creative_trans |   .0872484   .1046734     0.83   0.405    -.1183295    .2928263
+  giftXtransfer |   .2493937   .1152626     2.16   0.031     .0230188    .4757686
+      giftXslid |   .1781111   .1073353     1.66   0.098    -.0326947     .388917
+      turnXslid |  -.0641073    .167065    -0.38   0.701    -.3922218    .2640073
+     ztransfer1 |   .6556259   .0457766    14.32   0.000      .565721    .7455307
+ztransfer1Xslid |   .0708524   .0663675     1.07   0.286    -.0594929    .2011976
+            age |  -.0085664   .0270978    -0.32   0.752    -.0617863    .0446535
+           age2 |   .0000659    .000379     0.17   0.862    -.0006784    .0008101
+            sex |   .0545863   .0595968     0.92   0.360    -.0624614    .1716339
+     ferienzeit |  -.0606525   .0787506    -0.77   0.441    -.2153181    .0940131
+  pruefungszeit |  -.0902643    .132041    -0.68   0.494    -.3495919    .1690632
+           wiwi |  -.0658575   .0718098    -0.92   0.359    -.2068914    .0751765
+          recht |  -.2017457   .1157674    -1.74   0.082    -.4291122    .0256207
+           nawi |   .0315808   .0909409     0.35   0.729    -.1470265    .2101882
+           gewi |  -.0038915   .0918033    -0.04   0.966    -.1841926    .1764096
+       mannheim |   .0335059   .0615083     0.54   0.586     -.087296    .1543078
+          _cons |   .1872499    .451352     0.41   0.678    -.6992023    1.073702
+---------------------------------------------------------------------------------
+(est1 stored)
+
+. 
+. local p2_slid_beta      = _b[feedXslid]
+
+. local p2_cr_beta        = _b[feedXcreative]
+
+. 
+. local p2_slid_se        = _se[feedXslid]
+
+. local p2_cr_se          = _se[feedXcreative]
+
+. 
+. calculate_p_value `p2_slid_beta' `p2_slid_se' e(df_r)
+
+. local p2_slid_stars `r(stars)'
+
+. 
+. calculate_p_value `p2_cr_beta' `p2_cr_se' e(df_r)
+
+. local p2_cr_stars `r(stars)'
+
+. 
+. //Period 3
+. eststo: reg ztransfer3 feedback gift turnier ztransfer1 $controls if slider == 1, robust
+
+Linear regression                               Number of obs     =        232
+                                                F(14, 217)        =      65.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7120
+                                                Root MSE          =     .64142
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+     feedback |   .1177867   .1322658     0.89   0.374    -.1429034    .3784768
+         gift |   .2589442   .1096379     2.36   0.019     .0428528    .4750357
+      turnier |   .2234066   .1525045     1.46   0.144     -.077173    .5239862
+   ztransfer1 |   .9402372   .0412601    22.79   0.000     .8589153    1.021559
+          age |  -.0369022   .0380462    -0.97   0.333    -.1118896    .0380852
+         age2 |   .0005811   .0004895     1.19   0.236    -.0003836    .0015458
+          sex |  -.0542625   .0865278    -0.63   0.531     -.224805    .1162799
+   ferienzeit |   -.070988    .135082    -0.53   0.600    -.3372287    .1952527
+pruefungszeit |   .0508215   .1925591     0.26   0.792    -.3287041    .4303471
+         wiwi |  -.1160545   .1116943    -1.04   0.300     -.336199      .10409
+        recht |  -.0775817   .1416925    -0.55   0.585    -.3568513     .201688
+         nawi |  -.0063911   .1293019    -0.05   0.961    -.2612394    .2484572
+         gewi |  -.0963573   .1306013    -0.74   0.461    -.3537668    .1610521
+     mannheim |  -.0939349   .1047843    -0.90   0.371    -.3004601    .1125904
+        _cons |   .6879416   .6492893     1.06   0.291    -.5917793    1.967662
+-------------------------------------------------------------------------------
+(est2 stored)
+
+. local p3_slid_beta      = _b[feedback]
+
+. local p3_slid_se        = _se[feedback]
+
+. calculate_p_value `p3_slid_beta' `p3_slid_se' e(df_r)
+
+. local p3_slid_stars `r(stars)'
+
+. 
+. eststo: reg ztransfer3 feedback gift turnier creative_trans gift_transfer ztransfer1 $controls if creative == 1 | creative_trans == 1, robust
+
+Linear regression                               Number of obs     =        379
+                                                F(16, 362)        =      27.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5404
+                                                Root MSE          =     .59902
+
+--------------------------------------------------------------------------------
+               |               Robust
+    ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+      feedback |   .1711363   .1292659     1.32   0.186    -.0830701    .4253428
+          gift |   .0324273   .1132575     0.29   0.775     -.190298    .2551525
+       turnier |   .3653222   .1256079     2.91   0.004     .1183094    .6123349
+creative_trans |  -.0379429   .1218545    -0.31   0.756    -.2775746    .2016887
+ gift_transfer |   .3658199   .1099858     3.33   0.001     .1495284    .5821113
+    ztransfer1 |   .6270873   .0376636    16.65   0.000     .5530203    .7011543
+           age |  -.0332266   .0299035    -1.11   0.267     -.092033    .0255797
+          age2 |   .0005218   .0003995     1.31   0.192    -.0002639    .0013075
+           sex |    .080222   .0637453     1.26   0.209    -.0451356    .2055795
+    ferienzeit |  -.2482132   .1005305    -2.47   0.014    -.4459104   -.0505159
+ pruefungszeit |  -.1070112   .1587327    -0.67   0.501    -.4191653    .2051429
+          wiwi |  -.1971044   .0963319    -2.05   0.041    -.3865447    -.007664
+         recht |    .084869   .1246071     0.68   0.496    -.1601756    .3299136
+          nawi |   .0373251    .103016     0.36   0.717    -.1652599      .23991
+          gewi |  -.1132402   .1163236    -0.97   0.331    -.3419949    .1155146
+      mannheim |  -.0438568   .0670171    -0.65   0.513    -.1756485     .087935
+         _cons |   .5862482   .5338515     1.10   0.273    -.4635914    1.636088
+--------------------------------------------------------------------------------
+(est3 stored)
+
+. local p3_cr_beta        = _b[feedback]
+
+. local p3_cr_se          = _se[feedback]
+
+. calculate_p_value `p3_cr_beta' `p3_cr_se' e(df_r)
+
+. local p3_slid_stars `r(stars)'
+
+. 
+. //Period 3 split positive vs negative
+. gen feedback_neg = feedback == 1 & feedback_pos == 0
+
+. gen turnier_win = turnier == 1 & bonus_recvd == 1
+
+. gen turnier_lose = turnier == 1 & bonus_recvd == 0
+
+. eststo: reg zeffort3 feedback_pos feedback_neg turnier_win turnier_lose gift zeffort1 $controls if slider == 1, robust 
+
+Linear regression                               Number of obs     =        232
+                                                F(16, 215)        =      60.73
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7276
+                                                Root MSE          =     .62666
+
+-------------------------------------------------------------------------------
+              |               Robust
+     zeffort3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+ feedback_pos |    .303377   .1960793     1.55   0.123    -.0831069    .6898609
+ feedback_neg |   -.028377   .1352699    -0.21   0.834    -.2950019    .2382479
+  turnier_win |   .5031616   .1886402     2.67   0.008     .1313406    .8749826
+ turnier_lose |  -.0180849   .1589033    -0.11   0.909    -.3312928    .2951229
+         gift |   .2682603    .109743     2.44   0.015     .0519502    .4845703
+     zeffort1 |   .9022843    .043741    20.63   0.000     .8160683    .9885003
+          age |  -.0279546    .037157    -0.75   0.453    -.1011933    .0452841
+         age2 |   .0004659   .0004806     0.97   0.333    -.0004813    .0014131
+          sex |  -.0762539   .0871066    -0.88   0.382    -.2479462    .0954384
+   ferienzeit |  -.0874634   .1314453    -0.67   0.507    -.3465498     .171623
+pruefungszeit |   .0146902   .1907617     0.08   0.939    -.3613124    .3906929
+         wiwi |  -.1155908   .1109129    -1.04   0.299    -.3342067    .1030252
+        recht |  -.0534843   .1326201    -0.40   0.687    -.3148865    .2079178
+         nawi |   .0330438   .1323041     0.25   0.803    -.2277354     .293823
+         gewi |  -.0931794   .1237883    -0.75   0.452    -.3371735    .1508147
+     mannheim |  -.0965292   .1014455    -0.95   0.342    -.2964843    .1034258
+        _cons |   .5465705    .630057     0.87   0.387    -.6953091     1.78845
+-------------------------------------------------------------------------------
+(est4 stored)
+
+. local p3_slid_pos_beta  = _b[feedback_pos]
+
+. local p3_slid_pos_se    = _se[feedback_pos]
+
+. calculate_p_value `p3_slid_pos_beta' `p3_slid_pos_se' e(df_r)
+
+. local p3_slid_pos_stars `r(stars)'
+
+. 
+. local p3_slid_neg_beta  = _b[feedback_neg]
+
+. local p3_slid_neg_se    = _se[feedback_neg]
+
+. calculate_p_value `p3_slid_neg_beta' `p3_slid_neg_se' e(df_r)
+
+. local p3_slid_neg_stars `r(stars)'
+
+. 
+. eststo: reg ztransfer3 feedback_pos feedback_neg gift turnier_win turnier_lose creative_trans gift_transfer ztransfer1 $controls if creative == 1 | creative_trans == 1, robust
+
+Linear regression                               Number of obs     =        379
+                                                F(18, 360)        =      24.97
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5480
+                                                Root MSE          =      .5957
+
+--------------------------------------------------------------------------------
+               |               Robust
+    ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+  feedback_pos |   .3192874   .1482623     2.15   0.032     .0277184    .6108565
+  feedback_neg |   .0345771    .143787     0.24   0.810    -.2481908    .3173451
+          gift |   .0307165   .1138842     0.27   0.788    -.1932453    .2546783
+   turnier_win |   .4934159   .1591244     3.10   0.002     .1804856    .8063461
+  turnier_lose |   .2424221   .1403148     1.73   0.085    -.0335175    .5183617
+creative_trans |  -.0346617   .1223163    -0.28   0.777     -.275206    .2058825
+ gift_transfer |   .3623241   .1097985     3.30   0.001      .146397    .5782511
+    ztransfer1 |   .6066912   .0391096    15.51   0.000     .5297791    .6836032
+           age |  -.0272768    .029963    -0.91   0.363    -.0862013    .0316478
+          age2 |   .0004472   .0004017     1.11   0.266    -.0003428    .0012371
+           sex |   .0737923   .0633744     1.16   0.245    -.0508382    .1984229
+    ferienzeit |   -.250714   .1003884    -2.50   0.013    -.4481354   -.0532926
+ pruefungszeit |  -.1007351   .1459777    -0.69   0.491    -.3878111     .186341
+          wiwi |  -.1800323   .0959141    -1.88   0.061    -.3686545      .00859
+         recht |   .1005631   .1286829     0.78   0.435    -.1525016    .3536277
+          nawi |   .0514461   .1019268     0.50   0.614    -.1490007     .251893
+          gewi |  -.1193348   .1140192    -1.05   0.296    -.3435622    .1048926
+      mannheim |  -.0455682   .0661639    -0.69   0.491    -.1756844    .0845481
+         _cons |   .4789987   .5356152     0.89   0.372     -.574329    1.532326
+--------------------------------------------------------------------------------
+(est5 stored)
+
+. local p3_cr_pos_beta    = _b[feedback_pos]
+
+. local p3_cr_pos_se      = _se[feedback_pos]
+
+. calculate_p_value `p3_cr_pos_beta' `p3_cr_pos_se' e(df_r)
+
+. local p3_cr_pos_stars `r(stars)'
+
+. 
+. local p3_cr_neg_beta    = _b[feedback_neg]
+
+. local p3_cr_neg_se      = _se[feedback_neg]
+
+. calculate_p_value `p3_cr_neg_beta' `p3_cr_neg_se' e(df_r)
+
+. local p3_cr_neg_stars `r(stars)'
+
+. 
+. 
+. 
+. cap program drop beta_line
+
+. program define beta_line, rclass
+  1.         if ("`3'" == "none") local 3 "" 
+  2.         if ("`5'" == "none") local 5 "" 
+  3.         
+.         di "`1' & " %4.3f (`2') "`3' & " %4.3f (`4') "`5' \\" 
+  4.         return local line "`1' & " %4.3f (`2') "`3' & " %4.3f (`4') "`5' \\" 
+  5. end
+
+. 
+. beta_line "Feedback" `p2_slid_beta' `p2_slid_stars' `p2_cr_beta' `p2_cr_stars'
+Feedback & 0.184* & 0.182* \\
+
+. local p2_beta_line `r(line)'
+
+. 
+. beta_line "Feedback" `p3_slid_beta' `p3_slid_stars' `p3_cr_beta' `p3_cr_stars'
+Feedback & 0.118 & 0.171 \\
+
+. local p3_beta_line `r(line)'
+
+. 
+. beta_line "Positive Relative" `p3_slid_pos_beta' `p3_slid_pos_stars' `p3_cr_pos_beta' `p3_cr_pos_stars'
+Positive Relative & 0.303 & 0.319** \\
+
+. local p3_pos_beta_line `r(line)'
+
+. 
+. beta_line "Negative Relative" `p3_slid_neg_beta' `p3_slid_neg_stars' `p3_cr_neg_beta' `p3_cr_neg_stars'
+Negative Relative & -0.028 & 0.035 \\
+
+. local p3_neg_beta_line `r(line)'
+
+. 
+. 
+. cap program drop se_line
+
+. program define se_line, rclass
+  1.         di "`1' & (" %4.3f (`2') ") & (" %4.3f (`3') ") \\" 
+  2.         return local line "`1' & (" %4.3f (`2') ") & (" %4.3f (`3') ") \\" 
+  3. end
+
+. 
+. se_line "Period 2" `p2_slid_se' `p2_cr_se'
+Period 2 & (0.108) & (0.102) \\
+
+. local p2_se_line `r(line)'
+
+. 
+. se_line "Period 3" `p3_slid_se' `p3_cr_se'
+Period 3 & (0.132) & (0.129) \\
+
+. local p3_se_line `r(line)'
+
+. 
+. se_line "Feedback Period 3" `p3_slid_pos_se' `p3_cr_pos_se'
+Feedback Period 3 & (0.196) & (0.148) \\
+
+. local p3_pos_se_line `r(line)'
+
+. 
+. se_line "Feedback Period 3" `p3_slid_neg_se' `p3_cr_neg_se'
+Feedback Period 3 & (0.135) & (0.144) \\
+
+. local p3_neg_se_line `r(line)'
+
+. 
+. //write output
+. cap file close f 
+
+. file open f using "$mypath/Tables/Output/Appendix/TableA5_Feedback_Results.tex", write replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data/Tables/Output/Appendix/TableA5_Feedback_Results.tex not found)
+
+. 
+. #delimit ;
+delimiter now ;
+. file write f 
+>         "\begin{table}[h]%" _n
+>         "\captionsetup{justification=centering}" _n
+>         "\setlength\tabcolsep{2pt}" _n
+>         "\caption{Treatment Effects on Period 2 and Period 3 Output for the Feedback Treatment}" _n
+>         "\begin{center}%" _n
+>         "{\small\renewcommand{\arraystretch}{1}%" _n
+>         "\begin{tabular}{lcc}" _n
+>         "\hline\noalign{\smallskip}" _n
+>         " & \bf Simple Task & \bf Creative Task \\" _n
+>         "\hline\noalign{\smallskip}" _n
+>         "\noalign{\smallskip}" _n
+>         "`p2_beta_line'" _n
+>         "`p2_se_line'" _n
+>         "\noalign{\smallskip}\hline" _n
+>         "\noalign{\smallskip}" _n
+>         "`p3_beta_line'" _n
+>         "`p3_se_line'" _n
+>         "\noalign{\smallskip}\hline" _n
+>         "\noalign{\smallskip}" _n
+>         "`p3_pos_beta_line'" _n
+>         "`p3_pos_se_line'" _n
+>         "\noalign{\smallskip}" _n
+>         "`p3_neg_beta_line'" _n
+>         "`p3_neg_se_line'" _n   
+>         "\noalign{\smallskip}\hline" _n
+>         "\noalign{\smallskip}" _n
+>         " Additional Controls  & YES & YES \\" _n
+>         " Period 1 Output  & YES & YES \\" _n
+>         " Constant & YES & YES \\" _n
+>         "\hline\noalign{\medskip}" _n
+>         "\end{tabular}" _n
+>         "\begin{minipage}{\textwidth} $footnote_params" _n
+>         "\footnotesize NOTE.-- This table reports the estimated OLS coefficients for the \textit{Feedback} treatment in Periods 2 and 3. "_n
+>         "$pooled_trans_description " _n
+>         "Period 3 effects are also presented separately for those agents who learned that they were or were not among the top two performers. " _n
+>         "\textit{Feedback} effects for Period 2 are estimated using the same specification that we used in Table \ref{tab:EQ_Pooled_Results}, Column III. " _n
+>         "For the analysis presented here, we added observations from the two \textit{Creative Task with Discretionary Transfers} treatments. " _n
+>         "Post-treatment effects for Period 3 are estimated using the same specifications as presented in Table \ref{tab:Period3} (pooled and split up by positive or negative f
+> eedback). " _n
+>         "For the Period 3 analysis, regressions are done separately for each task. " _n
+>         "" _n
+>         "$sample_description_plus_feedback " _n
+>         "$controls_list " _n
+>         "$errors_stars " _n
+>         "" _n
+>         "$p1" _n
+>         "" _n
+>         "$p2" _n
+>         "" _n
+>         "$p3" _n
+>         "\end{minipage}}" _n
+>         "\end{center}" _n
+>         "\label{tab:Feedback}" _n
+>         "\end{table}";
+
+. #delimit cr
+delimiter now cr
+. file close f
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TableFeedbackResults.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:14
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

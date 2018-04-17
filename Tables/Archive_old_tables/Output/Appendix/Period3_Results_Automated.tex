@@ -1,0 +1,46 @@
+\begin{table}[h]%
+\setlength\tabcolsep{2pt}
+\caption{Treatment Effects in Period 3}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{1}%
+\begin{tabular}{lcccc}
+\hline\hline\noalign{\smallskip}
+ & \multicolumn{2}{c}{\bf Slider} & \multicolumn{2}{c}{\bf Creative} \\
+ & I & II & III & IV \\
+\hline\noalign{\smallskip}
+Tournament          &       0.228   &               &       0.364***&               \\
+                    &     (0.154)   &               &     (0.126)   &               \\[2mm]
+Gift                &       0.282** &       0.292** &       0.006   &       0.005   \\
+                    &     (0.112)   &     (0.113)   &     (0.116)   &     (0.116)   \\[2mm]
+Discretionary Transfer&               &               &      -0.039   &      -0.036   \\
+                    &               &               &     (0.122)   &     (0.122)   \\
+Discretionary Transfer x Gift&               &               &       0.400***&       0.397***\\
+                    &               &               &     (0.120)   &     (0.120)   \\
+Tournament Winner   &               &       0.497***&               &       0.488***\\
+                    &               &     (0.188)   &               &     (0.159)   \\
+Tournament Loser    &               &      -0.019   &               &       0.243*  \\
+                    &               &     (0.162)   &               &     (0.141)   \\
+\noalign{\smallskip}\hline
+ Controls  & YES & YES & YES & YES \\
+ Baseline  & YES & YES & YES & YES \\
+ Intercept & YES & YES & YES & YES \\
+\hline
+Observations        &         176   &         176   &         311   &         311   \\
+$R^2$               &       0.734   &       0.749   &       0.543   &       0.547   \\
+\hline\hline\noalign{\medskip}
+\end{tabular}
+\begin{minipage}{\textwidth}
+\footnotesize {\it Note:} This table reports the estimated OLS coefficients in Period 3. 
+The analysis follows the set-up laid out in Equation 1, with the exception that we estimate the equation separately for both tasks here. 
+Performance is measured as the number of correctly positioned sliders in the slider task, as the score achieved in the  creative task, and as the amount transferred in the discretionary transfer tasks. 
+The treatment dummies \textit{Gift} and \textit{Tournament} capture the effect of an unconditional monetary gift or of a tournament incentive (rewarding the top 2 performers out of 4 agents) on standardized performance. 
+The \textit{Discretionary Transfer} coefficent captures any difference between the Creative Task with Discretionary Transfer -- Control group and the Control group in the creative task. 
+The \textit{Discretionary Transfer x Gift} coefficient captures the effect of an unconditional monetary gift on the standardized amount transfered to the principal. 
+That is, the estimated effect of allowing discretionary transfers and offering a monetary gift in the creative task is equal to sum of the \textit{Discretionary Transfer x Gift} coefficient and the \textit{Discretionary Transfer} coefficient. \\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. 
+Additional control variables are age, age squared, sex, location, field of study as well as a set of time fixed effects (semester period, semester break, exam period). 
+Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * p < 0:1, ** p < 0:05, *** p < 0:01. 
+\end{minipage}}
+\end{center}
+\label{tab:Period3}
+\end{table}

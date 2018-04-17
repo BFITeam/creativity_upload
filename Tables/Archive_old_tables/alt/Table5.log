@@ -1,0 +1,160 @@
+------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  I:\personal\zew_interns\p-schmit\WOEK\Final Paper Versions\Tables\Table 5\Table5.lo
+> g
+  log type:  text
+ opened on:   4 Mar 2015, 12:17:07
+
+. 
+. 
+. * Regressions for Table 5 *
+. 
+. 
+. gen original_rate1 = p_original1/ effort1
+(368 missing values generated)
+
+. sum original_rate1 if creative==1
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+original_r~1 |       218    .1824822    .1027139          0   .4047619
+
+. gen z_originalrate1 = (original_rate1 -r(mean))/r(sd) if creative==1
+(542 missing values generated)
+
+. 
+. gen original_rate2 = p_original2/ effort2
+(351 missing values generated)
+
+. sum original_rate2 if creative==1
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+original_r~2 |       224    .1970567    .1063392          0         .4
+
+. gen z_originalrate2 = (original_rate2 -r(mean))/r(sd) if creative==1
+(536 missing values generated)
+
+. 
+. gen original_rate3 = p_original3/ effort3
+(361 missing values generated)
+
+. sum original_rate3 if creative==1
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+original_r~3 |       221    .1446895    .0959834          0   .4666667
+
+. gen z_originalrate3 = (original_rate3 -r(mean))/r(sd) if creative==1
+(539 missing values generated)
+
+. 
+. 
+. 
+. reg zeffort2 gift turnier feedback zeffort1 if creative==1, robust
+
+Linear regression                                      Number of obs =     240
+                                                       F(  4,   235) =   42.52
+                                                       Prob > F      =  0.0000
+                                                       R-squared     =  0.4630
+                                                       Root MSE      =  .72817
+
+------------------------------------------------------------------------------
+             |               Robust
+    zeffort2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        gift |   .0227666   .1215221     0.19   0.852    -.2166454    .2621785
+     turnier |   .7344405   .1592781     4.61   0.000     .4206451    1.048236
+    feedback |   .1720895   .1184738     1.45   0.148     -.061317    .4054959
+    zeffort1 |   .6324173   .0632137    10.00   0.000     .5078792    .7569553
+       _cons |  -1.64e-08   .0943508    -0.00   1.000    -.1858814    .1858814
+------------------------------------------------------------------------------
+
+. reg zp_valid2 gift turnier feedback zp_valid1 if creative==1, robust
+
+Linear regression                                      Number of obs =     240
+                                                       F(  4,   235) =   36.02
+                                                       Prob > F      =  0.0000
+                                                       R-squared     =  0.4400
+                                                       Root MSE      =  .75486
+
+------------------------------------------------------------------------------
+             |               Robust
+   zp_valid2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        gift |   .0490759   .1259876     0.39   0.697    -.1991334    .2972853
+     turnier |   .7810683   .1679197     4.65   0.000     .4502481    1.111889
+    feedback |   .1509572   .1206408     1.25   0.212    -.0867184    .3886328
+   zp_valid1 |   .6150331   .0636548     9.66   0.000      .489626    .7404401
+       _cons |  -7.85e-09    .098995    -0.00   1.000    -.1950311    .1950311
+------------------------------------------------------------------------------
+
+. reg zp_flex2 gift turnier feedback zp_flex1 if creative==1, robust
+
+Linear regression                                      Number of obs =     240
+                                                       F(  4,   235) =   56.49
+                                                       Prob > F      =  0.0000
+                                                       R-squared     =  0.4976
+                                                       Root MSE      =  .65787
+
+------------------------------------------------------------------------------
+             |               Robust
+    zp_flex2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        gift |   .0549252   .1162084     0.47   0.637    -.1740181    .2838685
+     turnier |   .5903312   .1444581     4.09   0.000     .3057328    .8749296
+    feedback |   .1615669   .1128276     1.43   0.153    -.0607159    .3838497
+    zp_flex1 |   .6199911   .0550276    11.27   0.000     .5115808    .7284015
+       _cons |  -4.51e-09   .0917566    -0.00   1.000    -.1807706    .1807706
+------------------------------------------------------------------------------
+
+. reg zp_original2 gift turnier feedback zp_original1 if creative==1, robust
+
+Linear regression                                      Number of obs =     240
+                                                       F(  4,   235) =   20.95
+                                                       Prob > F      =  0.0000
+                                                       R-squared     =  0.3182
+                                                       Root MSE      =  .88344
+
+------------------------------------------------------------------------------
+             |               Robust
+zp_original2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        gift |  -.0581531   .1464255    -0.40   0.692    -.3466275    .2303213
+     turnier |   .7253167   .1820904     3.98   0.000     .3665786    1.084055
+    feedback |   .1774091   .1465073     1.21   0.227    -.1112264    .4660445
+zp_original1 |   .5370122   .0771385     6.96   0.000     .3850408    .6889836
+       _cons |   1.30e-08   .1093786     0.00   1.000    -.2154878    .2154878
+------------------------------------------------------------------------------
+
+. reg z_originalrate2 gift turnier feedback z_originalrate1 if creative==1, robust
+
+Linear regression                                      Number of obs =     215
+                                                       F(  4,   210) =    5.23
+                                                       Prob > F      =  0.0005
+                                                       R-squared     =  0.0717
+                                                       Root MSE      =  .96431
+
+---------------------------------------------------------------------------------
+                |               Robust
+z_originalrate2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+           gift |  -.1421373   .2118527    -0.67   0.503    -.5597678    .2754933
+        turnier |   .4288899     .19185     2.24   0.026     .0506912    .8070885
+       feedback |   .1385247   .2007221     0.69   0.491    -.2571638    .5342132
+z_originalrate1 |   .1793342   .0692123     2.59   0.010     .0428943     .315774
+          _cons |  -.0862797   .1590672    -0.54   0.588    -.3998528    .2272934
+---------------------------------------------------------------------------------
+
+.                                 
+.                                                                                               
+>                                                   
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  I:\personal\zew_interns\p-schmit\WOEK\Final Paper Versions\Tables\Table 5\Table5.lo
+> g
+  log type:  text
+ closed on:   4 Mar 2015, 12:17:08
+------------------------------------------------------------------------------------------------

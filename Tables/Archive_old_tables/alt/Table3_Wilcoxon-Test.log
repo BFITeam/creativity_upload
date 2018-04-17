@@ -1,0 +1,304 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Documents\GitHub\creativity\Tables\Table 3\Table3_Wilcoxon-Test.log
+  log type:  text
+ opened on:  10 Aug 2017, 11:41:13
+
+. 
+. preserve
+
+. 
+. gen heidelberg = 1 if mannheim==2
+(1,245 missing values generated)
+
+. replace heidelberg = 0 if heidelberg== .
+(1,245 real changes made)
+
+. gen frankfurt = 1 if mannheim==0
+(540 missing values generated)
+
+. replace frankfurt = 0 if frankfurt== .
+(540 real changes made)
+
+. replace mannheim = 0 if (heidelberg==1 | frankfurt==1)
+(100 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\gtierney\AppData\Local\Temp\STDd24_000000.tmp"
+
+. drop if treatment_id==52
+(80 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\gtierney\AppData\Local\Temp\STDd24_000000.tmp"
+
+. ******#of subjects, agent, rewarded agents*********
+. tab treatment_id if (fdb_old==0 & session_problem==.)
+
+Treatment_i |
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         11 |         75        6.61        6.61
+         12 |        100        8.81       15.42
+         13 |         95        8.37       23.79
+         14 |         80        7.05       30.84
+         21 |         70        6.17       37.00
+         22 |        135       11.89       48.90
+         23 |        105        9.25       58.15
+         24 |         90        7.93       66.08
+         31 |         95        8.37       74.45
+         32 |        100        8.81       83.26
+         41 |         90        7.93       91.19
+         42 |        100        8.81      100.00
+------------+-----------------------------------
+      Total |      1,135      100.00
+
+. tab treatment_id if (fdb_old==0 & session_problem==. & no_problem==. & proposer==0)
+
+Treatment_i |
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         11 |         60        6.67        6.67
+         12 |         80        8.90       15.57
+         13 |         76        8.45       24.03
+         14 |         64        7.12       31.15
+         21 |         56        6.23       37.37
+         22 |        108       12.01       49.39
+         23 |         84        9.34       58.73
+         24 |         72        8.01       66.74
+         31 |         75        8.34       75.08
+         32 |         77        8.57       83.65
+         41 |         71        7.90       91.55
+         42 |         76        8.45      100.00
+------------+-----------------------------------
+      Total |        899      100.00
+
+. tab treatment_id if (fdb_old==0 & subject_sample==1)
+
+Treatment_i |
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         11 |         60        8.43        8.43
+         12 |         60        8.43       16.85
+         13 |         56        7.87       24.72
+         14 |         56        7.87       32.58
+         21 |         56        7.87       40.45
+         22 |         56        7.87       48.31
+         23 |         60        8.43       56.74
+         24 |         68        9.55       66.29
+         31 |         55        7.72       74.02
+         32 |         46        6.46       80.48
+         41 |         71        9.97       90.45
+         42 |         68        9.55      100.00
+------------+-----------------------------------
+      Total |        712      100.00
+
+. 
+end of do-file
+
+. do "C:\Users\gtierney\AppData\Local\Temp\STDd24_000000.tmp"
+
+. tabulate treatment_id if subject_sample==1, summarize(age) means
+
+            | Summary of
+Treatment_i |     Age
+          d |        Mean
+------------+------------
+         11 |   24.866667
+         12 |   23.316667
+         13 |   23.089286
+         14 |   23.232143
+         21 |   23.982143
+         22 |   22.767857
+         23 |        22.9
+         24 |   23.367647
+         31 |   22.381818
+         32 |   21.608696
+         41 |   22.098592
+         42 |   23.411765
+------------+------------
+      Total |   23.106742
+
+. 
+end of do-file
+
+. do "C:\Users\gtierney\AppData\Local\Temp\STDd24_000000.tmp"
+
+. ranksum age if ((treatment_id==11 | treatment_id==12) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          11 |       60      3916.5        3630
+          12 |       60      3343.5        3630
+-------------+---------------------------------
+    combined |      120        7260        7260
+
+unadjusted variance    36300.00
+adjustment for ties     -449.87
+                     ----------
+adjusted variance      35850.13
+
+Ho: age(treatm~d==11) = age(treatm~d==12)
+             z =   1.513
+    Prob > |z| =   0.1302
+
+. ranksum age if ((treatment_id==11 | treatment_id==13) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          11 |       60      3725.5        3510
+          13 |       56      3060.5        3276
+-------------+---------------------------------
+    combined |      116        6786        6786
+
+unadjusted variance    32760.00
+adjustment for ties     -386.12
+                     ----------
+adjusted variance      32373.88
+
+Ho: age(treatm~d==11) = age(treatm~d==13)
+             z =   1.198
+    Prob > |z| =   0.2310
+
+. ranksum age if ((treatment_id==11 | treatment_id==14) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          11 |       60        3782        3510
+          14 |       56        3004        3276
+-------------+---------------------------------
+    combined |      116        6786        6786
+
+unadjusted variance    32760.00
+adjustment for ties     -327.06
+                     ----------
+adjusted variance      32432.94
+
+Ho: age(treatm~d==11) = age(treatm~d==14)
+             z =   1.510
+    Prob > |z| =   0.1310
+
+. ranksum age if ((treatment_id==21 | treatment_id==22) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          21 |       56        3486        3164
+          22 |       56        2842        3164
+-------------+---------------------------------
+    combined |      112        6328        6328
+
+unadjusted variance    29530.67
+adjustment for ties     -550.16
+                     ----------
+adjusted variance      28980.50
+
+Ho: age(treatm~d==21) = age(treatm~d==22)
+             z =   1.891
+    Prob > |z| =   0.0586
+
+. ranksum age if ((treatment_id==21 | treatment_id==23) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          21 |       56        3521        3276
+          23 |       60        3265        3510
+-------------+---------------------------------
+    combined |      116        6786        6786
+
+unadjusted variance    32760.00
+adjustment for ties     -623.51
+                     ----------
+adjusted variance      32136.49
+
+Ho: age(treatm~d==21) = age(treatm~d==23)
+             z =   1.367
+    Prob > |z| =   0.1717
+
+. ranksum age if ((treatment_id==21 | treatment_id==24) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          21 |       56      3602.5        3500
+          24 |       68      4147.5        4250
+-------------+---------------------------------
+    combined |      124        7750        7750
+
+unadjusted variance    39666.67
+adjustment for ties     -854.38
+                     ----------
+adjusted variance      38812.29
+
+Ho: age(treatm~d==21) = age(treatm~d==24)
+             z =   0.520
+    Prob > |z| =   0.6029
+
+. ranksum age if ((treatment_id==31 | treatment_id==32) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          31 |       55        2964        2805
+          32 |       46        2187        2346
+-------------+---------------------------------
+    combined |      101        5151        5151
+
+unadjusted variance    21505.00
+adjustment for ties     -381.38
+                     ----------
+adjusted variance      21123.62
+
+Ho: age(treatm~d==31) = age(treatm~d==32)
+             z =   1.094
+    Prob > |z| =   0.2740
+
+. ranksum age if ((treatment_id==41 | treatment_id==42) & subject_sample==1) , by(treatment_id)
+
+Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+treatment_id |      obs    rank sum    expected
+-------------+---------------------------------
+          41 |       71        4662        4970
+          42 |       68        5068        4760
+-------------+---------------------------------
+    combined |      139        9730        9730
+
+unadjusted variance    56326.67
+adjustment for ties     -953.92
+                     ----------
+adjusted variance      55372.75
+
+Ho: age(treatm~d==41) = age(treatm~d==42)
+             z =  -1.309
+    Prob > |z| =   0.1906
+
+. 
+end of do-file
+
+. do "C:\Users\gtierney\AppData\Local\Temp\STDd24_000000.tmp"
+
+. clear all
+
+. set more off
+
+. set memory 100m
+set memory ignored.
+    Memory no longer needs to be set in modern Statas; memory adjustments are performed on the fly automatically.
+
+. cap log close

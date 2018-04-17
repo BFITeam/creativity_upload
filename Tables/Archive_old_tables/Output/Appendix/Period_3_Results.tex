@@ -1,0 +1,42 @@
+
+%\newgeometry{left=3cm}
+\begin{table}[h]%
+\caption{Treatment Effects in Period 3}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{0.5}%
+\begin{tabular}{lcccc}
+\hline\hline\noalign{\smallskip}
+ &\multicolumn{2}{c}{\normalsize{\textbf{Slider}}}&\multicolumn{2}{c}{\normalsize{\textbf{Creative}}} \\
+ &\multicolumn{1}{c}{I}&\multicolumn{1}{c}{II}&\multicolumn{1}{c}{III}&\multicolumn{1}{c}{IV}\\
+\hline\noalign{\smallskip}
+Gift      	&	       0.282**       	&	 0.292**	&	       0.006	&	   -0.005	\\
+                    	&	     (0.112)   	&	     (0.112)   	&	     (0.116)   	&	     (0.116)                   \\[2mm]	
+Tournament	&	       0.228	&	               	&	       0.364***	&	                               \\	
+                    	&	     (0.154)   	&	               	&	     (0.126)   	&	                               \\[2mm]	
+Discretionary Transfer	&	               	&	               	&	-0.039	&	-0.036             \\	
+                    	&	               	&	               	&	     (0.122)   	&	     (0.122)                   \\[2mm]	
+Discretionary Transfer x Gift	&	               	&	               	&	       0.400***	&	      0.397***   \\	
+                    	&	               	&	               	&	     (0.120)   	&	     (0.120)                  \\[2mm]	
+Tournament Winner	&	               	&	       0.497***	&	               	&	       0.488***         \\	
+                    	&	               	&	     (0.188)   	&	               	&	     (0.159)                   \\[2mm]	
+Tournament Loser	&	               	&	       -0.019   	&	               	&	       0.243*             \\	
+                    	&	               	&	     (0.162)   	&	               	&	     (0.159)                   \\[2mm]	
+\hline\noalign{\smallskip}
+Controls &       YES & YES & YES & YES       \\
+Baseline &          YES & YES & YES & YES    \\
+Intercept &           YES & YES & YES & YES   \\
+\hline\noalign{\smallskip}
+N      &         176   &         176   &         311   &         311     \\
+$R^2$               &       0.734   &       0.749   &       0.543   &       0.547     \\
+\hline\hline\noalign{\medskip}
+\end{tabular}}
+\begin{minipage}{0.8\textwidth}
+\footnotesize
+\vspace{2mm}
+{\it Note:} This table reports OLS estimates of standardized performances in Period 3 analogous to Equation \ref{eq:reg}. Performance is measured as the number of correctly positioned sliders, as the score achieved in the  creativity task, and as the amount transferred in the Creative Transfer treatments.\\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. Additional control variables are age, age squared, sex, location, field of study as well as a set of time fixed  effects (semester period, semester break, exam period). Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$.\\
+\end{minipage}
+\end{center}
+\label{tab:Period3}
+\end{table}
+

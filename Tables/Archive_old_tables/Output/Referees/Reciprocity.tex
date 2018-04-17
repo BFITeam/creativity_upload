@@ -1,0 +1,55 @@
+\begin{table}[h]%
+\setlength\tabcolsep{2pt}
+\caption{Treatment Effects in Period 2: Reciprocity Controls}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{.9}%
+\begin{tabular}{lcc}
+\hline\hline\noalign{\smallskip}
+ & Controls for & Interactions with \\
+ & Reciprocity  & Reciprocity \\
+\hline\noalign{\smallskip}
+Tournament          &       0.760***&       0.658***\\
+                    &     (0.143)   &     (0.248)   \\[2mm]
+Tournament x Slider-Task&      -0.068   &       0.121   \\
+                    &     (0.169)   &     (0.334)   \\[2mm]
+Gift                &       0.003   &      -0.148   \\
+                    &     (0.103)   &     (0.174)   \\[2mm]
+Gift x Slider-Task  &       0.210*  &       0.433** \\
+                    &     (0.112)   &     (0.186)   \\[2mm]
+Baseline            &       0.637***&       0.630***\\
+                    &     (0.076)   &     (0.076)   \\[2mm]
+Baseline x Slider-Task&       0.028   &       0.039   \\
+                    &     (0.094)   &     (0.094)   \\[2mm]
+Reciprocity         &       0.006   &       0.004   \\
+                    &     (0.009)   &     (0.013)   \\
+Tournament x Reciprocity&               &       0.014   \\
+                    &               &     (0.027)   \\
+Tournament x Slider x Reciprocity&               &      -0.026   \\
+                    &               &     (0.036)   \\
+Gift x Reciprocity  &               &       0.021   \\
+                    &               &     (0.018)   \\
+Gift x Slider x Reciprocity&               &      -0.034*  \\
+                    &               &     (0.019)   \\
+Intercept           &       0.799   &       0.833   \\
+                    &     (0.600)   &     (0.607)   \\[2mm]
+\noalign{\smallskip}\hline
+ Controls & YES & YES \\
+\hline
+Observations        &         348   &         348   \\
+$R^2$               &       0.564   &       0.568   \\
+\hline\hline\noalign{\medskip}
+\end{tabular}
+\begin{minipage}{\textwidth}
+\footnotesize {\it Note:} This table reports the estimated OLS coefficients from Equation 1 and adds a control for reciprocity (Column I) or controls for reciprocity interacted with the different treatment indicators (Column II). 
+The dependent variable is standardized performance in Period 2. This refers to the number of correctly positioned sliders in the slider task and to the creativity score in the creative task (please refer to section 3.1 for a description of the scoring procedure). 
+The treatment dummies \textit{Gift} and \textit{Tournament} capture the effect of an unconditional wage gift or of a tournament incentive (rewarding the top 2 performers out of 4 agents) on standardized performance. 
+The interaction effects with the \textit{Slider} variable measure the difference in treatment effects between the creative and the slider task. 
+That is, the estimated effect of the two treatments on the creative task is the main treatment coefficient (\textit{Gift} or \textit{Tournament}) and the effect on the slider task is the sum of the main treatment coefficient and the respective interaction coefficient (\textit{Tournament x Slider} or \textit{Gift x Slider}). 
+The interaction effects with the \textit{Reciprocity} variable show how the effects of the treatments (by task) vary with the strength of reciprocal inclinations of the subject. \\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. 
+Additional control variables are age, age squared, sex, location, field of study as well as a set of time fixed effects (semester period, semester break, exam period). 
+Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * p < 0:1, ** p < 0:05, *** p < 0:01. 
+\end{minipage}}
+\end{center}
+\label{tab:EQ_Pooled_Results}
+\end{table}

@@ -1,0 +1,344 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureRawEffects_paired.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:27:52
+
+. 
+. cap program drop ttest_output
+
+. program define ttest_output
+  1.         args file_name  diff_control ub_control lb_control ///
+>                                         diff_gift ub_gift lb_gift ///
+>                                         diff_turnier ub_turnier lb_turnier
+  2.                                         
+. 
+.         preserve
+  3.         clear
+  4.         set obs 3
+  5.         gen treatment = _n
+  6.         gen coefficient = .
+  7.         gen low = .
+  8.         gen high = .
+  9. 
+.         local i = 1
+ 10.         foreach treatment in control gift turnier {
+ 11.                 replace coefficient = `diff_`treatment'' in `i'
+ 12.                 replace high = `ub_`treatment'' in `i'
+ 13.                 replace low = `lb_`treatment'' in `i'
+ 14.                 local i = `i' + 1
+ 15.         }
+ 16.         save "$mypath\Figures\Data\\`file_name'.dta", replace
+ 17. 
+.         restore
+ 18.         
+. end
+
+. 
+. //Results for Period 2 effects figure
+. 
+. ttest effort2==effort1 if treatment_id==11, level(90)
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      60    19.78333    1.668941    12.92756    16.99438    22.57229
+ effort1 |      60    16.58333    1.614603    12.50666    13.88518    19.28149
+---------+--------------------------------------------------------------------
+    diff |      60         3.2      1.0819    8.380364    1.392044    5.007956
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =   2.9578
+ Ho: mean(diff) = 0                              degrees of freedom =       59
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 0.9978         Pr(|T| > |t|) = 0.0045          Pr(T > t) = 0.0022
+
+. local diff_control = `r(mu_1)' - `r(mu_2)'
+
+. local ub_control = `diff_control' + invttail(59,.05)*`r(se)'
+
+. local lb_control = `diff_control' - invttail(59,.05)*`r(se)'
+
+. 
+. ttest effort2==effort1 if treatment_id==12, level(90) 
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      60    24.38333    1.685614    13.05671    21.56652    27.20015
+ effort1 |      60    18.86667    1.821167     14.1067    15.82333    21.91001
+---------+--------------------------------------------------------------------
+    diff |      60    5.516667     1.00155    7.757974    3.842983     7.19035
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =   5.5081
+ Ho: mean(diff) = 0                              degrees of freedom =       59
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+
+. local diff_gift = `r(mu_1)' - `r(mu_2)'
+
+. local ub_gift = `diff_gift' + invttail(59,.05)*`r(se)'
+
+. local lb_gift = `diff_gift' - invttail(59,.05)*`r(se)'
+
+. 
+. ttest effort2==effort1 if treatment_id==13, level(90) 
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      56    32.21429    1.320103    9.878745    30.00571    34.42286
+ effort1 |      56    21.94643    1.710058     12.7969    19.08544    24.80741
+---------+--------------------------------------------------------------------
+    diff |      56    10.26786    1.473685    11.02805    7.802332    12.73338
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =   6.9675
+ Ho: mean(diff) = 0                              degrees of freedom =       55
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+
+. local diff_turnier = `r(mu_1)' - `r(mu_2)'
+
+. local ub_turnier = `diff_turnier' + invttail(59,.05)*`r(se)'
+
+. local lb_turnier = `diff_turnier' - invttail(59,.05)*`r(se)'
+
+. 
+. *ttest effort2==effort1 if treatment_id==14, level(90) 
+. 
+. ttest_output FigurePeriod2a_paired `diff_control' `ub_control' `lb_control' `diff_gift' `ub_gift' `lb_gift' `diff_turnier' `ub_turnier' `lb_turnier'
+number of observations (_N) was 0, now 3
+(3 missing values generated)
+(3 missing values generated)
+(3 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigurePeriod2a_paired.dta not found)
+file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigurePeriod2a_paired.dta saved
+
+. 
+. ttest effort2==effort1 if treatment_id==21, level(90) 
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      56    15.89286    1.614399    12.08106    13.19191     18.5938
+ effort1 |      56    16.78571    1.562282    11.69104    14.17196    19.39946
+---------+--------------------------------------------------------------------
+    diff |      56   -.8928571    1.201914    8.994298     -2.9037    1.117985
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =  -0.7429
+ Ho: mean(diff) = 0                              degrees of freedom =       55
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 0.2304         Pr(|T| > |t|) = 0.4607          Pr(T > t) = 0.7696
+
+. local diff_control = `r(mu_1)' - `r(mu_2)'
+
+. local ub_control = `diff_control' + invttail(59,.05)*`r(se)'
+
+. local lb_control = `diff_control' - invttail(59,.05)*`r(se)'
+
+. 
+. ttest effort2==effort1 if treatment_id==22, level(90) 
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      56    15.66071    1.323925    9.907347    13.44574    17.87569
+ effort1 |      56    15.98214    1.430305    10.70343    13.58919    18.37509
+---------+--------------------------------------------------------------------
+    diff |      56   -.3214286    1.028524    7.696769   -2.042184    1.399327
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =  -0.3125
+ Ho: mean(diff) = 0                              degrees of freedom =       55
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 0.3779         Pr(|T| > |t|) = 0.7558          Pr(T > t) = 0.6221
+
+. local diff_gift = `r(mu_1)' - `r(mu_2)'
+
+. local ub_gift = `diff_gift' + invttail(59,.05)*`r(se)'
+
+. local lb_gift = `diff_gift' - invttail(59,.05)*`r(se)'
+
+. 
+. ttest effort2==effort1 if treatment_id==23, level(90)
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [90% Conf. Interval]
+---------+--------------------------------------------------------------------
+ effort2 |      60        25.5    1.763327    13.65867    22.55332    28.44668
+ effort1 |      60    17.83333    1.406234    10.89265    15.48338    20.18328
+---------+--------------------------------------------------------------------
+    diff |      60    7.666667    1.617117    12.52613    4.964314    10.36902
+------------------------------------------------------------------------------
+     mean(diff) = mean(effort2 - effort1)                         t =   4.7409
+ Ho: mean(diff) = 0                              degrees of freedom =       59
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+
+. local diff_turnier = `r(mu_1)' - `r(mu_2)'
+
+. local ub_turnier = `diff_turnier' + invttail(59,.05)*`r(se)'
+
+. local lb_turnier = `diff_turnier' - invttail(59,.05)*`r(se)'
+
+.  
+. *ttest effort2==effort1 if treatment_id==24, level(90) 
+. 
+. ttest_output FigurePeriod2b_paired `diff_control' `ub_control' `lb_control' `diff_gift' `ub_gift' `lb_gift' `diff_turnier' `ub_turnier' `lb_turnier'
+number of observations (_N) was 0, now 3
+(3 missing values generated)
+(3 missing values generated)
+(3 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigurePeriod2b_paired.dta not found)
+file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Data\FigurePeriod2b_paired.dta saved
+
+. 
+. 
+. /*
+> * Regressions for Period 3 Figure *
+> 
+> ttest effort3==effort1 if treatment_id==11, level(90) 
+> local diff_control = `r(mu_1)' - `r(mu_2)'
+> local ub_control = `diff_control' + invttail(59,.05)*`r(se)'
+> local lb_control = `diff_control' - invttail(59,.05)*`r(se)'
+> 
+> ttest effort3==effort1 if treatment_id==12, level(90) 
+> local diff_gift = `r(mu_1)' - `r(mu_2)'
+> local ub_gift = `diff_gift' + invttail(59,.05)*`r(se)'
+> local lb_gift = `diff_gift' - invttail(59,.05)*`r(se)'
+> 
+> ttest effort3==effort1 if treatment_id==13, level(90) 
+> local diff_turnier = `r(mu_1)' - `r(mu_2)'
+> local ub_turnier = `diff_turnier' + invttail(59,.05)*`r(se)'
+> local lb_turnier = `diff_turnier' - invttail(59,.05)*`r(se)'
+> 
+> *ttest effort3==effort1 if treatment_id==14, level(90)
+> 
+> ttest_output FigurePeriod3a_paired `diff_control' `ub_control' `lb_control' `diff_gift' `ub_gift' `lb_gift' `diff_turnier' `ub_turnier' `lb_turnier'
+>  
+> 
+> ttest effort3==effort1 if treatment_id==21, level(90) 
+> local diff_control = `r(mu_1)' - `r(mu_2)'
+> local ub_control = `diff_control' + invttail(59,.05)*`r(se)'
+> local lb_control = `diff_control' - invttail(59,.05)*`r(se)'
+> 
+> ttest effort3==effort1 if treatment_id==22, level(90) 
+> local diff_gift = `r(mu_1)' - `r(mu_2)'
+> local ub_gift = `diff_gift' + invttail(59,.05)*`r(se)'
+> local lb_gift = `diff_gift' - invttail(59,.05)*`r(se)'
+> 
+> ttest effort3==effort1 if treatment_id==23, level(90)
+> local diff_turnier = `r(mu_1)' - `r(mu_2)'
+> local ub_turnier = `diff_turnier' + invttail(59,.05)*`r(se)'
+> local lb_turnier = `diff_turnier' - invttail(59,.05)*`r(se)'
+>  
+> *ttest effort3==effort1 if treatment_id==24, level(90)                                                                                                                         
+>  
+> 
+> ttest_output FigurePeriod3b_paired `diff_control' `ub_control' `lb_control' `diff_gift' `ub_gift' `lb_gift' `diff_turnier' `ub_turnier' `lb_turnier'
+> */
+. 
+. ***************
+. //Make Graphs**
+. ***************
+. 
+. //Period 2
+. 
+. use "$mypath\Figures\Data\FigurePeriod2a_paired.dta", clear
+
+. 
+. drop if treatment==4
+(0 observations deleted)
+
+. 
+. graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap high low treatment, lwidth(thick)),       ///
+>         xlabel( 1 "Control" 2 "Gift" 3 "Performance Bonus", noticks)    ///
+>         ytitle("Increase from Period 1 to Period 2") xtitle(" ") ylabel(-4 (2) 14) subtitle("Simple Task") legend(order(2 "90% Confidence Interval"))  ///
+>         saving("$mypath\Figures\Graphs\Figure5a_paired_final2.gph", replace) 
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5a_paired_final2.gph not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5a_paired_final2.gph saved)
+
+.         graph export "$mypath\Figures\Graphs\Figure5a_Simple_Comparison.eps", as(eps) replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5a_Simple_Comparison.eps not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5a_Simple_Comparison.eps written in EPS format)
+
+. 
+. use "$mypath\Figures\Data\FigurePeriod2b_paired.dta", clear
+
+. 
+. drop if treatment==4
+(0 observations deleted)
+
+. 
+. graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap high low treatment, lwidth(thick)),       ///
+>         xlabel( 1 "Control" 2 "Gift" 3 "Performance Bonus", noticks)    ///
+>         ytitle("Increase from Period 1 to Period 2") xtitle(" ") ylabel(-4 (2) 14) subtitle("Creative Task") legend(order(2 "90% Confidence Interval"))  ///
+>         saving("$mypath\Figures\Graphs\Figure5b_Simple_Comparison.gph", replace) 
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5b_Simple_Comparison.gph not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5b_Simple_Comparison.gph saved)
+
+.         graph export "$mypath\Figures\Graphs\Figure5b_Creative_Comparison.eps", as(eps) replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5b_Creative_Comparison.eps not found)
+(file C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Graphs\Figure5b_Creative_Comparison.eps written in EPS format)
+
+. 
+. /*
+> //Period 3
+> 
+> use "$mypath\Figures\Data\FigurePeriod3a_paired.dta", clear
+> 
+> drop if treatment==4
+> 
+> graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap high low treatment, lwidth(thick)),       ///
+>         xlabel( 1 "Control" 2 "Gift" 3 "Tournament", noticks)   ///
+>         ytitle("Difference between Round 3 and 1") xtitle(" ") ylabel(-4 (2) 6) subtitle("Slider Task") legend(order(2 "90% Confidence Interval"))  ///
+>         saving("$mypath\Figures\Graphs\FigurePeriod3a_paired.gph", replace) 
+>         graph export "$mypath\Figures\Graphs\FigurePeriod3a_paired.ps", logo(off) replace
+> 
+> use "$mypath\Figures\Data\FigurePeriod3b_paired.dta", clear
+> 
+> drop if treatment==4
+> 
+> graph twoway (bar coefficient treatment, fcolor(emidblue) barwidth(0.8))(rcap high low treatment, lwidth(thick)),       ///
+>         xlabel( 1 "Control" 2 "Gift" 3 "Tournament", noticks)   ///
+>         ytitle("Difference between Round 3 and 1") xtitle(" ") ylabel(-4 (2) 6) subtitle("Creative Task") legend(order(2 "90% Confidence Interval"))  ///
+>         saving("$mypath\Figures\Graphs\FigurePeriod3b_paired.gph", replace) 
+>         graph export "$mypath\Figures\Graphs\FigurePeriod3b_paired.ps", logo(off) replace
+> */
+. 
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Figures\Logs\FigureRawEffects_paired.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:27:54
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

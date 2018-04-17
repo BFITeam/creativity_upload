@@ -1,0 +1,609 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TableBreaks.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:14
+
+. 
+. // make new variables 
+. gen time1 = 180-pausen1*20
+
+. gen time2 = 180-pausen2*20
+
+. 
+. gen pausendif = pausen2 - pausen1
+
+. 
+. //Make formated variables for table output
+. gen Task = "Simple" if slider == 1
+(460 missing values generated)
+
+. replace Task = "Creative" if creative == 1
+variable Task was str6 now str8
+(172 real changes made)
+
+. 
+. gen Treatment = "Control" if treatment == 1
+(449 missing values generated)
+
+. replace Treatment = "Gift" if treatment == 2
+(232 real changes made)
+
+. replace Treatment = "Tournament" if treatment == 3
+variable Treatment was str7 now str10
+(116 real changes made)
+
+. 
+. //tournament treatment
+. ttest pausendif == 0 if slider == 1 & turnier == 1
+
+One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+pausen~f |      56   -1.839286     .349189    2.613091   -2.539076   -1.139495
+------------------------------------------------------------------------------
+    mean = mean(pausendif)                                        t =  -5.2673
+Ho: mean = 0                                     degrees of freedom =       55
+
+    Ha: mean < 0                 Ha: mean != 0                 Ha: mean > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+
+. ttest pausendif == 0 if creative == 1 & turnier == 1
+
+One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+pausen~f |      60   -1.583333    .3622682    2.806117    -2.30823   -.8584364
+------------------------------------------------------------------------------
+    mean = mean(pausendif)                                        t =  -4.3706
+Ho: mean = 0                                     degrees of freedom =       59
+
+    Ha: mean < 0                 Ha: mean != 0                 Ha: mean > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0001          Pr(T > t) = 1.0000
+
+. 
+. //gift treatment
+. ttest pausendif == 0 if slider == 1 & gift == 1
+
+One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+pausen~f |      60   -.9833333    .2429709    1.882044   -1.469517   -.4971498
+------------------------------------------------------------------------------
+    mean = mean(pausendif)                                        t =  -4.0471
+Ho: mean = 0                                     degrees of freedom =       59
+
+    Ha: mean < 0                 Ha: mean != 0                 Ha: mean > 0
+ Pr(T < t) = 0.0001         Pr(|T| > |t|) = 0.0002          Pr(T > t) = 0.9999
+
+. ttest pausendif == 0 if creative == 1 & gift == 1
+
+One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+pausen~f |      56   -.1428571    .2123287    1.588923   -.5683734    .2826591
+------------------------------------------------------------------------------
+    mean = mean(pausendif)                                        t =  -0.6728
+Ho: mean = 0                                     degrees of freedom =       55
+
+    Ha: mean < 0                 Ha: mean != 0                 Ha: mean > 0
+ Pr(T < t) = 0.2519         Pr(|T| > |t|) = 0.5039          Pr(T > t) = 0.7481
+
+. 
+. //Output mean number of breaks by treatment x task
+. preserve
+
+. collapse (mean) pausen1 pausen2, by(Task Treatment)
+
+. drop if missing(Task) | missing(Treatment)
+(3 observations deleted)
+
+. gsort -Task Treatment
+
+. 
+. format pausen* %9.2f
+
+. 
+. 
+. list
+
+     +-------------------------------------------+
+     |     Task    Treatment   pausen1   pausen2 |
+     |-------------------------------------------|
+  1. |   Simple      Control      3.43      3.02 |
+  2. |   Simple         Gift      3.17      2.18 |
+  3. |   Simple   Tournament      2.39      0.55 |
+  4. | Creative      Control      3.39      3.77 |
+  5. | Creative         Gift      3.95      3.80 |
+     |-------------------------------------------|
+  6. | Creative   Tournament      3.43      1.85 |
+     +-------------------------------------------+
+
+. 
+. //tex output
+. replace Treatment = "Performance Bonus" if Treatment == "Tournament"
+variable Treatment was str10 now str17
+(2 real changes made)
+
+. 
+. capture program drop breaks_row_output
+
+. program define breaks_row_output, rclass
+  1.         args task treatment
+  2.         //Correction for Performance Bonus being two words
+.         if "`treatment'" == "Tournament" local treatment Performance Bonus
+  3.         
+.         quietly: sum pausen1 if Task == "`task'" & Treatment == "`treatment'"
+  4.         local breaks1 = `r(mean)'
+  5.         
+.         quietly: sum pausen2 if Task == "`task'" & Treatment == "`treatment'"
+  6.         local breaks2 = `r(mean)'
+  7.         
+.         local format %4.2f
+  8.         
+.         //only write the task name in the control line
+.         if ("`treatment'" != "Control"){
+  9.                 local task 
+ 10.         }
+ 11.         
+.         return local line "`task' & `treatment' & " `format' (`breaks1') " & " `format' (`breaks2') " \\"
+ 12. end
+
+. 
+. breaks_row_output Simple Gift
+
+. local Simple_Control_line `r(line)'
+
+. di "`Simple_Control_line'"
+& Gift & 3.17 & 2.18 \\
+
+. 
+. foreach task in Simple Creative{
+  2.         foreach treatment in Control Gift Tournament {
+  3.                 breaks_row_output `task' `treatment'
+  4.                 local `task'_`treatment'_line `r(line)'
+  5.                 di "``task'_`treatment'_line'"
+  6.         }
+  7. }
+Simple & Control & 3.43 & 3.02 \\
+& Gift & 3.17 & 2.18 \\
+& Performance Bonus & 2.39 & 0.55 \\
+Creative & Control & 3.39 & 3.77 \\
+& Gift & 3.95 & 3.80 \\
+& Performance Bonus & 3.43 & 1.85 \\
+
+. 
+. cap file close f 
+
+. file open f using "$mypath/Tables/Output/Appendix/TableA6_Num_Breaks.tex", write replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data/Tables/Output/Appendix/TableA6_Num_Breaks.tex not found)
+
+. 
+. #delimit ;
+delimiter now ;
+. file write f 
+>         "\begin{table}[h]%"  _n
+>         "\setlength\tabcolsep{2pt}"  _n
+>         "\caption{Average Number of Breaks Taken by Treatment and Period}"  _n
+>         "\label{tab:BreaksMeans}" _n
+>         "\begin{center}%"  _n
+>         "{\small\renewcommand{\arraystretch}{1}%"  _n
+>         "\begin{tabular}{llcc}"  _n
+>         "\hline\noalign{\smallskip}"  _n
+>         "\hspace{7pt} \bf Task \hspace{7pt} & \bf Treatment & \bf Breaks in & \bf Breaks in \\"  _n
+>         "                 &                       & \bf Period 1  & \bf Period 2 \\"  _n
+>         "\hline"  _n
+>         "\noalign{\smallskip}" _n
+>         "`Simple_Control_line'" _n
+>         "`Simple_Gift_line'" _n
+>         "`Simple_Tournament_line'" _n
+>         "`Creative_Control_line'" _n
+>         "`Creative_Gift_line'" _n
+>         "`Creative_Tournament_line'" _n
+>         "\hline\noalign{\medskip}" _n
+>         "\end{tabular}}" _n
+>         "\begin{minipage}{\textwidth} $footnote_params" _n
+>         "\footnotesize NOTE.--This table reports the average number of breaks by task, treatment, and period. "  _n
+>         "$breaks_description " _n
+>         "$treatment_description " _n
+>         "$sample_description_nonreg " _n
+>         "\end{minipage}" _n
+>         "\end{center}" _n
+>         "\end{table}";
+
+. #delimit cr
+delimiter now cr
+. file close f
+
+. 
+. restore
+
+. 
+.         
+. preserve
+
+. keep if (treatment == 1 | treatment == 2 | treatment == 3)
+(101 observations deleted)
+
+. 
+. foreach task in slider creative{
+  2.         foreach var in effort time{
+  3.                 forvalues i = 1/2{ //periods 1 and 2
+  4.                         foreach treat in Tournament Gift Control {
+  5.                                 if("`treat'" == "Tournament")   local prefix t
+  6.                                 if("`treat'" == "Gift")                 local prefix g
+  7.                                 if("`treat'" == "Control")              local prefix c
+  8.                                 
+.                                 sum `var'`i' if Treatment == "`treat'" & `task' == 1
+  9.                                 local `task'_`prefix'_`i'_`var' = r(mean)
+ 10.                                 di ``task'_`prefix'_`i'_`var''
+ 11.                         }
+ 12.                 }
+ 13.         }
+ 14. }
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         56    21.94643     12.7969          0         46
+21.946429
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         60    18.86667     14.1067          0         45
+18.866667
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         60    16.58333    12.50666          0         39
+16.583333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         56    32.21429    9.878745          0         48
+32.214286
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         60    24.38333    13.05671          1         48
+24.383333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         60    19.78333    12.92756          0         44
+19.783333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         56    132.1429    57.42075         20        180
+132.14286
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         60    116.6667    67.91487          0        180
+116.66667
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         60    111.3333    64.87189         20        180
+111.33333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         56    168.9286    32.79016         20        180
+168.92857
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         60    136.3333    61.34003         20        180
+136.33333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         60    119.6667     62.4355         20        180
+119.66667
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         60    17.83333    10.89265          0         42
+17.833333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         56    15.98214    10.70343          0         41
+15.982143
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort1 |         56    16.78571    11.69104          0         47
+16.785714
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         60        25.5    13.65867          0         55
+25.5
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         56    15.66071    9.907347          0         57
+15.660714
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     effort2 |         56    15.89286    12.08106          0         53
+15.892857
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         60    111.3333    58.72852         20        180
+111.33333
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         56    101.0714    53.72247         20        180
+101.07143
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time1 |         56    112.1429    53.75751         20        180
+112.14286
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         60         143    47.27489         20        180
+143
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         56    103.9286    55.58543         20        180
+103.92857
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       time2 |         56    104.6429     53.2563         20        180
+104.64286
+
+. 
+. clear
+
+. set obs 3
+number of observations (_N) was 0, now 3
+
+. 
+. 
+. gen Treatment = ""
+(3 missing values generated)
+
+. replace Treatment = "Performance Bonus" in 1
+variable Treatment was str1 now str17
+(1 real change made)
+
+. replace Treatment = "Gift" in 2
+(1 real change made)
+
+. replace Treatment = "Control" in 3
+(1 real change made)
+
+. 
+. local vars slider_effort1 slider_time1 slider_effort2 slider_time2 creative_effort1 creative_time1 creative_effort2 creative_time2
+
+. 
+. foreach var in `vars'{
+  2.         gen `var' = missing()
+  3. }
+
+. 
+. foreach task in slider creative{
+  2.         foreach var in effort time{
+  3.                 forvalues i = 1/2{
+  4.                         foreach treat in t g c{
+  5.                                 if("`treat'" == "t") local row = 1
+  6.                                 if("`treat'" == "g") local row = 2
+  7.                                 if("`treat'" == "c") local row = 3
+  8.                                 replace `task'_`var'`i' = ``task'_`treat'_`i'_`var'' in `row'
+  9.                         }
+ 10.                 }
+ 11.         }
+ 12. }
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+. format *effort* *time* %9.2f
+
+. list
+
+     +-----------------------------------------------------------------------------------------------------------+
+     |         Treatment   slide~t1   slide~e1   slide~t2   slide~e2   creat~t1   creat~e1   creat~t2   creat~e2 |
+     |-----------------------------------------------------------------------------------------------------------|
+  1. | Performance Bonus      21.95     132.14      32.21     168.93      17.83     111.33      25.50     143.00 |
+  2. |              Gift      18.87     116.67      24.38     136.33      15.98     101.07      15.66     103.93 |
+  3. |           Control      16.58     111.33      19.78     119.67      16.79     112.14      15.89     104.64 |
+     +-----------------------------------------------------------------------------------------------------------+
+
+. 
+. //calculate output/time for all 
+. foreach task in slider creative{
+  2.         foreach treat in t g c{
+  3.                 forvalues i = 1/2{
+  4.                         local `task'_`treat'_`i'_opt = ``task'_`treat'_`i'_effort' / ``task'_`treat'_`i'_time'
+  5.                 }
+  6.         }
+  7. }
+
+. 
+. 
+. //calculate differences period 2 - period 1 for all 
+. foreach task in slider creative{
+  2.         foreach treat in t g c{
+  3.                 foreach var in opt effort time {
+  4.                         local `task'_`treat'_dif_`var' = ``task'_`treat'_2_`var'' - ``task'_`treat'_1_`var''
+  5.                 }
+  6.         }
+  7. }
+
+. 
+. //calculate the log ratio
+. foreach task in slider creative{
+  2.         foreach var in opt effort time {
+  3.                 foreach time in 1 2 dif {
+  4.                         //treatment ratio
+.                         local `task'_tratio_`time'_`var' = log(``task'_t_`time'_`var'') - log(``task'_c_`time'_`var'')
+  5.                         local `task'_tratio_`time'_`var' ``task'_tratio_`time'_`var'' //add \% here if needed
+  6.                         
+.                         //gift ratio
+.                         local `task'_gratio_`time'_`var' = log(``task'_g_`time'_`var'') - log(``task'_c_`time'_`var'')
+  7.                         local `task'_gratio_`time'_`var' ``task'_gratio_`time'_`var'' //add \% here if needed
+  8.                         
+.                 }
+  9.         }
+ 10. }
+
+. 
+. //round everything
+. foreach task in slider creative{
+  2.         foreach treat in t g c{
+  3.                 foreach var in opt effort time{
+  4.                         foreach time in 1 2 dif{
+  5.                                 local `task'_`treat'_`time'_`var' = ``task'_`treat'_`time'_`var''
+  6.                         }
+  7.                 }
+  8.         }
+  9. }
+
+. 
+. //variable name headers
+. local combined_headers1 \bf Treatment & \bf \hspace{5pt} Average \hspace{5pt} & \bf Time Worked &  \hspace{5pt} \bf Output per Second  \hspace{5pt} && \bf  \hspace{5pt} Averag
+> e \hspace{5pt} & \bf Time Worked & \bf  \hspace{5pt} Output per Second \hspace{5pt} \\
+
+. local combined_headers2                 & \bf Output & \bf (out of 180s) & \bf of Time Worked & & \bf Output & \bf (out of 180s) & \bf of Time Worked \\
+
+. local p2_headers \bf Treatment & \bf Output Period 2 & \bf Time Worked Period 2 & \bf Output per Time Worked && \bf Output Period 2 & \bf Time Worked Period 2 & \bf Output per
+>  Time Worked \\
+
+. local p1_headers \bf Treatment & \bf Output Period 1 & \bf Time Worked Period 1 & \bf Output per Time Worked && \bf Output Period 1 & \bf Time Worked Period 1 & \bf Output per
+>  Time Worked \\
+
+. local dd_headers1 \bf Treatment & \bf Difference in & \bf Difference in & \bf Difference in              && \bf Difference in & \bf Difference in & \bf Difference in          
+>   \\
+
+. local dd_headers2                       & \bf Output            & \bf Time Worked       & \bf Output per Time Worked && \bf Output              & \bf Time Worked       & \bf O
+> utput per Time Worked \\
+
+. 
+. //simple/creative headers
+. local task_header & \multicolumn{3}{c}{\bf Simple Task} & & \multicolumn{3}{c}{\bf Creative Task} \\ \cline{2-4} \cline{6-8}
+
+. 
+. local format %9.2f
+
+. //data rows
+. foreach time in 1 2 dif  {
+  2.         foreach treat in t g c tratio gratio{
+  3.                 if("`treat'" == "t") local treat_str Performance Bonus
+  4.                 if("`treat'" == "g") local treat_str Gift
+  5.                 if("`treat'" == "c") local treat_str Control
+  6.                 if("`treat'" == "tratio") local treat_str Performance Bonus
+  7.                 if("`treat'" == "gratio") local treat_str Gift
+  8.                 
+.                 if("`treat'" == "c") local space \vspace{5pt}
+  9.                 if("`treat'" != "c") local space 
+ 10.                 
+.                 local p`time'_`treat'_row "`treat_str' &" `format' (`slider_`treat'_`time'_effort') " &" `format' ( `slider_`treat'_`time'_time') " &" `format' ( `slider_`trea
+> t'_`time'_opt') "&&" `format' ( `creative_`treat'_`time'_effort') "&" `format' ( `creative_`treat'_`time'_time') "&" `format' ( `creative_`treat'_`time'_opt') " `space' \\ "
+ 11.         }
+ 12. }
+
+. 
+. //combined table, just period 2, both treatments
+. cap file close f
+
+. file open f using "$mypath/Tables/Output/Appendix/TableA7_Breaks_Raw_Combined.tex", write replace
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data/Tables/Output/Appendix/TableA7_Breaks_Raw_Combined.tex not found)
+
+. #delimit; 
+delimiter now ;
+. file write f 
+>         "\begin{landscape}" _n
+>         "\begin{table}[h]%" _n
+>         "\setlength\tabcolsep{2pt}" _n
+>         "\caption{Descriptive Statistics on Raw Output and Breaks Taken in Period 2}" _n
+>         "\label{tab:BreaksBreakdown}" _n
+>         "\begin{center}%" _n
+>         "{\small\renewcommand{\arraystretch}{1}%" _n
+>         "\begin{tabular}{lccccccc}" _n
+>         "\hline\noalign{\smallskip}" _n
+>         "`task_header'" _n
+>         "`combined_headers1'" _n
+>         "`combined_headers2'" _n
+>         "\midrule" _n
+>         "`p2_t_row'" _n
+>         "`p2_g_row'" _n
+>         "`p2_c_row'" _n
+>         " \multicolumn{3}{l}{\textit{Log Difference}} \\" _n
+>         "\hspace{10pt} `p2_tratio_row'" _n
+>         "\hspace{10pt} `p2_gratio_row'" _n
+>         "\hline\noalign{\medskip}" _n
+>         "\end{tabular}}" _n
+>         "\begin{minipage}{1.2\textwidth} $footnote_params" _n
+>         "\footnotesize NOTE.--This table reports raw, unstandardized, average output, time spent working, and output per second of time worked. " _n 
+>         "\textit{Average output} refers to the number of correctly positioned sliders in the simple task and to the creativity score in the creative task (please refer to Sect
+> ion $creative_score_section for a description of the scoring procedure in the creative task). " _n
+>         "\textit{Time worked} is the total time (180 seconds) less the number of breaks times the length of breaks (20 seconds). " _n
+>         "\textit{Output per second of time worked} is the ratio of those two quantities. " _n
+>         "$breaks_description " _n
+>         "\textit{Log difference} is the log of the treatment group statistic less the log of the \textit{Control} group statistic. Log differences provide a sense of relative 
+> effect sizes. " _n
+>         "Numbers may not add up due to rounding. " _n
+>         "For simplicity, this analysis ignores differences in Period 1 output. " _n
+>         "$treatment_description " _n
+>         "$sample_description "_n
+>         "\end{minipage}" _n
+>         "\end{center}" _n
+>         "\end{table}" _n
+>         "\end{landscape}";
+
+. #delimit cr
+delimiter now cr
+. file close f 
+
+. 
+. restore
+
+. 
+. 
+end of do-file
+
+. clear all
+
+. set more off
+
+. set memory 100m
+set memory ignored.
+    Memory no longer needs to be set in modern Statas; memory adjustments are performed on the fly automatically.
+
+. cap log close

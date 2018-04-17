@@ -1,0 +1,231 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TablePeriod3Results.log
+  log type:  text
+ opened on:  17 Apr 2018, 11:42:14
+
+. drop if treatment == 4
+(124 observations deleted)
+
+. 
+. eststo clear
+
+. 
+. //Slider I
+. eststo: reg ztransfer3 gift turnier ztransfer1 $controls if slider == 1, robust
+
+Linear regression                               Number of obs     =        176
+                                                F(13, 162)        =      59.72
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7336
+                                                Root MSE          =     .61868
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+         gift |   .2822923   .1124524     2.51   0.013     .0602308    .5043538
+      turnier |   .2278144   .1540435     1.48   0.141    -.0763778    .5320066
+   ztransfer1 |   .9093585   .0463126    19.64   0.000     .8179044    1.000813
+          age |  -.0783312   .0446477    -1.75   0.081    -.1664978    .0098354
+         age2 |   .0010766   .0005636     1.91   0.058    -.0000364    .0021896
+          sex |   -.140678    .097225    -1.45   0.150    -.3326697    .0513137
+   ferienzeit |    .010588   .1641531     0.06   0.949    -.3135676    .3347436
+pruefungszeit |   .1025113   .1956584     0.52   0.601    -.2838584     .488881
+         wiwi |  -.2517746   .1284893    -1.96   0.052    -.5055044    .0019552
+        recht |  -.1680814   .1657106    -1.01   0.312    -.4953127    .1591498
+         nawi |   .0119103   .1495356     0.08   0.937      -.28338    .3072006
+         gewi |   -.038753    .150362    -0.26   0.797    -.3356754    .2581693
+     mannheim |  -.0105859   .1119164    -0.09   0.925     -.231589    .2104172
+        _cons |   1.443466   .7746837     1.86   0.064    -.0863142    2.973246
+-------------------------------------------------------------------------------
+(est1 stored)
+
+. 
+. //Slider II 
+. gen winner = turnier == 1 & bonus_recvd == 1
+
+. gen loser = turnier == 1 & bonus_recvd == 0
+
+. 
+. eststo: reg ztransfer3 gift winner loser ztransfer1 $controls if slider == 1, robust
+
+Linear regression                               Number of obs     =        176
+                                                F(14, 161)        =      59.47
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7487
+                                                Root MSE          =     .60276
+
+-------------------------------------------------------------------------------
+              |               Robust
+   ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+         gift |   .2923152   .1127991     2.59   0.010     .0695586    .5150718
+       winner |     .49687   .1878769     2.64   0.009     .1258492    .8678909
+        loser |  -.0188159   .1624943    -0.12   0.908    -.3397109    .3020791
+   ztransfer1 |   .8869878   .0473954    18.71   0.000      .793391    .9805847
+          age |   -.058452   .0440248    -1.33   0.186    -.1453925    .0284886
+         age2 |   .0008287   .0005582     1.48   0.140    -.0002736     .001931
+          sex |  -.1468951   .0944034    -1.56   0.122    -.3333237    .0395335
+   ferienzeit |    .003944   .1565674     0.03   0.980    -.3052465    .3131346
+pruefungszeit |    .071368   .1932564     0.37   0.712    -.3102764    .4530124
+         wiwi |  -.2214084   .1215235    -1.82   0.070     -.461394    .0185771
+        recht |  -.1222476   .1544945    -0.79   0.430    -.4273445    .1828493
+         nawi |   .0139154   .1552003     0.09   0.929    -.2925753    .3204062
+         gewi |  -.0297871   .1385795    -0.21   0.830    -.3034549    .2438808
+     mannheim |  -.0100508   .1084966    -0.09   0.926    -.2243107    .2042092
+        _cons |   1.095283   .7574857     1.45   0.150    -.4006061    2.591172
+-------------------------------------------------------------------------------
+(est2 stored)
+
+. 
+. //Creative III
+. eststo: reg ztransfer3 gift turnier creative_trans gift_transfer ztransfer1 $controls if creative == 1 | creative_trans == 1, robust
+
+Linear regression                               Number of obs     =        311
+                                                F(15, 295)        =      25.89
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5433
+                                                Root MSE          =       .604
+
+--------------------------------------------------------------------------------
+               |               Robust
+    ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+          gift |   .0057534   .1155352     0.05   0.960    -.2216244    .2331311
+       turnier |   .3637856   .1260081     2.89   0.004     .1157969    .6117743
+creative_trans |    -.03884   .1218171    -0.32   0.750    -.2785808    .2009008
+ gift_transfer |   .4000025   .1203393     3.32   0.001     .1631701    .6368349
+    ztransfer1 |   .6189831   .0418072    14.81   0.000      .536705    .7012612
+           age |  -.0384598   .0335097    -1.15   0.252    -.1044082    .0274887
+          age2 |   .0005679   .0004498     1.26   0.208    -.0003173    .0014531
+           sex |   .1538913   .0701909     2.19   0.029     .0157529    .2920296
+    ferienzeit |  -.3373017   .1498244    -2.25   0.025    -.6321619   -.0424415
+ pruefungszeit |   .0457309   .1985756     0.23   0.818    -.3450735    .4365353
+          wiwi |    -.18435    .115773    -1.59   0.112    -.4121957    .0434957
+         recht |   .1211978   .1380206     0.88   0.381     -.150432    .3928275
+          nawi |   .1315147    .118385     1.11   0.268    -.1014714    .3645009
+          gewi |  -.0673402   .1381088    -0.49   0.626    -.3391437    .2044632
+      mannheim |  -.0836787   .0847791    -0.99   0.324    -.2505272    .0831698
+         _cons |   .6310398   .6006649     1.05   0.294    -.5510916    1.813171
+--------------------------------------------------------------------------------
+(est3 stored)
+
+. 
+. //Creative IV
+. eststo: reg ztransfer3 gift winner loser creative_trans gift_transfer ztransfer1 $controls if creative == 1 | creative_trans == 1, robust
+
+Linear regression                               Number of obs     =        311
+                                                F(16, 294)        =      24.37
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5470
+                                                Root MSE          =      .6026
+
+--------------------------------------------------------------------------------
+               |               Robust
+    ztransfer3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+          gift |   .0050479   .1160122     0.04   0.965    -.2232716    .2333675
+        winner |     .48783   .1589897     3.07   0.002     .1749278    .8007322
+         loser |   .2434612   .1406564     1.73   0.085    -.0333599    .5202823
+creative_trans |  -.0358272   .1219795    -0.29   0.769    -.2758909    .2042364
+ gift_transfer |   .3974784   .1201342     3.31   0.001     .1610463    .6339105
+    ztransfer1 |   .6096401   .0426748    14.29   0.000     .5256533    .6936269
+           age |  -.0346094   .0334083    -1.04   0.301    -.1003592    .0311404
+          age2 |   .0005171   .0004485     1.15   0.250    -.0003656    .0013997
+           sex |   .1533561   .0696902     2.20   0.029     .0162012    .2905109
+    ferienzeit |   -.336597   .1500955    -2.24   0.026    -.6319948   -.0411991
+ pruefungszeit |   .0515095   .1946449     0.26   0.791    -.3315645    .4345836
+          wiwi |  -.1805757   .1152439    -1.57   0.118    -.4073832    .0462318
+         recht |   .1223049   .1393943     0.88   0.381    -.1520322    .3966421
+          nawi |   .1308656   .1168811     1.12   0.264     -.099164    .3608952
+          gewi |  -.0782735   .1365697    -0.57   0.567    -.3470516    .1905045
+      mannheim |  -.0840858   .0842056    -1.00   0.319    -.2498079    .0816362
+         _cons |   .5683458   .6010116     0.95   0.345    -.6144846    1.751176
+--------------------------------------------------------------------------------
+(est4 stored)
+
+. 
+. #delimit ;
+delimiter now ;
+. esttab using "$mypath\Tables\Output\Appendix\TableA1_Period3_Results.tex", // esttab produces a pretty-looking publication-style regression table from stored estimates without
+>  much typing (alternative zu estout)
+>         nomtitles       // Options: mtitles (model titles to appear in table header)
+>         label      // label (make use of variable labels)
+>         varlabel (_cons "Constant" ztransfer1 "Period 1 Output" zeffort1 "Period 1 Output" gift "Gift" turnier "Performance Bonus" winner "Performance Bonus Winner" loser "Per
+> formance Bonus Loser" creative_trans "Discretionary Transfer" gift_transfer "Discretionary Transfer x Gift"
+>         , elist(_cons "[2mm]" zeffort1 "[2mm]" gift "[2mm]" turnier "[2mm]" feedback "[2mm]" giftXslid "[2mm]" turnXslid "[2mm]" feedXslid "[2mm]" zeffort1Xslid "[2mm]" ztrans
+> fer1 "[2mm]" ztransfer1Xslid "[2mm]"))
+>         starlevels(* .10 ** 0.05 *** .01)                                                                                                               
+>         stats(N r2, fmt(%9.0f %9.3f) labels("Observations"  "\$R^2$"))  // stats (specify statistics to be displayed for each model in the table footer), fmt() (
+>         b(%9.3f)
+>         se(%9.3f)
+>     drop (_cons ztransfer1 $controls)
+>         order(turnier gift creative_trans gift_transfer winner loser)
+>         fragment
+>         style(tex) 
+>         substitute(\_ _)
+>         nonumbers 
+>         prehead(
+>         "\begin{table}[h]%" 
+>         "\captionsetup{justification=centering}"
+>         "\setlength\tabcolsep{2pt}"
+>         "\caption{Treatment Effects on Output in Period 3}"
+>         
+>         "\begin{center}%" 
+>         "{\small\renewcommand{\arraystretch}{1}%" 
+>         "\begin{tabular}{lcccc}" 
+>         "\hline\noalign{\smallskip}"
+>         " & \multicolumn{2}{c}{\bf Simple Task} & \multicolumn{2}{c}{\bf Creative Task} \\" 
+>         " & I & II & III & IV \\")
+>         posthead("\hline\noalign{\smallskip}") 
+>         prefoot("\noalign{\smallskip}\hline"
+>         " Additional Controls  & YES & YES & YES & YES \\"
+>         " Period 1 Output  & YES & YES & YES & YES \\"
+>         " Constant & YES & YES & YES & YES \\"
+>         "\hline" ) 
+>         postfoot(
+>         "\hline\noalign{\medskip}"
+>         "\end{tabular}"
+>         "\begin{minipage}{\textwidth} $footnote_params"
+>         "\footnotesize NOTE.--This table reports the estimated OLS coefficients in Period 3. " 
+>         "The analysis shown in this table follows the set-up laid out in Equation 1 with the exception that we estimate the equation separately for both tasks. "
+>         "The even columns estimate the effect of receiving the performance bonus and not receiving it separately. "
+>         "$pooled_trans_description "
+>         "The treatment dummies \textit{Gift} and \textit{Performance Bonus} capture the effect of a performance-independent wage gift for all or of a performance-dependent per
+> formance bonus (rewarding the top two performers out of four agents) on standardized output. " 
+>         "The \textit{Discretionary Transfer} coefficient captures any difference between the \textit{Creative Task with Discretionary Transfer -- Control} group and the main \
+> textit{Control} group. "
+>         "The \textit{Discretionary Transfer x Gift} coefficient captures the effect of a performance-independent wage gift for all on the standardized amount transferred to th
+> e principal. "
+>         "That is, the estimated effect of allowing discretionary transfers and offering a wage gift in the creative task equals the sum of the \textit{Discretionary Transfer x
+>  Gift} coefficient and the \textit{Discretionary Transfer} coefficient. "
+>         "\textit{Performance Bonus Winner} and \textit{Performance Bonus Loser} capture the effect of receiving the performance bonus in Period 2 or not receiving the performa
+> nce bonus in Period 2 on output in Period 3. "
+>         ""
+>         "$sample_description "
+>         "$controls_list "
+>         "$errors_stars "
+>         ""
+>         "$p1"
+>         ""
+>         "$p2"
+>         ""
+>         "$p3"
+>         "\end{minipage}}"
+>         "\end{center}"
+>         "\label{tab:Period3}"
+>         "\end{table}")
+>         replace;
+(note: file C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA1_Period3_Results.tex not found)
+(output written to C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Output\Appendix\TableA1_Period3_Results.tex)
+
+.                         #delimit cr     // #delimit cr: restore the carriage return delimiter inside a file
+> 
+delimiter now cr
+. log close
+      name:  <unnamed>
+       log:  C:\Users\gtierney\Google Drive\final version April 2018\data\Tables\Logs\TablePeriod3Results.log
+  log type:  text
+ closed on:  17 Apr 2018, 11:42:15
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

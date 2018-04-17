@@ -1,0 +1,43 @@
+\begin{landscape}
+\begin{table}[h]%
+\setlength\tabcolsep{2pt}
+\caption{Performance Accounting for Breaks}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{1}%
+\begin{tabular}{lcccccccccccc}
+\hline\hline\noalign{\smallskip}
+ \multicolumn{1}{c}{} & \multicolumn{2}{c}{Std. Period 2} & \multicolumn{2}{c}{Number of Breaks} & \multicolumn{2}{c}{Std. Period 2} & \multicolumn{2}{c}{Raw Period 2} & \multicolumn{2}{c}{Raw Period 2 Rate} & \multicolumn{2}{c}{Raw Period 1 Rate}\\
+ & \multicolumn{2}{c}{Performance} & & & \multicolumn{2}{c}{Performance Rate} & \multicolumn{2}{c}{Performance} & \multicolumn{2}{c}{for Period 1 time} & \multicolumn{2}{c}{for Period 2 time} \\
+\hline
+ & Slider & Creative & Slider & Creative & Slider & Creative & Slider & Creative & Slider & Creative & Slider & Creative \\
+ & I & II & III & IV & V & VI & VII & VIII & IX & X & XI & XII \\
+\hline
+Tournament          &       0.745***&       0.753***&      -1.942***&      -2.052***&       0.490***&       0.205   &       9.626***&       9.093***&       2.361***&       1.000   &       4.694***&       8.366***\\
+                    &     (0.147)   &     (0.162)   &     (0.400)   &     (0.377)   &     (0.124)   &     (0.145)   &     (1.898)   &     (1.961)   &     (0.792)   &     (1.398)   &     (1.158)   &     (1.848)   \\
+Gift                &       0.198   &      -0.059   &      -0.698*  &      -0.278   &       0.130   &       0.037   &       2.562   &      -0.715   &       0.906   &      -1.220   &       1.670*  &       2.048*  \\
+                    &     (0.126)   &     (0.124)   &     (0.360)   &     (0.328)   &     (0.119)   &     (0.166)   &     (1.624)   &     (1.502)   &     (0.856)   &     (1.434)   &     (0.989)   &     (1.091)   \\
+Baseline            &       0.658***&       0.614***&       0.633***&       0.647***&       0.625***&       0.479***&       0.680***&       0.634***&       0.964***&       0.822***&       0.853***&       0.874***\\
+                    &     (0.057)   &     (0.077)   &     (0.057)   &     (0.064)   &     (0.067)   &     (0.074)   &     (0.059)   &     (0.079)   &     (0.025)   &     (0.055)   &     (0.032)   &     (0.061)   \\
+Intercept           &       0.801   &       2.057   &       1.577   &       3.498   &       0.826   &       3.461*  &      18.862** &      30.092   &      14.750***&      57.826***&       1.918   &     -30.843*  \\
+                    &     (0.714)   &     (2.312)   &     (2.376)   &     (5.836)   &     (0.575)   &     (2.033)   &     (9.248)   &    (28.023)   &     (4.558)   &    (19.203)   &     (6.221)   &    (17.441)   \\
+\hline
+ Controls & YES & YES & YES & YES & YES & YES & YES & YES & YES & YES & YES & YES \\
+\hline
+Observations        &         176   &         172   &         176   &         172   &         175   &         172   &         176   &         172   &         176   &         172   &         175   &         172   \\
+$R^2$               &       0.641   &       0.500   &       0.633   &       0.552   &       0.615   &       0.349   &       0.641   &       0.500   &       0.925   &       0.664   &       0.857   &       0.638   \\
+\hline\hline\noalign{\medskip}
+\end{tabular}}
+\begin{minipage}{1.2\textwidth}
+\footnotesize {\it Note:} This table reports OLS estimates of treatment effects on the use of the time-out button. 
+The dependent variable in colulmns I and II is the standardized performance in Period 2 and refers to the number of sliders moved in the slider task and the creativity score in the creative task. 
+The dependent variable in columns III and IV is the number of breaks taken in Period 2.
+The dependent variable in columns V and VI is the standardized performance rate in Period 2, calculated as raw performance in Period 2, divided by time not spent on break, and standardized to give the control group a mean of zero and standard deviation of one. 
+Baseline is standardized performance in Period 1 in columns I and II, number of breaks taken in Period 1 in columns III and IV, and standardized performance rate in Period 1. 
+The coefficient on the \textit{Tournament} (\textit{Gift}) treatment represents the impact of the \textit{Tournament} (\textit{Gift}) on the dependent variable. \\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. 
+Agents with negative reward decisions are not part of this analysis. 
+Significance levels are denoted as follows: * $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$. 
+\end{minipage}
+\end{center}
+\end{table}
+\end{landscape}

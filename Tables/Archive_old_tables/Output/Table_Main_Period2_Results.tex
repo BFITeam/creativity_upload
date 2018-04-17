@@ -1,0 +1,43 @@
+\begin{table}[h]%
+\setlength\tabcolsep{2pt}
+\caption{Treatment Effects in Period 2}
+\begin{center}%
+{\small\renewcommand{\arraystretch}{1}%
+\begin{tabular}{lccc}
+\hline\hline\noalign{\smallskip}
+ & I & II & III \\
+\hline\noalign{\smallskip}
+Tournament          &       0.795***&       0.736***&       0.751***\\
+                    &     (0.173)   &     (0.143)   &     (0.143)   \\[2mm]
+Tournament x Slider-Task&       0.166   &      -0.058   &      -0.060   \\
+                    &     (0.178)   &     (0.166)   &     (0.168)   \\[2mm]
+Gift                &      -0.019   &       0.026   &      -0.006   \\
+                    &     (0.143)   &     (0.099)   &     (0.103)   \\[2mm]
+Gift x Slider-Task  &       0.375** &       0.209*  &       0.206*  \\
+                    &     (0.170)   &     (0.109)   &     (0.112)   \\[2mm]
+Baseline            &               &       0.657***&       0.638***\\
+                    &               &     (0.076)   &     (0.076)   \\[2mm]
+Baseline x Slider-Task&               &       0.002   &       0.028   \\
+                    &               &     (0.094)   &     (0.094)   \\[2mm]
+Intercept           &      -0.000   &      -0.000   &       0.874   \\
+                    &     (0.093)   &     (0.062)   &     (0.595)   \\[2mm]
+\noalign{\smallskip}\hline
+ Controls & NO & NO & YES \\
+\hline
+Observations        &         348   &         348   &         348   \\
+$R^2$               &       0.146   &       0.546   &       0.564   \\
+\hline\hline\noalign{\medskip}
+\end{tabular}
+\begin{minipage}{\textwidth}
+\footnotesize {\it Note:} This table reports the estimated OLS coefficients from Equation \ref{eq:reg}. 
+The dependent variable is standardized performance in Period 2. This refers to the number of correctly positioned sliders in the slider task and to the creativity score in the creative task (please refer to section 3.1 for a description of the scoring procedure). 
+The treatment dummies \textit{Gift} and \textit{Tournament} capture the effect of an unconditional monetary gift or of a tournament incentive (rewarding the top 2 performers out of 4 agents) on standardized performance in the creative task. 
+The interaction effects measure the difference in treatment effects between the creative and the slider task. 
+The treatment effects on the slider task are equal to the sum of the main treatment effect (\textit{Gift} or \textit{Tournament}) and its associated interaction effect (\textit{Gift x Slider} and \textit{Tournament x Slider}). \\
+The estimation includes all agents from the Control Group as well as agents from treatment groups where the principal decided to institute the tournament/gift. Agents with negative reward decisions are not part of this analysis. 
+Additional control variables are age, age squared, sex, location, field of study as well as a set of time fixed effects (semester period, semester break, exam period). 
+Heteroscedastic-robust standard errors are reported in parentheses. Significance levels are denoted as follows: * p < 0:1, ** p < 0:05, *** p < 0:01. 
+\end{minipage}}
+\end{center}
+\label{tab:EQ_Pooled_Results}
+\end{table}
