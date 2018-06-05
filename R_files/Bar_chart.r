@@ -40,8 +40,8 @@ bar_chart_coef$S[which(bar_chart_coef$p<0.01)]<-"***"
 #
 
 
-
-png(paste0(path,"/Results/Figure6_Neg_Bonus_Dec.png"))
+setEPS()
+postscript(paste0(path,"/Results/Figure6_Neg_Bonus_Dec.eps"))
 bplot_bonus_neg2<-barplot(as.numeric(bar_chart_coef[,1]),col=c("black","white")[rep(1:2,4)],ylim=c(-1,1.2),yaxt="n",density=c(NA,70),space=c(0.3,0.3,0.3,0.3,1.2,0.3,0.3,0.3))
 segments(x0=mean(bplot_bonus_neg2[c(4,5)]),x1=mean(bplot_bonus_neg2[c(4,5)]),y0=-.6,y1=1)
 segments(x0=mean(bplot_bonus_neg2[c(2,3)]),x1=mean(bplot_bonus_neg2[c(2,3)]),y0=-.55,y1=.55,lty=2)
@@ -50,29 +50,4 @@ text(bplot_bonus_neg2,as.numeric(bar_chart_coef[,1]),paste(" ",format(round(as.n
 text(c(mean(bplot_bonus_neg2[c(1:4),]),mean(bplot_bonus_neg2[c(5:8),])),c(1.1,1.1),c("Simple task","Creative task"),cex=1.3,font=2)
 text(c(mean(bplot_bonus_neg2[c(1:2),]),mean(bplot_bonus_neg2[c(3:4),])+0.1,mean(bplot_bonus_neg2[c(5:6),]),mean(bplot_bonus_neg2[c(7:8),]))+0.1,c(.95,.95,.95,.95),c("Gift","Performance \n Bonus","Gift","Performance \n Bonus"),font=3)
 legend("bottomright",c("Reward implemented","Reward not implemented"),fill=c("black","white"),density=c(NA,70),cex=1.3)
-#mtext("Stat. significance compared to control group: * p < 0.1, ** p < 0.05, *** p < 0.01",outer=T,SOUTH<-1,line=-4)
 dev.off()
-
-tiff(paste0(path,"/Results/Figure6_Neg_Bonus_Dec.tif"))
-bplot_bonus_neg2<-barplot(as.numeric(bar_chart_coef[,1]),col=c("black","white")[rep(1:2,4)],ylim=c(-1,1.2),yaxt="n",density=c(NA,70),space=c(0.3,0.3,0.3,0.3,1.2,0.3,0.3,0.3))
-segments(x0=mean(bplot_bonus_neg2[c(4,5)]),x1=mean(bplot_bonus_neg2[c(4,5)]),y0=-.6,y1=1)
-segments(x0=mean(bplot_bonus_neg2[c(2,3)]),x1=mean(bplot_bonus_neg2[c(2,3)]),y0=-.55,y1=.55,lty=2)
-segments(x0=mean(bplot_bonus_neg2[c(6,7)]),x1=mean(bplot_bonus_neg2[c(6,7)]),y0=-.55,y1=.55,lty=2)
-text(bplot_bonus_neg2,as.numeric(bar_chart_coef[,1]),paste(" ",format(round(as.numeric(bar_chart_coef[,1]),2), nsmall = 2),bar_chart_coef$S,sep=""),pos=c(3,1,3,3,3,1,3,1),cex=1.15)
-text(c(mean(bplot_bonus_neg2[c(1:4),]),mean(bplot_bonus_neg2[c(5:8),])),c(1.1,1.1),c("Simple task","Creative task"),cex=1.3,font=2)
-text(c(mean(bplot_bonus_neg2[c(1:2),]),mean(bplot_bonus_neg2[c(3:4),])+0.1,mean(bplot_bonus_neg2[c(5:6),]),mean(bplot_bonus_neg2[c(7:8),]))+0.1,c(.95,.95,.95,.95),c("Gift","Performance \n Bonus","Gift","Performance \n Bonus"),font=3)
-legend("bottomright",c("Reward implemented","Reward not implemented"),fill=c("black","white"),density=c(NA,70),cex=1.3)
-#mtext("Stat. significance compared to control group: * p < 0.1, ** p < 0.05, *** p < 0.01",outer=T,SOUTH<-1,line=-4)
-dev.off()
-
-#all_bonus_dec <- rbind(neu_neg,subset(sl,treatment_id != 11))
-all_bonus_dec <- rbind(sneu_neg[,cols],cneu_neg[,cols],
-                 sl[,cols],
-                 cr[,cols])
-
-ols_rewards_effort <- lm(bonus_dec ~ neffort1, data = all_bonus_dec)
-summary(ols_rewards_effort)
-
-logit_rewards_effort <- glm(formula = bonus_dec ~ neffort1, data = all_bonus_dec,family = binomial(link = "logit"))
-summary(logit_rewards_effort)
-

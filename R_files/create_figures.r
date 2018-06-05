@@ -29,15 +29,8 @@ graph_matching_gift$prop_gift<-prop_slider_gift
 graph_matching_turnier<-data.frame("turnier"=subset(sl,treatment_id%in%c(11,13))[,c("turnier")])
 graph_matching_turnier$prop_turnier<-prop_slider_turnier
 #
-png("Results/FigureA2_Propensity_Score.png")
-plot(NA,xlim=c(0,1),ylim=c(0,3.5),xlab="Propensity Score",ylab="Distribution")
-abline(v=seq(0,1,.1),lwd=0.1,lty=4,col="lightgray")
-abline(h=seq(0,3.5,.25),lwd=0.1,lty=4,col="lightgray")
-lines(density(subset(graph_matching_turnier,turnier==0)$prop_turnier,bw=.05),lwd=3,col="black",lty=3)
-lines(density(subset(graph_matching_turnier,turnier==1)$prop_turnier,bw=.05),lwd=3,col="black")
-legend("right",c("Performance \nBonus \nTreatment","Control Group"),lwd=3,col=c("black","black"),lty=c(1,3))
-dev.off()
-tiff("Results/FigureA2_Propensity_Score.tif")
+setEPS()
+postscript("Results/FigureA2_Propensity_Score.eps")
 plot(NA,xlim=c(0,1),ylim=c(0,3.5),xlab="Propensity Score",ylab="Distribution")
 abline(v=seq(0,1,.1),lwd=0.1,lty=4,col="lightgray")
 abline(h=seq(0,3.5,.25),lwd=0.1,lty=4,col="lightgray")
@@ -61,11 +54,9 @@ np_plot_data <- plot(np,plot.behavior = "data")
 y <- fitted(np_plot_data$plr5)
 x <- np_plot_data$plr5$evalz[,1]
 
-png(paste0(path,"/Results/FigureA1_np_reg.png"))
+setEPS()
+postscript(paste0(path,"/Results/FigureA1_np_reg.eps"))
 plot(y ~ x, type = "n",xlab = "Period 1 Output",ylab = "Period 2 Output")
 lines(y~x)
 dev.off()
-tiff(paste0(path,"/Results/FigureA1_np_reg.tif"))
-plot(y ~ x, type = "n",xlab = "Period 1 Output",ylab = "Period 2 Output")
-lines(y~x)
-dev.off()
+
